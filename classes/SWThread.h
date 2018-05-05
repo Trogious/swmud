@@ -39,7 +39,7 @@ public:
 	{
 		return running;
 	}
-	void start() throw (SWException);
+	void start();
 	void join();
 
 	static void addToPool(SWThread *);

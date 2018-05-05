@@ -25,7 +25,7 @@ void SWThread::finish(void *arg)
 	t->finished = true;
 }
 
-void SWThread::start() throw (SWException)
+void SWThread::start()
 {
 	if (finished)
 	{
