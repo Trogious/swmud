@@ -1,0 +1,56 @@
+			SWMUD TODO: 2003, 2004
+
+KONIECZNIE TRZEBA ZROBIC:
+. zeby ktos tu oprocz mnie zagladal!
+    -- Thanos
+. zeby mud by³ ciekawszy! :) 
+   -- Thanos 
+. POPRAWIC BUGI ZGLASZANE PRZEZ GRACZY: SZCZEGOLNIE UWAGI WEEBA i ACHE! 
+   -- Thanos 
+. SCIAC OBJECTY 
+    31512 i 14076!!! 
+    9112 (100 do gripa)
+   -- Thanos
+
+PRZYDALOBY SIE:
+. Siatka dla bounty huntera uniemozliwiajaca zrobienie flee (rzucana na nogi)
+   -- Thanos
+. MiniQuesty generowane dla Bounty Hunterow, i smugglerow (mysle nad tym)  
+   -- Thanos
+. Przerobic muda na C++ (mysle nad tym)  
+   -- Trog
+. Zrobic dokumentacje do muda i wrzucic ja na oddzielne
+  repository ale na to samo haslo (moze byc tez inne haslo
+  ale inne haslo wymaga nowego konta albo jakiegos juz
+  istniejacego) To drugie czyli repository to moge zrobic
+  natychmiast jak tylko zechcecie.
+    -- Trog
+. Standard we wpisach w history (ta dokumentacja w cvs) czyli np tak:
+   <data> -- <nick>:
+   <tresc>
+   <NL><NL>
+   Np:
+    12-12-2003 -- Thanos:
+    Doda³em mo¿liwo¶æ stworzenia stu krain jedn± komend± i dwiema my¶lami.
+    Komenda nazywa siê 'utopia'...
+
+    15-12-2003 -- Thanos:
+    Doda³em mo¿liwo¶æ...
+    blablabla..
+   Moze da³oby siê gdzie¶ wcisn±æ jeszcze wersjê...
+    -- Thanos
+. Komenda CVSCI dla koderów, dziêki której powy¿sze wypociny o historii 
+  by³yby montowane online, jednocze¶nie z informacj± o dacie, autorze,
+  numerze wersji. Czytane jak notki, ale adresowane do Coders i zapisywane
+  do pliku doc/History.
+    -- Thanos
+    
+MOZE WARTO BY ZROBIC:
+
+. Licencje muda po polsku i po angielsku oraz wrzucic ja
+  na anonimowego cvs'a, zeby kazdy mogl sciagnac. Licencje
+  oczywiscie uaktualnic o nas czyli koderzy, admini, moze
+  budowniczy. (moge to zrobic)  
+   --Trog
+
+

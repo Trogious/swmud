@@ -1,0 +1,16 @@
+#0  0x080eff36 in is_room_unlinked (room=0x9e9ed70) at db.cpp:4513
+4513                    r->next = NULL;
+[New Thread 0x8402100 (LWP 100105)]
+(gdb) bt
+#0  0x080eff36 in is_room_unlinked (room=0x9e9ed70) at db.cpp:4513
+#1  0x0814b311 in free_room (room=0x9e9ed70) at mem.cpp:701
+#2  0x0814c8f8 in free_ship (ship=0x98aa400) at mem.cpp:1129
+#3  0x08200988 in purge_ship (ship=0x98aa400, ch=0x0) at space.cpp:7873
+#4  0x08206e36 in do_setship (ch=0x9987800, argument=0xbfbf6607 "yes") at space.cpp:5244
+#5  0x0813ada2 in interpret (ch=0x9987800, argument=0xbfbfabba "setship 5.kapsula delete yes") at interp.cpp:520
+#6  0x08255042 in exec_command_in_loop (owner=0x9987800, room=0x897d270, pSource=0x94e7e44 "", namebuf=0x8398c60 "5") at update.cpp:3089
+#7  0x08255178 in update_rat () at update.cpp:3311
+#8  0x0825e74b in update_handler () at update.cpp:2533
+#9  0x080e0789 in game_loop () at comm.cpp:913
+#10 0x080e145e in main (argc=2, argv=0xbfbfec78) at comm.cpp:500
+
