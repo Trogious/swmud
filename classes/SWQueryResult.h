@@ -33,7 +33,7 @@ public:
 			return resultMap[columnName];
 		}
 
-		const SWString &operator[](unsigned int) const throw (SWException);
+		const SWString &operator[](unsigned int) const;
 
 		void add(const SWString &columnName, const SWString &cellValue)
 		{
@@ -63,7 +63,7 @@ public:
 		return resultEntries.size();
 	}
 
-	SWQueryResultMap &operator[](unsigned int) throw (SWException);
+	SWQueryResultMap &operator[](unsigned int);
 
 	void add(const SWQueryResultMap &resultEntry)
 	{

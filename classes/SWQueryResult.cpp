@@ -20,7 +20,7 @@ SWQueryResult::SWQueryResult(SWDataBase *dataBase) :
 	dataBase->results.push_back(this);
 }
 
-const SWString &SWQueryResult::SWQueryResultMap::operator[](unsigned int columnNo) const throw (SWException)
+const SWString &SWQueryResult::SWQueryResultMap::operator[](unsigned int columnNo) const
 {
 	unsigned int cNo = 0;
 	for (SWResultMapType::const_iterator it = resultMap.begin(); it != resultMap.end(); it++)
@@ -33,7 +33,7 @@ const SWString &SWQueryResult::SWQueryResultMap::operator[](unsigned int columnN
 	throw new SWException(SWString("no such column number: ") + SWInt::toString(columnNo));
 }
 
-SWQueryResult::SWQueryResultMap &SWQueryResult::operator[](unsigned int rowNo) throw (SWException)
+SWQueryResult::SWQueryResultMap &SWQueryResult::operator[](unsigned int rowNo)
 {
 	if (resultEntries.empty() || rowNo >= resultEntries.size())
 	{
