@@ -9,7 +9,7 @@
 #include "SWDynamicClassTable.h"
 #include "SWException.h"
 
-const SWClassFactory *SWClassLoader::getFactory(const SWString &name) throw(SWException)
+const SWClassFactory *SWClassLoader::getFactory(const SWString &name)
 {
 	for( int i = 0; dynamic_class_table[i].factory; i++ )
 	{

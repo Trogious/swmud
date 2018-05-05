@@ -24,7 +24,7 @@ public:
 	{
 	}
 
-	static const SWClassFactory *getFactory(const SWString &) throw (SWException);
+	static const SWClassFactory *getFactory(const SWString &);
 };
 
 /**
