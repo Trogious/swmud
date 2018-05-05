@@ -60,7 +60,7 @@ protected:
 
 public:
 	SWDbEntity(const SWInt &id = 0) :
-		id(id)
+		id(id), modified(false)
 	{
 	}
 
