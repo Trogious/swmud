@@ -1,5 +1,5 @@
 BIN_FILE=${MUD_DIR}/bin/${MUD_BIN}
-#PROF    = -DARMAGEDDON 
+#PROF    = -DARMAGEDDON
 #PROF	= -D__CYGWIN32__
 ifeq "$(value BARECC)" ""
 BARECC	= g++
@@ -9,7 +9,7 @@ LCC     = @echo " Linking    $@..."; $(BARECC)
 #TIME    = time -h
 #PROF   = -DDMALLOC
 #LINKDMALL = -ldmalloc
-NOCRYPT = 
+NOCRYPT =
 #Uncomment the next line if you want request support
 #DBUGFLG = -DREQUESTS
 MAKE	= make
@@ -17,13 +17,14 @@ ifeq "$(value CPUs)" ""
 CPUs	= -j2
 endif
 ifeq "$(shell uname)" "FreeBSD"
-CUSTOM_L_FLAGS = -lkvm -liconv -nostdinc++ -isystem /usr/include/c++/v1 -lc++
+CUSTOM_C_FLAGS = -nostdinc++ -isystem /usr/include/c++/v1
+CUSTOM_L_FLAGS = -lkvm -liconv -lc++
 MAKE	= gmake
 endif
 ILIBS	= -I/usr/include/libxml2 -I/usr/local/include -I/usr/include/libxml2/libxml -I/usr/local/include/libxml2 \
           -I/usr/include/pqxx -I/usr/local/include/libpqxx -I. -I./classes -I./classes/player -I./classes/math
-LLIBS	= -L/usr/local/lib -std=c++11 -lm -lcrypt -lxml2 -lpqxx -lpthread $(CUSTOM_L_FLAGS)
-C_FLAGS = -O2 -ggdb3 -Wall -Wfatal-errors -std=c++11 $(PROF) $(NOCRYPT) $(DBUGFLG) $(ILIBS)
+LLIBS	= -L/usr/local/lib -lm -lcrypt -lxml2 -lpqxx -lpthread $(CUSTOM_L_FLAGS)
+C_FLAGS = -O2 -ggdb3 -Wall -Wfatal-errors -std=c++11 $(CUSTOM_C_FLAGS) $(PROF) $(NOCRYPT) $(DBUGFLG) $(ILIBS)
 #-D_GLIBCXX_USE_C99
 #L_FLAGS = -gdwarf-2
 
@@ -49,7 +50,7 @@ $(BIN_FILE): $(O_FILES)
 
 $(OBJ_DIR)/%.o: %.cpp
 	@test -d $(@D) || mkdir -p $(@D)
-	$(CC) -c $(C_FLAGS) $< -o $@ -nostdinc++ -isystem /usr/include/c++/v1 
+	$(CC) -c $(C_FLAGS) $< -o $@
 
 %.cpp: %.h
 	@touch $@
@@ -61,7 +62,7 @@ clean:
 
 cleanall:
 	@echo "Removing All (binary, object files & tests)..."
-	@rm -f $(BIN_FILE) $(O_FILES) $(TEST_BIN_FILE) $(TEST_O_FILES) 
+	@rm -f $(BIN_FILE) $(O_FILES) $(TEST_BIN_FILE) $(TEST_O_FILES)
 	@echo "Done."
 
 
