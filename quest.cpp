@@ -1021,6 +1021,7 @@ void quest_cleanup( CHAR_DATA *ch, bool end )
 		UNLINK( pCmnd, quest->first_init_cmd, quest->last_init_cmd, next, prev );
 		free_qcmd( pCmnd );
 	}
+    pCmnd = NULL;
 
 	/* Trog */
 	for( pAction = quest->first_action; pAction; pAction = pAction_next )
@@ -1030,13 +1031,14 @@ void quest_cleanup( CHAR_DATA *ch, bool end )
 		UNLINK( pAction, quest->first_action, quest->last_action, next, prev );
 		free_qaction( pAction );
 	}
+    pAction = NULL;
 
 	for( pChapter = quest->first_chapter; pChapter; pChapter = pChapter_next )
 	{
 		pChapter_next = pChapter->next;
 
 		/* Trog */
-		FOREACH( pCmnd, pChapter->first_init_cmd )
+		for( pCmnd = pChapter->first_init_cmd; pCmnd; pCmnd = pCmnd_next )
 		{
 			pCmnd_next = pCmnd->next;
 
@@ -1045,7 +1047,7 @@ void quest_cleanup( CHAR_DATA *ch, bool end )
 		}
 
 		/* Trog */
-		FOREACH( pAction, pChapter->first_action )
+		for( pAction = pChapter->first_action; pAction; pAction = pAction_next )
 		{
 			pAction_next = pAction->next;
 

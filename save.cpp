@@ -517,7 +517,7 @@ void save_pdata2( CHAR_DATA *ch )
 		ALIAS_DATA	*alias;
 
 		node = xmlNewChild( root, NULL, BC"aliases", NULL );
-		FOREACH( alias, ch->pcdata->first_alias );
+		FOREACH( alias, ch->pcdata->first_alias )
 		{
 			child = xmlNewChild( node, NULL, BC"alias", NULL );
 			swNewChildText( child, NULL, "name", alias->name );
@@ -529,7 +529,7 @@ void save_pdata2( CHAR_DATA *ch )
 		CRIME_DATA	*crime;
 
 		node = xmlNewChild( root, NULL, BC"crimes", NULL );
-		FOREACH( crime, ch->first_crime );
+		FOREACH( crime, ch->first_crime )
 		{
 			child = xmlNewChild( node, NULL, BC"crime", NULL );
 			swNewChildText( child, NULL, "name", crime->planet );
