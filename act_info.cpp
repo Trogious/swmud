@@ -35,8 +35,6 @@
 			? target->inquest->player->name : "ERROR" )
 
 ROOM_INDEX_DATA *generate_exit(ROOM_INDEX_DATA *in_room, EXIT_DATA **pexit);
-char* format_char_attribute(CHAR_DATA * ch, int przypadek);
-char* char_attribute(desc_type desc_type, int index, int gender, int przypadek);
 
 const char * const where_name[] =
 { FG_CYAN "<u¿ywane jako ¶wiat³o>   " PLAIN,
@@ -732,7 +730,7 @@ void show_char_to_char_1(CHAR_DATA *victim, CHAR_DATA *ch)
 	if (IS_DESCRIBED(victim))
 	{
 		ch_printf(ch, "Wygl±da jak" FG_YELLOW " %s" EOL, format_char_attribute(
-				victim, 0));
+				victim, 0).c_str());
 	}
 
 	if (IS_AFFECTED( victim, AFF_DISGUISE ) && victim->pcdata
@@ -2931,7 +2929,7 @@ DEF_DO_FUN( introduce )
 
 			ch_printf(someone,
 					COL_SAY "%s przedstawia siê wszystkim, jako %s." NL,
-					fcapitalize(format_char_attribute(ch, 0)), ch->name);
+					fcapitalize(format_char_attribute(ch, 0).c_str()), ch->name);
 		}
 	}
 	else
@@ -2955,10 +2953,10 @@ DEF_DO_FUN( introduce )
 			//informujemy gracza, ze 'ciemnowlosy, zielonooki' sie przedstawil
 			ch_printf(ch, "Przedstawiasz siê %s." NL,
 					does_knows(ch, someone) ? someone->przypadki[2]
-							: format_char_attribute(someone, 2));
+							: format_char_attribute(someone, 2).c_str());
 
 			ch_printf(someone, COL_SAY "%s przedstawia siê Tobie jako %s." NL, // Pixel: brakowa³o
-					fcapitalize(format_char_attribute(ch, 0)), ch->name);
+					fcapitalize(format_char_attribute(ch, 0).c_str()), ch->name);
 
 		}
 		for (someone1 = room->first_person; someone1; someone1
@@ -2970,10 +2968,10 @@ DEF_DO_FUN( introduce )
 
 			sprintf(arg, "Widzisz jak %s przedstawia sie " NL, does_knows(
 					someone1, ch) ? ch->przypadki[0] : format_char_attribute(
-					ch, 0));
+					ch, 0).c_str());
 			ch_printf(someone1, "%s%s." NL, arg,
 					does_knows(someone1, someone) ? someone->przypadki[2]
-							: format_char_attribute(someone, 2));
+							: format_char_attribute(someone, 2).c_str());
 		}
 	}
 }
@@ -3053,7 +3051,7 @@ DEF_DO_FUN( changeattribute )
 			if (desc_table[index][index1].type == index)
 			{
 				sprintf(buf, "%s", char_attribute((desc_type) index, index1,
-						ch->sex, 0));
+						ch->sex, 0).c_str());
 				count1 = 20 - strlen(buf);
 				if ((count + 1) % 4 != 0)
 					for (; count1 > 0; count1--)
@@ -3091,7 +3089,7 @@ DEF_DO_FUN( changeattribute )
 				continue;
 			//tworzymy opis gracza
 			sprintf(buf, " %s", char_attribute((desc_type) index, index1,
-					ch->sex, 0));
+					ch->sex, 0).c_str());
 
 			if (desc_table[index][index1].type == index && is_name_prefix(arg1,
 					buf))
@@ -3138,14 +3136,14 @@ DEF_DO_FUN( changeattribute )
 				if (wybor)
 				{
 					send_to_char("Od teraz bêdziesz rozpoznawany jako :" NL, ch);
-					send_to_char(format_char_attribute(ch, 0), ch);
+					send_to_char(format_char_attribute(ch, 0).c_str(), ch);
 					send_to_char(NL, ch);
 				}
 				else
 				{
 					sprintf(buf, "Czy chcesz byæ widziany jako :"
 					FG_YELLOW " %s %s" EOL, char_attribute((desc_type) index,
-							index1, ch->sex, 0), CH_RACE( ch, 0)); // Pixel: przypadkiF
+							index1, ch->sex, 0).c_str(), CH_RACE( ch, 0)); // Pixel: przypadkiF
 					send_to_char(buf, ch);
 					send_to_char(
 							"By to potwierdziæ ponownie wydaj to samo polecenie" NL,

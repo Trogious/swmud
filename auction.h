@@ -32,7 +32,7 @@
 /*! \fn void show_auction_data(CHAR_DATA *ch,AUCTION_DATA * pAuction, int number)
 *	\brief wy¶wietl szczegó³owe dane o aukcji
 *	\param ch - gracz przegl±daj±cy liste
-*	\param pAuction - interesuj±ca nas aukcja 
+*	\param pAuction - interesuj±ca nas aukcja
 *	\param number - numer porz±dkowy aukcji w li¶cie
 */
 /*! \fn char * prepare_time(time_t 	end_time, bool short_form, bool minus)
@@ -54,7 +54,7 @@
 *	\param pAuction - testowana aukcja
 */
 /*!	\fn BETS_PROGRES * get_auction_member( char *name, AUCTION_DATA *pAuction)
-*	\brief podaj strukture powi±zan± z danym graczem 
+*	\brief podaj strukture powi±zan± z danym graczem
 *	\param name - nazwa gracza
 *	\param pAuction - testowana aukcja
 */
@@ -100,7 +100,7 @@
  */
 /*!	\fn void send_auction_notes(AUCTION_DATA * pAuction,bool finished)
 *	\brief mud rozsy³a notki do graczy bior±cych udzia³ w danej aukcji
-*	\param pAuction - aukcja które wymaga 
+*	\param pAuction - aukcja które wymaga
 *	\param finished - czy aukcja siê zakoñczy³a czy te¿ kto¶ j± przerwa³
 */
 /*!	\fn void do_auction(CHAR_DATA *ch, char* argument)
@@ -109,7 +109,7 @@
 *	\param argument - polecenia dodatkowe
 */
 /*!	\fn void show_auction_list(CHAR_DATA *ch)
-*	\brief poka¿ graczowi listê aktualnie tocz±cych siê aukcji 
+*	\brief poka¿ graczowi listê aktualnie tocz±cych siê aukcji
 */
 /*!	\fn void auction_remove( CHAR_DATA *ch, int nr )
 *	\brief gracz bior±cy udzia³ w licytacji rezygnuje z dalszego udzia³u w niej
@@ -131,7 +131,7 @@
 * @param state_name nazwa stanu lub etapu przegladania terminala
 */
 /** @fn int parse_atodate( CHAR_DATA * ch, char * argument)
- * @brief ma przeparsowac string w poszukiwaniu czasu i zwróciæ ilosc 
+ * @brief ma przeparsowac string w poszukiwaniu czasu i zwróciæ ilosc
  * godzin trwania aukcji
  * 
  * @param ch gracz ktory zobaczy wyniki obliczen
@@ -170,7 +170,7 @@ enum
 	STOCK_STATE_NEW_OFFER/*!	okno listy statków wystawionych na sprzedaz */
 };
 
-char *  prepare_time(time_t 	end_time, bool short_form, bool minus);
+const SWString prepare_time(time_t 	end_time, bool short_form, bool minus);
 char *	advitoa( int val, bool coma);
 
 

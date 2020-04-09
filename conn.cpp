@@ -1367,11 +1367,11 @@ void show_look_traits(CHAR_DATA *ch, int index)
 
 		splitCounter++;
 		sprintf(buf, FG_YELLOW "%s" PLAIN,
-				char_attribute((desc_type) descGroup, descItem, ch->sex, 0));
+				char_attribute((desc_type) descGroup, descItem, ch->sex, 0).c_str());
 		if (splitCounter == 1)
 			sprintf(buf, FG_YELLOW " %s" PLAIN,
 					char_attribute((desc_type) descGroup, descItem, ch->sex,
-							0));
+							0).c_str());
 		count = 26 - strlen(buf);
 		if (splitCounter == 1)
 			count++;
@@ -1552,7 +1552,7 @@ void nanny_confirm_choice(DESCRIPTOR_DATA *d, char *argument)
 
 			if (is_name_prefix(arg,
 					char_attribute((desc_type) descGroup, descItem, ch->sex,
-							0)))
+							0).c_str()))
 			{
 				//cecha wygladu znaleziona
 				bFound = true;
@@ -2133,7 +2133,7 @@ const SWString format_char_attribute1(CHAR_DATA *ch, int przypadek)
 		strcpy(buf,
 				char_attribute(
 						(desc_type) (attribute1 == 0 ? 0 : attribute1 / 100),
-						attribute1 % 100, ch->sex, przypadek));
+						attribute1 % 100, ch->sex, przypadek).c_str());
 
 	if (attribute2 >= 0)
 	{
@@ -2141,12 +2141,12 @@ const SWString format_char_attribute1(CHAR_DATA *ch, int przypadek)
 			sprintf(buf2, "%s %s z %s futrem", buf, CH_RACE(ch, przypadek), // Pixel: przypadkiF
 					char_attribute(
 							(desc_type) (attribute2 == 0 ? 0 : attribute2 / 100),
-							attribute2 % 100, ch->sex, przypadek));
+							attribute2 % 100, ch->sex, przypadek).c_str());
 		else
 			sprintf(buf2, "%s, %s %s", buf,
 					char_attribute(
 							(desc_type) (attribute2 == 0 ? 0 : attribute2 / 100),
-							attribute2 % 100, ch->sex, przypadek),
+							attribute2 % 100, ch->sex, przypadek).c_str(),
 					CH_RACE(ch, przypadek)); // Pixel: przypadkiF
 	}
 	else

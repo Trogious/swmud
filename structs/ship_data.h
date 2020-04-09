@@ -123,7 +123,7 @@ struct ship_data
 	SPACE_DATA			* currjump;
 	int					chaff;
 	int					maxchaff;
-	bool				chaff_released;
+	int					chaff_released;
 	bool				autopilot;
 	bool				camuflage;
 	char				* cargofrom;//Aldegard

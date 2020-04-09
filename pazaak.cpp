@@ -90,9 +90,7 @@ DEF_DO_FUN( pazaak )
 		CHAR_DATA *victim = get_char_world(ch, arg2);
 		if (!victim)
 		{
-			ch_printf(ch,
-					"Szukasz w intergalaktycznym holonecie, ale nigdzie nie mo¿esz znale¼æ kogo¶ takiego jak: %s." NL,
-					arg2);
+			ch_printf(ch, "Szukasz w intergalaktycznym holonecie, ale nigdzie nie mo¿esz znale¼æ kogo¶ takiego jak: %s." NL, arg2);
 			return;
 		}
 
@@ -109,10 +107,10 @@ DEF_DO_FUN( pazaak )
 			return;
 		}
 
-		if (static_cast<unsigned int> (reward) < SWPazaak::MIN_REWARD)
+		if (static_cast<unsigned int>(reward) < SWPazaak::MIN_REWARD)
 		{
 			ch_printf(ch, "Minimalna stawka to: %d kredyt%s." NL, SWPazaak::MIN_REWARD,
-					NUMBER_SUFF((int)SWPazaak::MIN_REWARD, "ka", "ek", "ki"));
+					NUMBER_SUFF((int )SWPazaak::MIN_REWARD, "ka", "ek", "ki"));
 			return;
 		}
 
@@ -203,7 +201,7 @@ DEF_DO_FUN( pazaak )
 			{
 				if ((*it)->getAggressor() == ch->name || (*it)->getDefender() == ch->name)
 				{
-					snprintf(buf, MIL - 1, " [%s] %s vs. %s" NL, static_cast<SWString> ((*it)->getChallenged()).c_str(),
+					snprintf(buf, MIL - 1, " [%s] %s vs. %s" NL, static_cast<SWString>((*it)->getChallenged()).c_str(),
 							(*it)->getAggressor().c_str(), (*it)->getDefender().c_str());
 					buf2 << buf;
 				}
@@ -226,16 +224,16 @@ DEF_DO_FUN( pazaak )
 			SWString buf3("Obecne pojedynki Pazaak'owe:" NL);
 			for (list<SWPazaakGame*>::const_iterator it = games.begin(); it != games.end(); it++)
 			{
-				snprintf(buf2, MIL - 1, " [%s] ", static_cast<SWString> ((*it)->getChallenged()).c_str());
+				snprintf(buf2, MIL - 1, " [%s] ", static_cast<SWString>((*it)->getChallenged()).c_str());
 				buf3 << buf2;
 				if ((*it)->getAggressor() == ch->name)
 				{
-					snprintf(buf2, MIL - 1, "%s vs. %s" NL, buf, (*it)->getDefender().c_str());
+					swsnprintf(buf2, MIL - 1, "%s vs. %s" NL, buf, (*it)->getDefender().c_str());
 					buf3 << buf2;
 				}
 				else if ((*it)->getDefender() == ch->name)
 				{
-					snprintf(buf2, MIL - 1, "%s vs. %s" NL, (*it)->getAggressor().c_str(), buf);
+					swsnprintf(buf2, MIL - 1, "%s vs. %s" NL, (*it)->getAggressor().c_str(), buf);
 					buf3 << buf2;
 				}
 				else
@@ -256,10 +254,10 @@ DEF_DO_FUN( pazaak )
 		}
 	}
 
-	do_pazaak(ch, (char *) "");
+	do_pazaak(ch, (char*) "");
 }
 
-OD *pazaak_create_card_obj(const SWPazaakCard &card)
+OD* pazaak_create_card_obj(const SWPazaakCard &card)
 {
 	OID *objIndex = get_obj_index(OBJ_VNUM_PAZAAK_CARD);
 	if (!objIndex)

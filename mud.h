@@ -1492,7 +1492,7 @@ Will need to add some || stuff for spells that need a special GSN. */
 		( ( IS_AFFECTED(ch, AFF_DISGUISE) && ch->pcdata ) ?	\
 			( ch->pcdata->fake_infl[i] ) : \
 			( does_knows(looker, ch ) ? \
-				ch->przypadki[i] : format_char_attribute(ch,i) ) ) \
+				ch->przypadki[i] : format_char_attribute(ch,i).c_str() ) ) \
 		: inv_pers_i[i] )
 /*#else
 #define PERS( ch, looker, i )	\

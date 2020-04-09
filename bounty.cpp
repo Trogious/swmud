@@ -824,7 +824,7 @@ int get_bounty_xp(CHAR_DATA *ch, CHAR_DATA *killer)
 		xp = (1 + ch->top_level) - killer->skill_level[HUNTING_ABILITY];
 		if (xp < 1 && xp > -9)
 		{
-			xp = (1 + 8 - ::abs(xp)) * IS_NPC(ch) ? 10 : 100;
+			xp = (1 + 8 - ::abs(xp)) * (IS_NPC(ch) ? 10 : 100);
 		}
 		else if (xp > 0)
 		{

@@ -779,4 +779,14 @@ char *cut_from_string( char *s_flag, const char *name )
     return ( buf );
 }
 
-
+int swsnprintf(char *str, size_t size, const char *format, ...)
+{
+    va_list args;
+    va_start(args, format);
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-truncation"
+    int ret = snprintf(str, size, format, args);
+#pragma GCC diagnostic pop
+    va_end(args);
+    return ret;
+}

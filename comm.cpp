@@ -173,8 +173,8 @@ bool pager_output args( ( DESCRIPTOR_DATA *d ) );
  */
 void deal_with_crash()
 {
-	char buf[MAX_STRING_LENGTH];
-	char bbuf[MAX_STRING_LENGTH];
+	char buf[MSL];
+	char bbuf[MSL];
 	int num = 0;
 	FILE *fp;
 	DESCRIPTOR_DATA *d;
@@ -244,7 +244,7 @@ void deal_with_crash()
 		if (!rsn)
 			sprintf(bbuf, "%s MudCrash. Note Send.&", SMS_SCRIPT);
 		else
-			sprintf(bbuf, "%s MudCrash, LastCmd: %s&",
+			swsnprintf(bbuf, MSL, "%s MudCrash, LastCmd: %s&",
 			SMS_SCRIPT, buf);
 
 		if (system(bbuf) == -1)
@@ -262,7 +262,7 @@ void deal_with_crash()
 		if (!rsn)
 			sprintf(bbuf, "%s MudCrash. Copying Over.&", SMS_SCRIPT);
 		else
-			sprintf(bbuf, "%s MudCrash, Copying Over. LastCmd: %s&",
+			swsnprintf(bbuf, MSL, "%s MudCrash, Copying Over. LastCmd: %s&",
 			SMS_SCRIPT, buf);
 		if (system(bbuf) == -1)
 			log_string("start of sms crash (copyover fallback) script failed");
@@ -986,11 +986,8 @@ void new_descriptor(int new_desc)
 				&& pban->level >= LEVEL_SUPREME)
 		{
 			write_to_descriptor(desc, "Twój adres jest zbanowany." NL, 0);
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wformat-truncation"
-			snprintf(buf, MSL, "Rejected connection from: %s due to ban: %s",
+			swsnprintf(buf, MSL, "Rejected connection from: %s due to ban: %s",
 					*hostname ? hostname : dnew->host, pban->name);
-#pragma GCC diagnostic pop
 			log_string_plus(buf, LOG_COMM, sysdata.log_level);
 			close(desc);
 			free_desc(dnew);
@@ -1477,9 +1474,12 @@ char* check_exit(CHAR_DATA *ch, int dir)
 
 void display_map(DESCRIPTOR_DATA *d)
 {
-	char buf[MSL] = {0};
-	char buf1[MSL] = {0};
-	char buf2[MSL] = {0};
+	char buf[MSL] =
+	{ 0 };
+	char buf1[MSL] =
+	{ 0 };
+	char buf2[MSL] =
+	{ 0 };
 	int i;
 	CHAR_DATA *ch;
 
@@ -1496,10 +1496,7 @@ void display_map(DESCRIPTOR_DATA *d)
 	strcat(buf, buf1);
 	sprintf(buf1, " %s", check_exit(ch, 6));
 	strcat(buf, buf1);
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wformat-truncation"
-	snprintf(buf1, MSL, "    %s %s", check_exit(ch, 4), buf2);
-#pragma GCC diagnostic pop
+	swsnprintf(buf1, MSL, "    %s %s", check_exit(ch, 4), buf2);
 	strcat(buf, buf1);
 	sprintf(buf1, "%s  " FB_WHITE "::" PLAIN, check_exit(ch, 3));
 	strcat(buf, buf1);
