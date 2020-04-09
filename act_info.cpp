@@ -3165,12 +3165,12 @@ DEF_DO_FUN( changeattribute )
  */
 DEF_DO_FUN( who )
 {
-	char buf[MAX_STRING_LENGTH];
-	char buf1[MAX_STRING_LENGTH];
-	char invis_str[MAX_INPUT_LENGTH];
-	char namebuf[MAX_STRING_LENGTH];
-	char truststr[MAX_STRING_LENGTH];
-	char race_text[MAX_INPUT_LENGTH];
+	char buf[MSL] = {0};
+	char buf1[MSL] = {0};
+	char invis_str[MIL] = {0};
+	char namebuf[MSL] = {0};
+	char truststr[MSL] = {0};
+	char race_text[MIL] = {0};
 	int iLevelLower;
 	int iLevelUpper;
 	int nNumber;
@@ -3350,8 +3350,10 @@ DEF_DO_FUN( who )
 
 		sprintf(namebuf, "%s %s", wch->name, wch->pcdata->title);
 
-		sprintf(
-				buf1,
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-truncation"
+		snprintf(
+				buf1, MSL,
 				"[%s" RESET PLAIN "] %s%s%s%s%s%s%s" RESET EOL,
 				strip_colors(race, 15),
 				(IS_ADMIN( ch->name ) && IS_OLCMAN( wch )) ? FG_GREEN "{OLC}" PLAIN " "
@@ -3364,6 +3366,7 @@ DEF_DO_FUN( who )
 						: "",
 				IS_SET(wch->act, PLR_AFK) ? FG_YELLOW "(AWAY) " PLAIN : "",
 				namebuf);
+#pragma GCC diagnostic pop
 
 		strcat(buf, buf1);
 

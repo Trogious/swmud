@@ -47,6 +47,8 @@
 #define MSL					MAX_STRING_LENGTH   /*Thanos: dla wygody*/
 #define MIL					MAX_INPUT_LENGTH
 #define MFL					256     /* Trog: maksymalna dlugosc nazwy pliq (MAX_FILENAME_LENGTH) */
+#define MAX_INT32_STR_LEN   11
+//#define MAX_INT64_STR_LEN   20
 
 /*
  * * Game parameters.

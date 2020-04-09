@@ -23,8 +23,8 @@ MAKE	= gmake
 endif
 ILIBS	= -I/usr/include/libxml2 -I/usr/local/include -I/usr/include/libxml2/libxml -I/usr/local/include/libxml2 \
           -I/usr/include/pqxx -I/usr/local/include/libpqxx -I. -I./classes -I./classes/player -I./classes/math
-LLIBS	= -L/usr/local/lib -lm -lcrypt -lxml2 -lpqxx -lpthread $(CUSTOM_L_FLAGS)
-C_FLAGS = -O2 -ggdb3 -Wall -Wfatal-errors -std=c++11 $(CUSTOM_C_FLAGS) $(PROF) $(NOCRYPT) $(DBUGFLG) $(ILIBS)
+LLIBS	= -L/usr/local/lib -lm -lcrypt -lxml2 -lpqxx -lpq -lpthread $(CUSTOM_L_FLAGS)
+C_FLAGS = -O2 -ggdb3 -Wall -Wfatal-errors -std=c++14 $(CUSTOM_C_FLAGS) $(PROF) $(NOCRYPT) $(DBUGFLG) $(ILIBS)
 #-D_GLIBCXX_USE_C99
 #L_FLAGS = -gdwarf-2
 

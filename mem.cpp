@@ -1824,7 +1824,7 @@ FEVENT_DATA	*new_fevent()
 	CREATE( fevent, FEVENT_DATA, 1 );
 	STRDUP( fevent->sattr, "" );
 	fevent->trigger = (fe_trigger)0;
-	memset( &fevent->attr, 0, FE_MAX_ATTR );
+	memset( &fevent->attr, 0, FE_MAX_ATTR*sizeof(int64) );
 	fevent->next = NULL;
 	fevent->prev = NULL;
 
