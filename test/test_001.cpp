@@ -496,6 +496,20 @@ void test010()
 	cout << endl;
 }
 
+const SWString helper011()
+{
+	char buf[16000] = {0};
+	sprintf(buf, "ala ma dwanascie kotow");
+	return SWString(buf);
+}
+
+void test011()
+{
+	const SWString &sws = helper011();
+	cout << "buf='" << sws.c_str() << "'" << endl;
+
+}
+
 int main(int argc, char **argv)
 {
 	cout << endl << "==== init ====" << endl;
@@ -520,6 +534,8 @@ int main(int argc, char **argv)
 	test009();
 	cout << endl << "==== test010 ====" << endl;
 	test010();
+	cout << endl << "==== test011 ====" << endl;
+	test011();
 	cout << endl << "==== end of tests ====" << endl;
 
 	return 0;

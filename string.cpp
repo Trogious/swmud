@@ -785,8 +785,17 @@ int swsnprintf(char *str, size_t size, const char *format, ...)
     va_start(args, format);
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wformat-truncation"
-    int ret = snprintf(str, size, format, args);
+    int ret = vsnprintf(str, size, format, args);
 #pragma GCC diagnostic pop
     va_end(args);
     return ret;
 }
+
+char *swstrncpy(char *dest, const char *src, size_t n)
+{
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wstringop-truncation"
+    return strncpy(dest, src, n);
+#pragma GCC diagnostic pop
+}
+

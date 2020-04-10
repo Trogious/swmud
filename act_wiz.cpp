@@ -4751,10 +4751,7 @@ const SWString name_expand(CHAR_DATA *ch)
 			rch = rch->next_in_room)
 		if (is_name(name, rch->name))
 			count++;
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wformat-truncation"
-	snprintf(outbuf, MIL, "%d.%s", count, name);
-#pragma GCC diagnostic pop
+	swsnprintf(outbuf, MIL, "%d.%s", count, name);
 	return SWString(outbuf);
 }
 

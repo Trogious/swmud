@@ -75,8 +75,7 @@ const char go_ahead_str[] =
 
 //static	OBJ_DATA *	rgObjNest	[MAX_NEST];
 
-static unsigned char itoa64[] =
-		"./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"; //byTrog
+static unsigned char itoa64[] = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"; //byTrog
 
 static list<SWString> denynames;
 
@@ -229,9 +228,8 @@ void deal_with_crash()
 
 			save_char_obj(CH(d));
 
-			write_to_descriptor(d->descriptor,
-					"Przykro mi, ale pojawil sie nieoczekiwany problem." NL
-					"Wroc do nas za momencik." NL, 0);
+			write_to_descriptor(d->descriptor, "Przykro mi, ale pojawil sie nieoczekiwany problem." NL
+			"Wroc do nas za momencik." NL, 0);
 
 			close_socket(d, true);
 		}
@@ -294,8 +292,7 @@ void sw_terminate()
 {
 	if (SWException::lastException)
 	{
-		cerr << "exception thrown: " << SWException::lastException->what()
-				<< endl;
+		cerr << "exception thrown: " << SWException::lastException->what() << endl;
 	}
 	else
 	{
@@ -308,8 +305,7 @@ void sw_unexpected()
 {
 	if (SWException::lastException)
 	{
-		cerr << "unexpected exception thrown: "
-				<< SWException::lastException->what() << endl;
+		cerr << "unexpected exception thrown: " << SWException::lastException->what() << endl;
 	}
 	else
 	{
@@ -561,8 +557,7 @@ void accept_new(int ctrl, int ctrl2)
 			break;
 	}
 
-	if (select(maxdesc + 1, &in_set, &out_set, &exc_set, &null_time) < 0
-			&& errno != EINTR)
+	if (select(maxdesc + 1, &in_set, &out_set, &exc_set, &null_time) < 0 && errno != EINTR)
 	{
 		perror("accept_new: select: poll");
 		exit(1);
@@ -629,8 +624,7 @@ void process_input()
 		|| d->idle > 28800) /* 2 hrs  */
 		&& !IS_IMMORTAL(d->character)))
 		{
-			write_to_descriptor(d->descriptor,
-					"CÛø... Moøe kiedy∂ zechce ci siÍ graÊ." NL, 0);
+			write_to_descriptor(d->descriptor, "CÛø... Moøe kiedy∂ zechce ci siÍ graÊ." NL, 0);
 			d->outtop = 0;
 			close_socket(d, true);
 			continue;
@@ -661,8 +655,7 @@ void process_input()
 
 			/* IDENT authentication */
 #if !defined( WIN32 )
-			if ((d->auth_fd == -1) && (d->atimes < 20)
-					&& !str_cmp(d->user, UNKNOWN_USER))
+			if ((d->auth_fd == -1) && (d->atimes < 20) && !str_cmp(d->user, UNKNOWN_USER))
 				start_auth(d);
 #endif
 
@@ -676,8 +669,7 @@ void process_input()
 					/* if ( !d->auth_state )
 					 check_ban( d );*/
 				}
-				else if (FD_ISSET(d->auth_fd,
-						&out_set) && IS_SET( d->auth_state, FLAG_WRAUTH))
+				else if (FD_ISSET(d->auth_fd, &out_set) && IS_SET(d->auth_state, FLAG_WRAUTH))
 				{
 					send_auth(d);
 					/* if ( !d->auth_state )
@@ -801,8 +793,7 @@ void game_loop()
 			long usecDelta;
 
 			gettimeofday(&now_time, NULL);
-			usecDelta = ((int) last_time.tv_usec)
-					- ((int) now_time.tv_usec)+ 1000000 / PULSE_PER_SECOND;
+			usecDelta = ((int) last_time.tv_usec) - ((int) now_time.tv_usec) + 1000000 / PULSE_PER_SECOND;
 			secDelta = ((int) last_time.tv_sec) - ((int) now_time.tv_sec);
 			while (usecDelta < 0)
 			{
@@ -868,8 +859,7 @@ void game_loop()
 		 */
 		if (last_check + 5 < current_time)
 		{
-			CHECK_LINKS(first_descriptor, last_descriptor, next, prev,
-					DESCRIPTOR_DATA);
+			CHECK_LINKS(first_descriptor, last_descriptor, next, prev, DESCRIPTOR_DATA);
 			last_check = current_time;
 		}
 
@@ -964,8 +954,7 @@ void new_descriptor(int new_desc)
 	}
 	STRDUP(dnew->user, UNKNOWN_USER);
 
-	result = getnameinfo((struct sockaddr*) &sock, size, hostname,
-			sizeof(hostname), 0, 0, 0);
+	result = getnameinfo((struct sockaddr*) &sock, size, hostname, sizeof(hostname), 0, 0, 0);
 
 	if (result)
 	{
@@ -973,21 +962,17 @@ void new_descriptor(int new_desc)
 		log_string_plus(log_buf, LOG_COMM, sysdata.log_level);
 	}
 
-	sprintf(log_buf, "[%d] sock.sinaddr: %s, port %hd.", dnew->descriptor, buf,
-			dnew->port);
+	sprintf(log_buf, "[%d] sock.sinaddr: %s, port %hd.", dnew->descriptor, buf, dnew->port);
 	log_string_plus(log_buf, LOG_COMM, sysdata.log_level);
 
 	STRDUP(dnew->host, buf);
 
 	for (pban = first_ban; pban; pban = pban->next)
 	{
-		if ((!str_prefix(pban->name, dnew->host)
-				|| !str_suffix(pban->name, hostname))
-				&& pban->level >= LEVEL_SUPREME)
+		if ((!str_prefix(pban->name, dnew->host) || !str_suffix(pban->name, hostname)) && pban->level >= LEVEL_SUPREME)
 		{
 			write_to_descriptor(desc, "TwÛj adres jest zbanowany." NL, 0);
-			swsnprintf(buf, MSL, "Rejected connection from: %s due to ban: %s",
-					*hostname ? hostname : dnew->host, pban->name);
+			swsnprintf(buf, MSL, "Rejected connection from: %s due to ban: %s", *hostname ? hostname : dnew->host, pban->name);
 			log_string_plus(buf, LOG_COMM, sysdata.log_level);
 			close(desc);
 			free_desc(dnew);
@@ -1038,8 +1023,7 @@ void new_descriptor(int new_desc)
 		sprintf(buf, "%24.24s", ctime(&current_time));
 		STRDUP(sysdata.time_of_max, buf);
 		sysdata.alltimemax = sysdata.maxplayers;
-		sprintf(log_buf, "Broke all-time maximum player record: %d",
-				sysdata.alltimemax);
+		sprintf(log_buf, "Broke all-time maximum player record: %d", sysdata.alltimemax);
 		log_string_plus(log_buf, LOG_COMM, sysdata.log_level);
 		to_channel(log_buf, CHANNEL_MONITOR, "Monitor", LEVEL_IMMORTAL);
 		save_sysdata(sysdata);
@@ -1075,8 +1059,7 @@ void close_socket(DESCRIPTOR_DATA *dclose, bool force)
 			do_return(ch, (char*) "");
 		else
 		{
-			bug("dclose->original without character %s",
-					(dclose->original->name ? dclose->original->name : "unknown"));
+			bug("dclose->original without character %s", (dclose->original->name ? dclose->original->name : "unknown"));
 			dclose->character = dclose->original;
 			dclose->original = NULL;
 		}
@@ -1087,16 +1070,14 @@ void close_socket(DESCRIPTOR_DATA *dclose, bool force)
 	if (!dclose->prev && dclose != first_descriptor)
 	{
 		DESCRIPTOR_DATA *dp, *dn;
-		bug("%s desc:%p != first_desc:%p and desc->prev = NULL!",
-				ch ? ch->name : d->host, dclose, first_descriptor);
+		bug("%s desc:%p != first_desc:%p and desc->prev = NULL!", ch ? ch->name : d->host, dclose, first_descriptor);
 		dp = NULL;
 		for (d = first_descriptor; d; d = dn)
 		{
 			dn = d->next;
 			if (d == dclose)
 			{
-				bug("%s desc:%p found, prev should be:%p, fixing.",
-						ch ? ch->name : d->host, dclose, dp);
+				bug("%s desc:%p found, prev should be:%p, fixing.", ch ? ch->name : d->host, dclose, dp);
 				dclose->prev = dp;
 				break;
 			}
@@ -1104,16 +1085,14 @@ void close_socket(DESCRIPTOR_DATA *dclose, bool force)
 		}
 		if (!dclose->prev)
 		{
-			bug("%s desc:%p could not be found!.", ch ? ch->name : dclose->host,
-					dclose);
+			bug("%s desc:%p could not be found!.", ch ? ch->name : dclose->host, dclose);
 			DoNotUnlink = true;
 		}
 	}
 	if (!dclose->next && dclose != last_descriptor)
 	{
 		DESCRIPTOR_DATA *dp, *dn;
-		bug("%s desc:%p != last_desc:%p and desc->next = NULL!",
-				ch ? ch->name : d->host, dclose,
+		bug("%s desc:%p != last_desc:%p and desc->next = NULL!", ch ? ch->name : d->host, dclose,
 				last_descriptor /* ? last_descriptor : 0 */);
 		dn = NULL;
 		for (d = last_descriptor; d; d = dp)
@@ -1121,8 +1100,7 @@ void close_socket(DESCRIPTOR_DATA *dclose, bool force)
 			dp = d->prev;
 			if (d == dclose)
 			{
-				bug("%s desc:%p found, next should be:%p, fixing.",
-						ch ? ch->name : d->host, dclose, dn);
+				bug("%s desc:%p found, next should be:%p, fixing.", ch ? ch->name : d->host, dclose, dn);
 				dclose->next = dn;
 				break;
 			}
@@ -1130,8 +1108,7 @@ void close_socket(DESCRIPTOR_DATA *dclose, bool force)
 		}
 		if (!dclose->next)
 		{
-			bug("%s desc:%p could not be found!.", ch ? ch->name : dclose->host,
-					dclose);
+			bug("%s desc:%p could not be found!.", ch ? ch->name : dclose->host, dclose);
 			DoNotUnlink = true;
 		}
 	}
@@ -1139,8 +1116,7 @@ void close_socket(DESCRIPTOR_DATA *dclose, bool force)
 	if (dclose->character)
 	{
 		sprintf(log_buf, "Closing link to %s.", ch->name);
-		log_string_plus(log_buf, LOG_COMM,
-				UMAX(sysdata.log_level, ch->top_level));
+		log_string_plus(log_buf, LOG_COMM, UMAX(sysdata.log_level, ch->top_level));
 
 		if (dclose->connected >= CON_PLAYING)
 		{
@@ -1200,8 +1176,7 @@ bool read_from_descriptor(DESCRIPTOR_DATA *d)
 		int nRead;
 
 #if !defined( WIN32 )
-		nRead = read(d->descriptor, d->inbuf + iStart,
-				sizeof(d->inbuf) - 10 - iStart);
+		nRead = read(d->descriptor, d->inbuf + iStart, sizeof(d->inbuf) - 10 - iStart);
 #else
 	nRead = recv( d->descriptor, d->inbuf + iStart,
 		     sizeof( d->inbuf ) - 10 - iStart, 0 );
@@ -1214,8 +1189,7 @@ bool read_from_descriptor(DESCRIPTOR_DATA *d)
 		}
 		else if (nRead == 0)
 		{
-			sprintf(log_buf, "EOF encountered on read (%s@%s).",
-					*d->user ? d->user : "UNKNOWN", d->host);
+			sprintf(log_buf, "EOF encountered on read (%s@%s).", *d->user ? d->user : "UNKNOWN", d->host);
 			log_string_plus(log_buf, LOG_COMM, sysdata.log_level);
 			return false;
 		}
@@ -1238,57 +1212,32 @@ bool read_from_descriptor(DESCRIPTOR_DATA *d)
 }
 
 char const iso_table[] =
-{ (char) 0x00, (char) 0x01, (char) 0x02, (char) 0x03, (char) 0x04, (char) 0x05,
-		(char) 0x06, (char) 0x07, (char) 0x08, (char) 0x09, (char) 0x0a,
-		(char) 0x0b, (char) 0x0c, (char) 0x0d, (char) 0x0e, (char) 0x0f,
-		(char) 0x10, (char) 0x11, (char) 0x12, (char) 0x13, (char) 0x14,
-		(char) 0x15, (char) 0x16, (char) 0x17, (char) 0x18, (char) 0x19,
-		(char) 0x1a, (char) 0x1b, (char) 0x1c, (char) 0x1d, (char) 0x1e,
-		(char) 0x1f, (char) 0x20, (char) 0x21, (char) 0x22, (char) 0x23,
-		(char) 0x24, (char) 0x25, (char) 0x26, (char) 0x27, (char) 0x28,
-		(char) 0x29, (char) 0x2a, (char) 0x2b, (char) 0x2c, (char) 0x2d,
-		(char) 0x2e, (char) 0x2f, (char) 0x30, (char) 0x31, (char) 0x32,
-		(char) 0x33, (char) 0x34, (char) 0x35, (char) 0x36, (char) 0x37,
-		(char) 0x38, (char) 0x39, (char) 0x3a, (char) 0x3b, (char) 0x3c,
-		(char) 0x3d, (char) 0x3e, (char) 0x3f, (char) 0x40, (char) 0x41,
-		(char) 0x42, (char) 0x43, (char) 0x44, (char) 0x45, (char) 0x46,
-		(char) 0x47, (char) 0x48, (char) 0x49, (char) 0x4a, (char) 0x4b,
-		(char) 0x4c, (char) 0x4d, (char) 0x4e, (char) 0x4f, (char) 0x50,
-		(char) 0x51, (char) 0x52, (char) 0x53, (char) 0x54, (char) 0x55,
-		(char) 0x56, (char) 0x57, (char) 0x58, (char) 0x59, (char) 0x5a,
-		(char) 0x5b, (char) 0x5c, (char) 0x5d, (char) 0x5e, (char) 0x5f,
-		(char) 0x60, (char) 0x61, (char) 0x62, (char) 0x63, (char) 0x64,
-		(char) 0x65, (char) 0x66, (char) 0x67, (char) 0x68, (char) 0x69,
-		(char) 0x6a, (char) 0x6b, (char) 0x6c, (char) 0x6d, (char) 0x6e,
-		(char) 0x6f, (char) 0x70, (char) 0x71, (char) 0x72, (char) 0x73,
-		(char) 0x74, (char) 0x75, (char) 0x76, (char) 0x77, (char) 0x78,
-		(char) 0x79, (char) 0x7a, (char) 0x7b, (char) 0x7c, (char) 0x7d,
-		(char) 0x7e, (char) 0x7f, (char) 0x80, (char) 0x81, (char) 0x82,
-		(char) 0x83, (char) 0x84, (char) 0x85, (char) 0x86, (char) 0x87,
-		(char) 0x88, (char) 0x89, (char) 0x8a, (char) 0x8b, (char) 0xa6,
-		(char) 0x8d, (char) 0x8e, (char) 0xac, (char) 0x90, (char) 0x91,
-		(char) 0x92, (char) 0x93, (char) 0x94, (char) 0x95, (char) 0x96,
-		(char) 0x97, (char) 0x98, (char) 0x99, (char) 0x9a, (char) 0x9b,
-		(char) 0xb6, (char) 0x9d, (char) 0x93, (char) 0xbc, (char) 0xa0,
-		(char) 0xa1, (char) 0xa2, (char) 0xa3, (char) 0xa4, (char) 0xa1,
-		(char) 0xa6, (char) 0xa7, (char) 0xa8, (char) 0xa9, (char) 0xaa,
-		(char) 0xab, (char) 0xac, (char) 0xad, (char) 0xae, (char) 0xaf,
-		(char) 0xb0, (char) 0xb1, (char) 0xb2, (char) 0xb3, (char) 0xb4,
-		(char) 0xb5, (char) 0xb6, (char) 0xb7, (char) 0xb8, (char) 0xb1,
-		(char) 0xba, (char) 0xbb, (char) 0xbc, (char) 0xbd, (char) 0xbe,
-		(char) 0xbf, (char) 0xc0, (char) 0xc1, (char) 0xc2, (char) 0xc3,
-		(char) 0xc4, (char) 0xc5, (char) 0xc6, (char) 0xc7, (char) 0xc8,
-		(char) 0xc9, (char) 0xca, (char) 0xcb, (char) 0xcc, (char) 0xcd,
-		(char) 0xce, (char) 0xcf, (char) 0xd0, (char) 0xd1, (char) 0xd2,
-		(char) 0xd3, (char) 0xd4, (char) 0xd5, (char) 0xd6, (char) 0xd7,
-		(char) 0xd8, (char) 0xd9, (char) 0xda, (char) 0xdb, (char) 0xdc,
-		(char) 0xdd, (char) 0xde, (char) 0xdf, (char) 0xe0, (char) 0xe1,
-		(char) 0xe2, (char) 0xe3, (char) 0xe4, (char) 0xe5, (char) 0xe6,
-		(char) 0xe7, (char) 0x68, (char) 0xe9, (char) 0xea, (char) 0xeb,
-		(char) 0xec, (char) 0xed, (char) 0xee, (char) 0xef, (char) 0xf0,
-		(char) 0xf1, (char) 0xf2, (char) 0xf3, (char) 0xf4, (char) 0xf5,
-		(char) 0xf6, (char) 0xf7, (char) 0xf8, (char) 0xf9, (char) 0xfa,
-		(char) 0xfb, (char) 0xfc, (char) 0xfd, (char) 0xfe, (char) 0xff };
+{ (char) 0x00, (char) 0x01, (char) 0x02, (char) 0x03, (char) 0x04, (char) 0x05, (char) 0x06, (char) 0x07, (char) 0x08, (char) 0x09,
+		(char) 0x0a, (char) 0x0b, (char) 0x0c, (char) 0x0d, (char) 0x0e, (char) 0x0f, (char) 0x10, (char) 0x11, (char) 0x12, (char) 0x13,
+		(char) 0x14, (char) 0x15, (char) 0x16, (char) 0x17, (char) 0x18, (char) 0x19, (char) 0x1a, (char) 0x1b, (char) 0x1c, (char) 0x1d,
+		(char) 0x1e, (char) 0x1f, (char) 0x20, (char) 0x21, (char) 0x22, (char) 0x23, (char) 0x24, (char) 0x25, (char) 0x26, (char) 0x27,
+		(char) 0x28, (char) 0x29, (char) 0x2a, (char) 0x2b, (char) 0x2c, (char) 0x2d, (char) 0x2e, (char) 0x2f, (char) 0x30, (char) 0x31,
+		(char) 0x32, (char) 0x33, (char) 0x34, (char) 0x35, (char) 0x36, (char) 0x37, (char) 0x38, (char) 0x39, (char) 0x3a, (char) 0x3b,
+		(char) 0x3c, (char) 0x3d, (char) 0x3e, (char) 0x3f, (char) 0x40, (char) 0x41, (char) 0x42, (char) 0x43, (char) 0x44, (char) 0x45,
+		(char) 0x46, (char) 0x47, (char) 0x48, (char) 0x49, (char) 0x4a, (char) 0x4b, (char) 0x4c, (char) 0x4d, (char) 0x4e, (char) 0x4f,
+		(char) 0x50, (char) 0x51, (char) 0x52, (char) 0x53, (char) 0x54, (char) 0x55, (char) 0x56, (char) 0x57, (char) 0x58, (char) 0x59,
+		(char) 0x5a, (char) 0x5b, (char) 0x5c, (char) 0x5d, (char) 0x5e, (char) 0x5f, (char) 0x60, (char) 0x61, (char) 0x62, (char) 0x63,
+		(char) 0x64, (char) 0x65, (char) 0x66, (char) 0x67, (char) 0x68, (char) 0x69, (char) 0x6a, (char) 0x6b, (char) 0x6c, (char) 0x6d,
+		(char) 0x6e, (char) 0x6f, (char) 0x70, (char) 0x71, (char) 0x72, (char) 0x73, (char) 0x74, (char) 0x75, (char) 0x76, (char) 0x77,
+		(char) 0x78, (char) 0x79, (char) 0x7a, (char) 0x7b, (char) 0x7c, (char) 0x7d, (char) 0x7e, (char) 0x7f, (char) 0x80, (char) 0x81,
+		(char) 0x82, (char) 0x83, (char) 0x84, (char) 0x85, (char) 0x86, (char) 0x87, (char) 0x88, (char) 0x89, (char) 0x8a, (char) 0x8b,
+		(char) 0xa6, (char) 0x8d, (char) 0x8e, (char) 0xac, (char) 0x90, (char) 0x91, (char) 0x92, (char) 0x93, (char) 0x94, (char) 0x95,
+		(char) 0x96, (char) 0x97, (char) 0x98, (char) 0x99, (char) 0x9a, (char) 0x9b, (char) 0xb6, (char) 0x9d, (char) 0x93, (char) 0xbc,
+		(char) 0xa0, (char) 0xa1, (char) 0xa2, (char) 0xa3, (char) 0xa4, (char) 0xa1, (char) 0xa6, (char) 0xa7, (char) 0xa8, (char) 0xa9,
+		(char) 0xaa, (char) 0xab, (char) 0xac, (char) 0xad, (char) 0xae, (char) 0xaf, (char) 0xb0, (char) 0xb1, (char) 0xb2, (char) 0xb3,
+		(char) 0xb4, (char) 0xb5, (char) 0xb6, (char) 0xb7, (char) 0xb8, (char) 0xb1, (char) 0xba, (char) 0xbb, (char) 0xbc, (char) 0xbd,
+		(char) 0xbe, (char) 0xbf, (char) 0xc0, (char) 0xc1, (char) 0xc2, (char) 0xc3, (char) 0xc4, (char) 0xc5, (char) 0xc6, (char) 0xc7,
+		(char) 0xc8, (char) 0xc9, (char) 0xca, (char) 0xcb, (char) 0xcc, (char) 0xcd, (char) 0xce, (char) 0xcf, (char) 0xd0, (char) 0xd1,
+		(char) 0xd2, (char) 0xd3, (char) 0xd4, (char) 0xd5, (char) 0xd6, (char) 0xd7, (char) 0xd8, (char) 0xd9, (char) 0xda, (char) 0xdb,
+		(char) 0xdc, (char) 0xdd, (char) 0xde, (char) 0xdf, (char) 0xe0, (char) 0xe1, (char) 0xe2, (char) 0xe3, (char) 0xe4, (char) 0xe5,
+		(char) 0xe6, (char) 0xe7, (char) 0x68, (char) 0xe9, (char) 0xea, (char) 0xeb, (char) 0xec, (char) 0xed, (char) 0xee, (char) 0xef,
+		(char) 0xf0, (char) 0xf1, (char) 0xf2, (char) 0xf3, (char) 0xf4, (char) 0xf5, (char) 0xf6, (char) 0xf7, (char) 0xf8, (char) 0xf9,
+		(char) 0xfa, (char) 0xfb, (char) 0xfc, (char) 0xfd, (char) 0xfe, (char) 0xff };
 
 /*
  * Transfer one line from input buffer to input line.
@@ -1298,8 +1247,7 @@ void read_from_buffer(DESCRIPTOR_DATA *d)
 	int i, j, k;
 
 	const char winletter[(2 * INNE_LITERY_WIN)] =
-	{ (char) 0xB9, '±', (char) 0x9C, '∂', (char) 0x9F, 'º', (char) 0xA5, '°',
-			(char) 0x8C, '¶', (char) 0x8F, '¨' };
+	{ (char) 0xB9, '±', (char) 0x9C, '∂', (char) 0x9F, 'º', (char) 0xA5, '°', (char) 0x8C, '¶', (char) 0x8F, '¨' };
 
 	/*
 	 * Hold horses if pending command already.
@@ -1310,9 +1258,7 @@ void read_from_buffer(DESCRIPTOR_DATA *d)
 	/*
 	 * Look for at least one new line.
 	 */
-	for (i = 0;
-			d->inbuf[i] != '\n' && d->inbuf[i] != '\r' && i < MAX_INBUF_SIZE;
-			i++)
+	for (i = 0; d->inbuf[i] != '\n' && d->inbuf[i] != '\r' && i < MAX_INBUF_SIZE; i++)
 	{
 		if (d->inbuf[i] == '\0')
 			return;
@@ -1369,8 +1315,7 @@ void read_from_buffer(DESCRIPTOR_DATA *d)
 		if (d->inbuf[i] == '\b' && k > 0)
 			--k;
 		else if ((isascii(d->inbuf[i]) && isprint(d->inbuf[i]))
-				|| ((d->inbuf[i] == __FGMOD[0] || d->inbuf[i] == __BGMOD[0])
-						&& d->character && IS_ADMIN(d->character->name)))
+				|| ((d->inbuf[i] == __FGMOD[0] || d->inbuf[i] == __BGMOD[0]) && d->character && IS_ADMIN(d->character->name)))
 			d->incomm[k++] = d->inbuf[i];
 		else if (ispolchar(d->inbuf[i]))
 		{
@@ -1409,8 +1354,7 @@ void read_from_buffer(DESCRIPTOR_DATA *d)
 				if (d->character && d->character->position != POS_FIGHTING)
 				{
 					write_to_descriptor(d->descriptor,
-					NL "* * * MOØE CEG£  NA KLAWISZE PO£OØYSZ ?!? * * *" NL NL,
-							0);
+					NL "* * * MOØE CEG£  NA KLAWISZE PO£OØYSZ ?!? * * *" NL NL, 0);
 					//poza walk± wyrzucamy z gry tylko nieimmosÛw
 					if (d->repeat >= 40)
 					{
@@ -1455,8 +1399,7 @@ char* check_exit(CHAR_DATA *ch, int dir)
 	*buf = '\0';
 	for (pexit = ch->in_room->first_exit; pexit; pexit = pexit->next)
 	{
-		if (pexit->vdir == dir&& pexit->to_room
-		&& !IS_SET(pexit->flags, EX_HIDDEN))
+		if (pexit->vdir == dir && pexit->to_room && !IS_SET(pexit->flags, EX_HIDDEN))
 		{
 			if (IS_SET(pexit->flags, EX_CLOSED))
 				sprintf(buf, FG_GREEN "][" FG_CYAN);
@@ -1548,8 +1491,7 @@ char* olc_ed_name(CHAR_DATA *ch)
 	case CON_MATEDITOR:
 	case CON_DIALOGEDIT:
 	case CON_TCEDITOR:
-		sprintf(buf, "%sor",
-				bit_name(constate_types_list, ch->desc->connected));
+		sprintf(buf, "%sor", bit_name(constate_types_list, ch->desc->connected));
 		break;
 	default:
 		sprintf(buf, " ");
@@ -1615,26 +1557,22 @@ const SWString olc_ed_vnum(CHAR_DATA *ch)
 		break;
 	case CON_MPEDITOR:
 		pMob = (MOB_INDEX_DATA*) ch->desc->olc_editing;
-		sprintf(buf, "%d(%d)", pMob ? pMob->vnum : 0,
-				ch->pcdata->mprog_edit + 1);
+		sprintf(buf, "%d(%d)", pMob ? pMob->vnum : 0, ch->pcdata->mprog_edit + 1);
 		break;
 	case CON_OPEDITOR:
 		pObj = (OBJ_INDEX_DATA*) ch->desc->olc_editing;
-		sprintf(buf, "%d(%d)", pObj ? pObj->vnum : 0,
-				ch->pcdata->mprog_edit + 1);
+		sprintf(buf, "%d(%d)", pObj ? pObj->vnum : 0, ch->pcdata->mprog_edit + 1);
 		break;
 	case CON_RPEDITOR:
 		pRoom = (ROOM_INDEX_DATA*) ch->desc->olc_editing;
-		sprintf(buf, "%d(%d)", pRoom ? pRoom->vnum : 0,
-				ch->pcdata->mprog_edit + 1);
+		sprintf(buf, "%d(%d)", pRoom ? pRoom->vnum : 0, ch->pcdata->mprog_edit + 1);
 		break;
 	case CON_QEDITOR:
 		pQuest = (QUEST_INDEX_DATA*) ch->desc->olc_editing;
 		if (ch->pcdata && ch->pcdata->line_nr <= 0)
 			sprintf(buf, "%d", pQuest ? pQuest->quest_id : 0);
 		else
-			sprintf(buf, "%d(%d)", pQuest ? pQuest->quest_id : 0,
-					ch->pcdata ? ch->pcdata->line_nr : 0);
+			sprintf(buf, "%d(%d)", pQuest ? pQuest->quest_id : 0, ch->pcdata ? ch->pcdata->line_nr : 0);
 		break;
 	case CON_SHEDITOR:
 		pShrec = (SHIP_INDEX_DATA*) ch->desc->olc_editing;
@@ -1694,8 +1632,7 @@ bool flush_buffer(DESCRIPTOR_DATA *d, bool fPrompt)
 	/*
 	 * Bust a prompt.
 	 */
-	if (fPrompt && !mud_down && d->connected >= CON_PLAYING
-			&& d->connected < CON_CONFIRM_SUICIDE)
+	if (fPrompt && !mud_down && d->connected >= CON_PLAYING && d->connected < CON_CONFIRM_SUICIDE)
 	{
 		ch = d->original ? d->original : d->character;
 
@@ -1808,9 +1745,8 @@ int write_to_buffer(DESCRIPTOR_DATA *d, const char *txt, int length)
 	{ '±', 'π', '∂', 'ú', 'º', 'ü', '°', '•', '¶', 'å', '¨', 'è' };
 
 	const char noplletter[2 * INNE_LITERY_NOPL] =
-	{ '±', 'a', 'Ê', 'c', 'Í', 'e', '≥', 'l', 'Ò', 'n', 'Û', 'o', '∂', 's', 'º',
-			'z', 'ø', 'z', '°', 'A', '∆', 'C', ' ', 'E', '£', 'L', '—', 'N',
-			'”', 'O', '¶', 'S', '¨', 'Z', 'Ø', 'Z' };
+	{ '±', 'a', 'Ê', 'c', 'Í', 'e', '≥', 'l', 'Ò', 'n', 'Û', 'o', '∂', 's', 'º', 'z', 'ø', 'z', '°', 'A', '∆', 'C', ' ', 'E', '£', 'L', '—',
+			'N', '”', 'O', '¶', 'S', '¨', 'Z', 'Ø', 'Z' };
 
 //tutaj    char 	*txt1;
 	char txt1[MSL * 4];
@@ -1971,8 +1907,7 @@ bool check_parse_name(char *name)
 			" xizor yaddle yoda"))
 		return false;
 
-	for (list<SWString>::const_iterator it = denynames.begin();
-			it != denynames.end(); it++)
+	for (list<SWString>::const_iterator it = denynames.begin(); it != denynames.end(); it++)
 	{
 		if (*it == name)
 			return false;
@@ -2029,8 +1964,7 @@ int check_reconnect(DESCRIPTOR_DATA *d, char *name, bool fConn)
 
 	for (ch = first_char; ch; ch = ch->next)
 	{
-		if (!IS_NPC(ch) && (!fConn || !ch->desc) && ch->name
-				&& !str_cmp(name, ch->name))
+		if (!IS_NPC(ch) && (!fConn || !ch->desc) && ch->name && !str_cmp(name, ch->name))
 		{
 			if (fConn && ch->switched)
 			{
@@ -2057,17 +1991,14 @@ int check_reconnect(DESCRIPTOR_DATA *d, char *name, bool fConn)
 				ch->timer = 0;
 
 //Added by Ratm
-				if ( IS_SET(ch->act, PLR_STATUS_BAR)
-						&& d->connected >= CON_PLAYING)
+				if ( IS_SET(ch->act, PLR_STATUS_BAR) && d->connected >= CON_PLAYING)
 					init_status_bar(ch);
 
 				send_to_char("PowtÛrne po≥±czenie." NL, ch);
 				act( COL_ACTION, "$n po≥±czy≥$o siÍ na nowo.", ch, NULL, NULL,
 				TO_ROOM);
-				sprintf(log_buf, "%s!%s@%s reconnected.", ch->name, d->user,
-						d->host);
-				log_string_plus(log_buf, LOG_COMM,
-						UMAX(sysdata.log_level, ch->top_level));
+				sprintf(log_buf, "%s!%s@%s reconnected.", ch->name, d->user, d->host);
+				log_string_plus(log_buf, LOG_COMM, UMAX(sysdata.log_level, ch->top_level));
 				/*
 				 if ( ch->top_level < LEVEL_SAVIOR )
 				 to_channel( log_buf, CHANNEL_MONITOR, "Monitor", ch->top_level );
@@ -2091,15 +2022,10 @@ bool check_multi(DESCRIPTOR_DATA *d, char *name)
 
 	for (dold = first_descriptor; dold; dold = dold->next)
 	{
-		if (dold != d && (dold->character || dold->original)
-				&& str_cmp(name,
-						dold->original ?
-								dold->original->name : dold->character->name)
+		if (dold != d && (dold->character || dold->original) && str_cmp(name, dold->original ? dold->original->name : dold->character->name)
 				&& !str_cmp(dold->host, d->host)
 				&& (d->user && dold->user
-						&& (!str_cmp(dold->user, d->user)
-								&& str_cmp(d->user, UNKNOWN_USER)
-								&& str_cmp(d->user, "UNKNOWN"))))
+						&& (!str_cmp(dold->user, d->user) && str_cmp(d->user, UNKNOWN_USER) && str_cmp(d->user, "UNKNOWN"))))
 		{
 
 			/* Hmmm .... a czyje te ipki?         Thanos */
@@ -2107,10 +2033,7 @@ bool check_multi(DESCRIPTOR_DATA *d, char *name)
 			const char *ok2 = "209.183.133.229";
 			int iloop;
 
-			if (get_trust(d->character) >= LEVEL_SUPREME
-					|| get_trust(
-							dold->original ? dold->original : dold->character)
-							>= LEVEL_SUPREME)
+			if (get_trust(d->character) >= LEVEL_SUPREME || get_trust(dold->original ? dold->original : dold->character) >= LEVEL_SUPREME)
 				return false;
 			for (iloop = 0; iloop < 11; iloop++)
 			{
@@ -2126,12 +2049,9 @@ bool check_multi(DESCRIPTOR_DATA *d, char *name)
 			}
 			if (iloop >= 10)
 				return false;
-			write_to_buffer(d,
-					"Przykro mi, ale granie multiplaying jest u nas zakazane..." NL
-					"Wyjdº najpierw z gry inn± postaci±." NL, 0);
-			sprintf(log_buf, "%s attempting to multiplay with %s.",
-					dold->original ?
-							dold->original->name : dold->character->name,
+			write_to_buffer(d, "Przykro mi, ale granie multiplaying jest u nas zakazane..." NL
+			"Wyjdº najpierw z gry inn± postaci±." NL, 0);
+			sprintf(log_buf, "%s attempting to multiplay with %s.", dold->original ? dold->original->name : dold->character->name,
 					d->character->name);
 			log_string_plus(log_buf, LOG_COMM, sysdata.log_level);
 			d->character = NULL;
@@ -2154,17 +2074,13 @@ int check_playing(DESCRIPTOR_DATA *d, char *name, bool kick)
 	for (dold = first_descriptor; dold; dold = dold->next)
 	{
 		if (dold != d && (dold->character || dold->original)
-				&& !str_cmp(name,
-						dold->original ?
-								dold->original->name : dold->character->name))
+				&& !str_cmp(name, dold->original ? dold->original->name : dold->character->name))
 		{
 			cstate = dold->connected;
 			ch = dold->original ? dold->original : dold->character;
 			if (!ch->name || (cstate < CON_PLAYING))
 			{
-				write_to_buffer(d,
-						"PowtÛrne po≥±czenie nie powiod≥o siÍ. SprÛbuj jeszcze raz." NL,
-						0);
+				write_to_buffer(d, "PowtÛrne po≥±czenie nie powiod≥o siÍ. SprÛbuj jeszcze raz." NL, 0);
 				sprintf(log_buf, "%s already connected.", ch->name);
 				log_string_plus(log_buf, LOG_COMM, sysdata.log_level);
 				return BERR;
@@ -2188,10 +2104,8 @@ int check_playing(DESCRIPTOR_DATA *d, char *name, bool kick)
 			send_to_char("PowtÛrne po≥±czenie." NL, ch);
 			act( COL_ACTION, "$n po≥±czy≥$o siÍ na nowo.", ch, NULL, NULL,
 			TO_ROOM);
-			sprintf(log_buf, "%s!%s@%s reconnected, kicking off old link.",
-					ch->name, d->user, d->host);
-			log_string_plus(log_buf, LOG_COMM,
-					UMAX(sysdata.log_level, ch->top_level));
+			sprintf(log_buf, "%s!%s@%s reconnected, kicking off old link.", ch->name, d->user, d->host);
+			log_string_plus(log_buf, LOG_COMM, UMAX(sysdata.log_level, ch->top_level));
 			/*
 			 if ( ch->top_level < LEVEL_SAVIOR )
 			 to_channel( log_buf, CHANNEL_MONITOR, "Monitor", ch->top_level );
@@ -2206,9 +2120,7 @@ int check_playing(DESCRIPTOR_DATA *d, char *name, bool kick)
 
 void stop_idling(CHAR_DATA *ch)
 {
-	if (!ch || !ch->desc || ch->desc->connected != CON_PLAYING
-			|| !ch->was_in_room
-			|| ch->in_room != get_room_index( ROOM_VNUM_LIMBO))
+	if (!ch || !ch->desc || ch->desc->connected != CON_PLAYING || !ch->was_in_room || ch->in_room != get_room_index( ROOM_VNUM_LIMBO))
 		return;
 
 	ch->timer = 0;
@@ -2301,9 +2213,8 @@ void write_to_pager(DESCRIPTOR_DATA *d, const char *txt, int length)
 	{ '±', 'π', '∂', 'ú', 'º', 'ü', '°', '•', '¶', 'å', '¨', 'è' };
 
 	char noplletter[2 * INNE_LITERY_NOPL] =
-	{ '±', 'a', 'Ê', 'c', 'Í', 'e', '≥', 'l', 'Ò', 'n', 'Û', 'o', '∂', 's', 'º',
-			'z', 'ø', 'z', '°', 'A', '∆', 'C', ' ', 'E', '£', 'L', '—', 'N',
-			'”', 'O', '¶', 'S', '¨', 'Z', 'Ø', 'Z' };
+	{ '±', 'a', 'Ê', 'c', 'Í', 'e', '≥', 'l', 'Ò', 'n', 'Û', 'o', '∂', 's', 'º', 'z', 'ø', 'z', '°', 'A', '∆', 'C', ' ', 'E', '£', 'L', '—',
+			'N', '”', 'O', '¶', 'S', '¨', 'Z', 'Ø', 'Z' };
 
 	//  char 	*txt1;
 	char txt1[MSL * 8];
@@ -2462,8 +2373,7 @@ char* obj_short(OBJ_DATA *obj)
  * The primary output interface for formatted output.
  */
 /* Major overhaul. -- Alty */
-char* act_string(const char *color, const char *format, CHAR_DATA *to,
-		CHAR_DATA *ch, const void *arg1, const void *arg2)
+char* act_string(const char *color, const char *format, CHAR_DATA *to, CHAR_DATA *ch, const void *arg1, const void *arg2)
 {
 	//added by Thanos (polskie zaimki)
 	static const char *const he_she[] =
@@ -2540,15 +2450,12 @@ char* act_string(const char *color, const char *format, CHAR_DATA *to,
 					if (str[2] >= '0' && str[2] <= '5')
 					{
 						str += 2;
-						i = (to ? PERS(ch, to, (*str - 48)) :
-								NAME(ch, (*str - 48)));
+						i = (to ? PERS(ch, to, (*str - 48)) : NAME(ch, (*str - 48)));
 					}
 					else if (str[2] == 'R')
 					{
 						str += 2;
-						i = (to && can_see(to, ch)) ?
-								( IS_NPC( ch ) ? ch->przypadki[0] : ch->name) :
-								"Kto∂";
+						i = (to && can_see(to, ch)) ? ( IS_NPC( ch ) ? ch->przypadki[0] : ch->name) : "Kto∂";
 					}
 					else if (str[2] == 'x')
 					{
@@ -2566,16 +2473,13 @@ char* act_string(const char *color, const char *format, CHAR_DATA *to,
 					if (str[2] >= '0' && str[2] <= '5')
 					{
 						str += 2;
-						i = (to ? PERS(vch, to, (*str - 48)) :
-								NAME(vch, (*str - 48)));
+						i = (to ? PERS(vch, to, (*str - 48)) : NAME(vch, (*str - 48)));
 					}
 				}
 				else if (str[2] == 'R')
 				{
 					str += 2;
-					i = (to && can_see(to, vch)) ?
-							( IS_NPC( vch ) ? vch->przypadki[0] : vch->name) :
-							"Kto∂";
+					i = (to && can_see(to, vch)) ? ( IS_NPC( vch ) ? vch->przypadki[0] : vch->name) : "Kto∂";
 				}
 				else
 					i = (to ? PERS(vch, to, 0) : NAME(vch, 0));
@@ -2709,8 +2613,7 @@ char* act_string(const char *color, const char *format, CHAR_DATA *to,
 					if (str[2] >= '0' && str[2] <= '5')
 					{
 						str += 2;
-						i = can_see_obj(to, obj1) ?
-								obj1->przypadki[(*str - 48)] : "co∂";
+						i = can_see_obj(to, obj1) ? obj1->przypadki[(*str - 48)] : "co∂";
 					}
 				}
 				else
@@ -2722,8 +2625,7 @@ char* act_string(const char *color, const char *format, CHAR_DATA *to,
 					if (str[2] >= '0' && str[2] <= '5')
 					{
 						str += 2;
-						i = can_see_obj(to, obj2) ?
-								obj2->przypadki[(*str - 48)] : "co∂";
+						i = can_see_obj(to, obj2) ? obj2->przypadki[(*str - 48)] : "co∂";
 					}
 				}
 				else
@@ -2758,8 +2660,7 @@ char* act_string(const char *color, const char *format, CHAR_DATA *to,
 	return buf;
 }
 
-void act(const char *color, const char *format, CHAR_DATA *ch, const void *arg1,
-		const void *arg2, int type)
+void act(const char *color, const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, int type)
 {
 	char *txt;
 	CHAR_DATA *to;
@@ -2791,8 +2692,7 @@ void act(const char *color, const char *format, CHAR_DATA *ch, const void *arg1,
 	{
 		IF_BUG(vch == NULL, "TO_VICT: %s (%s)", ch->name, format)
 			return;
-		IF_BUG(vch->in_room == NULL, "TO_VICT: %s -> %s (%s)", ch->name,
-				vch->name, format)
+		IF_BUG(vch->in_room == NULL, "TO_VICT: %s -> %s (%s)", ch->name, vch->name, format)
 			return;
 
 		to = vch;
@@ -2836,32 +2736,24 @@ void act(const char *color, const char *format, CHAR_DATA *ch, const void *arg1,
 
 		txt = act_string(color, format, NULL, ch, arg1, arg2);
 
-		if (to->in_room && to->in_room->progtypes
-				&& IS_SET(to->in_room->progtypes, ACT_PROG))
-			rprog_act_trigger(txt, to->in_room, ch, (OBJ_DATA*) arg1,
-					(void*) arg2);
+		if (to->in_room && to->in_room->progtypes && IS_SET(to->in_room->progtypes, ACT_PROG))
+			rprog_act_trigger(txt, to->in_room, ch, (OBJ_DATA*) arg1, (void*) arg2);
 
 		if (to->in_room)
 		{
-			for (to_obj = to->in_room->first_content; to_obj;
-					to_obj = to_obj->next_content)
+			for (to_obj = to->in_room->first_content; to_obj; to_obj = to_obj->next_content)
 			{
-				if (to_obj && to_obj->pIndexData->progtypes
-						&& IS_SET(to_obj->pIndexData->progtypes, ACT_PROG))
-					oprog_act_trigger(txt, to_obj, ch, (OBJ_DATA*) arg1,
-							(void*) arg2);
+				if (to_obj && to_obj->pIndexData->progtypes && IS_SET(to_obj->pIndexData->progtypes, ACT_PROG))
+					oprog_act_trigger(txt, to_obj, ch, (OBJ_DATA*) arg1, (void*) arg2);
 			}
 		}
 	}
 
 	/* Anyone feel like telling me the point of looping through the whole
 	 room when we're only sending to one char anyways..? -- Alty */
-	for (; to;
-			to = (type == TO_CHAR || type == TO_VICT) ? NULL : to->next_in_room)
+	for (; to; to = (type == TO_CHAR || type == TO_VICT) ? NULL : to->next_in_room)
 	{
-		if ((!to->desc
-				&& ( IS_NPC(to) && !IS_SET(to->pIndexData->progtypes, ACT_PROG)))
-				|| !IS_AWAKE(to))
+		if ((!to->desc && ( IS_NPC(to) && !IS_SET(to->pIndexData->progtypes, ACT_PROG))) || !IS_AWAKE(to))
 			continue;
 
 		if (type == TO_CHAR && to != ch)
@@ -2957,21 +2849,16 @@ void display_prompt(DESCRIPTOR_DATA *d)
 	if (!IS_NPC(ch) && IS_SET(ch->act, PLR_AFK))
 	{
 		if (ch->pcdata->afk_reason && ch->pcdata->afk_reason[0] != '\0')
-			ch_printf(ch, PROMPT_COL_N "[Jeste∂ AWAY (%s)]" PLAIN " ",
-					ch->pcdata->afk_reason);
+			ch_printf(ch, PROMPT_COL_N "[Jeste∂ AWAY (%s)]" PLAIN " ", ch->pcdata->afk_reason);
 		else
 			ch_printf(ch, PROMPT_COL_N "[Jeste∂ AWAY]" PLAIN " ");
 		return;
 	}
 
-	if ( IS_CREW(ch) && IS_SET(ch->pcdata->flags, PCFLAG_SHIPSTAT)
-			&& ship_from_room(ch->in_room) != NULL)
+	if ( IS_CREW(ch) && IS_SET(ch->pcdata->flags, PCFLAG_SHIPSTAT) && ship_from_room(ch->in_room) != NULL)
 	{
-		ch_printf(ch, FB_GREEN "Hull: %d/%d Shields: %d/%d Energia: %d" EOL,
-				ship_from_room(ch->in_room)->maxhull,
-				ship_from_room(ch->in_room)->hull,
-				ship_from_room(ch->in_room)->shield,
-				ship_from_room(ch->in_room)->maxshield,
+		ch_printf(ch, FB_GREEN "Hull: %d/%d Shields: %d/%d Energia: %d" EOL, ship_from_room(ch->in_room)->maxhull,
+				ship_from_room(ch->in_room)->hull, ship_from_room(ch->in_room)->shield, ship_from_room(ch->in_room)->maxshield,
 				ship_from_room(ch->in_room)->energy);
 	}
 	for (; *prompt; prompt++)
@@ -3091,16 +2978,12 @@ void display_prompt(DESCRIPTOR_DATA *d)
 				/*added by Thanos (krainka w prompcie) */
 			case 'p':
 				sprintf(pbuf, "%s",
-						( IS_IMMORTAL( ch ) ?
-								((ch->in_room->area && ch->in_room->area->name) ?
-										ch->in_room->area->name : "...") :
-								"%p"));
+						( IS_IMMORTAL( ch ) ? ((ch->in_room->area && ch->in_room->area->name) ? ch->in_room->area->name : "...") : "%p"));
 				break;
 			case 'P': /*(i planeta w prompcie)*/
 				sprintf(pbuf, "%s",
 						( IS_IMMORTAL( ch ) ?
-								((ch->in_room->area && ch->in_room->area->planet
-										&& ch->in_room->area->planet->name) ?
+								((ch->in_room->area && ch->in_room->area->planet && ch->in_room->area->planet->name) ?
 										ch->in_room->area->planet->name : "...") :
 								"%P"));
 				break;
@@ -3115,23 +2998,22 @@ void display_prompt(DESCRIPTOR_DATA *d)
 				break;
 
 			case 'O': /*(OLC)*/
-				sprintf(pbuf, "%s", olc_ed_vnum(ch).c_str());
+			{
+				const SWString &svnum = olc_ed_vnum(ch);
+				sprintf(pbuf, "%s", svnum.c_str());
+			}
 				break;
 
 			case 'i':
-				if ((!IS_NPC(ch) && IS_SET(ch->act, PLR_WIZINVIS))
-						|| (IS_NPC(ch) && IS_SET(ch->act, ACT_MOBINVIS)))
-					sprintf(pbuf, "Invis %d",
-							(IS_NPC(ch) ? ch->mobinvis : ch->pcdata->wizinvis));
+				if ((!IS_NPC(ch) && IS_SET(ch->act, PLR_WIZINVIS)) || (IS_NPC(ch) && IS_SET(ch->act, ACT_MOBINVIS)))
+					sprintf(pbuf, "Invis %d", (IS_NPC(ch) ? ch->mobinvis : ch->pcdata->wizinvis));
 				else if (IS_AFFECTED(ch, AFF_INVISIBLE))
 					sprintf(pbuf, "Invis");
 				break;
 
 			case 'I':
 				stat = (IS_NPC(ch) ?
-						(IS_SET(ch->act, ACT_MOBINVIS) ? ch->mobinvis : 0) :
-						(IS_SET(ch->act, PLR_WIZINVIS) ?
-								ch->pcdata->wizinvis : 0));
+						(IS_SET(ch->act, ACT_MOBINVIS) ? ch->mobinvis : 0) : (IS_SET(ch->act, PLR_WIZINVIS) ? ch->pcdata->wizinvis : 0));
 				break;
 
 			case 'w':
@@ -3383,8 +3265,7 @@ bool pager_output(DESCRIPTOR_DATA *d)
 
 	if (last != d->pagepoint)
 	{
-		if (!write_to_descriptor(d->descriptor, d->pagepoint,
-				(last - d->pagepoint)))
+		if (!write_to_descriptor(d->descriptor, d->pagepoint, (last - d->pagepoint)))
 			return false;
 		d->pagepoint = last;
 	}
@@ -3414,17 +3295,14 @@ bool pager_output(DESCRIPTOR_DATA *d)
 	 */
 
 	if (d->character->charset == CHARSET_WIN)
-		sprintf(buf,
-				" (%3d/%-3d)  Wciúnij: (D)alej, (O)dúwieø, (C)ofnij, (W)yjdü: [D] ",
-				total / lines - now / lines + 1, total / lines + 1);
+		sprintf(buf, " (%3d/%-3d)  Wciúnij: (D)alej, (O)dúwieø, (C)ofnij, (W)yjdü: [D] ", total / lines - now / lines + 1,
+				total / lines + 1);
 	else if (d->character->charset == CHARSET_ISO)
-		sprintf(buf,
-				" (%3d/%-3d)  Wci∂nij: (D)alej, (O)d∂wieø, (C)ofnij, (W)yjdº: [D] ",
-				total / lines - now / lines + 1, total / lines + 1);
+		sprintf(buf, " (%3d/%-3d)  Wci∂nij: (D)alej, (O)d∂wieø, (C)ofnij, (W)yjdº: [D] ", total / lines - now / lines + 1,
+				total / lines + 1);
 	else
-		sprintf(buf,
-				" (%3d/%-3d)  Wcisnij: (D)alej, (O)dswiez, (C)ofnij, (W)yjdz: [D] ",
-				total / lines - now / lines + 1, total / lines + 1);
+		sprintf(buf, " (%3d/%-3d)  Wcisnij: (D)alej, (O)dswiez, (C)ofnij, (W)yjdz: [D] ", total / lines - now / lines + 1,
+				total / lines + 1);
 
 	if ((ret = write_to_descriptor(d->descriptor, buf, 0)) == false)
 		return false;

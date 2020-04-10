@@ -419,7 +419,7 @@ void starsystems_update(void)
 				sprintf(buf, NL "%s" EOL, pStarsystem->resetmsg);
 			else
 				strcpy(buf,
-						NL "Widzisz jak powiew gwiezdnego pyï¿½u odbija promienie gwiazd..." NL);
+						NL "Widzisz jak powiew gwiezdnego py³u odbija promienie gwiazd..." NL);
 
 			for (target = pStarsystem->first_ship; target;
 					target = target->next_in_starsystem)

@@ -693,8 +693,9 @@ void show_1_auction_list(CHAR_DATA *ch, AUCTION_DATA *pAuction, int index)
 	pager_printf(ch, "[" MOD_BOLD "%-3d" PLAIN "]", pAuction->bidders_count);
 	pager_printf(ch, "[" MOD_BOLD "%-11s" PLAIN "]", advitoa(pAuction->bet, true));
 	//ustawimy znacznik BuyOut oraz podajemy czas do zakoñczenia trwania aukcji
+	const SWString &prepTime = prepare_time(pAuction->end_time, true, false);
 	pager_printf(ch, "[" PLAIN MOD_BOLD "%s" PLAIN "][" PLAIN
-	MOD_BOLD "%-12s" PLAIN "]" PLAIN NL, pAuction->buy_out_now ? "T" : "N", prepare_time(pAuction->end_time, true, false).c_str());
+	MOD_BOLD "%-12s" PLAIN "]" PLAIN NL, pAuction->buy_out_now ? "T" : "N", prepTime.c_str());
 }
 
 //AUCTION_DATA * find_auction_nr( int nr)

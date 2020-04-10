@@ -418,13 +418,16 @@ const SWString char_attribute(desc_type desc_type, int index, int gender, int pr
 {
 	char buf[MSL] =
 	{ 0 };
-	sprintf(buf, "%s", desc_table[desc_type][index].base);
+	snprintf(buf, MSL, "%s", desc_table[desc_type][index].base);
 
 	if (desc_table[desc_type][index].type != FUR)
-		swsnprintf(buf, MSL, "%s%s", buf,
+	{
+		SWString tmpbuf(buf);
+		swsnprintf(buf, MSL, "%s%s", tmpbuf.c_str(),
 				desc_table[desc_type][index].end == Y_END ?
 						(gender == SEX_MALE ? male_desc_y[przypadek] : female_desc_y[przypadek]) :
 						(gender == SEX_MALE ? male_desc_i[przypadek] : female_desc_i[przypadek]));
+	}
 
 	return SWString(buf);
 }
@@ -440,18 +443,27 @@ const SWString format_char_attribute(CHAR_DATA *ch, int przypadek)
 	}
 
 	if (ch->attribute1 >= 0)
-		strcpy(buf,
-				char_attribute((desc_type) (ch->attribute1 == 0 ? 0 : ch->attribute1 / 100), ch->attribute1 % 100, ch->sex, przypadek).c_str());
+	{
+		const SWString &attrib = char_attribute((desc_type) (ch->attribute1 == 0 ? 0 : ch->attribute1 / 100), ch->attribute1 % 100, ch->sex,
+				przypadek);
+		strcpy(buf, attrib.c_str());
+	}
 
 	if (ch->attribute2 >= 0)
 	{
 		if (desc_table[ch->attribute2 == 0 ? 0 : ch->attribute2 / 100][ch->attribute2 % 100].type == FUR)
+		{
+			const SWString &attrib = char_attribute((desc_type) (ch->attribute2 == 0 ? 0 : ch->attribute2 / 100), ch->attribute2 % 100,
+					ch->sex, przypadek);
 			swsnprintf(buf, MSL, "%s %s z %s futrem", buf, CH_RACE(ch, przypadek), // Pixel: przypadkiF
-			char_attribute((desc_type) (ch->attribute2 == 0 ? 0 : ch->attribute2 / 100), ch->attribute2 % 100, ch->sex, przypadek).c_str());
+			attrib.c_str());
+		}
 		else
-			swsnprintf(buf, MSL, "%s, %s %s", buf,
-					char_attribute((desc_type) (ch->attribute2 == 0 ? 0 : ch->attribute2 / 100), ch->attribute2 % 100, ch->sex, przypadek).c_str(),
-					CH_RACE(ch, przypadek)); // Pixel: przypadkiF
+		{
+			const SWString &attrib = char_attribute((desc_type) (ch->attribute2 == 0 ? 0 : ch->attribute2 / 100), ch->attribute2 % 100,
+					ch->sex, przypadek);
+			swsnprintf(buf, MSL, "%s, %s %s", buf, attrib.c_str(), CH_RACE(ch, przypadek)); // Pixel: przypadkiF
+		}
 	}
 	else
 	{
@@ -459,6 +471,17 @@ const SWString format_char_attribute(CHAR_DATA *ch, int przypadek)
 		swsnprintf(buf, MSL, "%s %s", tmpbuf.c_str(), CH_RACE(ch, przypadek)); // Pixel: przypadkiF
 	}
 	return SWString(buf);
+}
+
+/* Trog: only for use in PERS macro, also: not thread safe */
+char* format_char_attribute_wrapper(CHAR_DATA *ch, int przypadek)
+{
+	static char buf[MSL] =
+	{ 0 };
+	const SWString &attrib = format_char_attribute(ch, przypadek);
+	swstrncpy(buf, attrib.c_str(), MSL - 1);
+	buf[MSL - 1] = '\0';
+	return buf;
 }
 
 CLONING_DATA* get_cloning(ROOM_INDEX_DATA *room)

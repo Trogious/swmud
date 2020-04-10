@@ -2528,10 +2528,11 @@ CHAR_DATA* get_char_room(CHAR_DATA *ch, char *argument)
 
 	for (rch = ch->in_room->first_person; rch; rch = rch->next_in_room)
 	{
+		const SWString &attrib = format_char_attribute(rch, 0);
 		if (IS_NPC(ch) || IS_NPC(rch) || does_knows(ch, rch))
 			name = rch->name;
 		else
-			name = (char*) format_char_attribute(rch, 0).c_str();
+			name = (char*) attrib.c_str();
 		if (can_see(ch, rch)
 				&& ((nifty_is_name(arg, name) || (IS_NPC(rch) && vnum == rch->pIndexData->vnum))
 						|| (rch->pcdata && rch != ch && IS_AFFECTED(rch, AFF_DISGUISE) && nifty_is_name_prefix(arg, rch->pcdata->fake_name))))
@@ -2553,10 +2554,11 @@ CHAR_DATA* get_char_room(CHAR_DATA *ch, char *argument)
 	count = 0;
 	for (rch = ch->in_room->first_person; rch; rch = rch->next_in_room)
 	{
+		const SWString &attrib = format_char_attribute(rch, 0);
 		if (IS_NPC(ch) || IS_NPC(rch) || does_knows(ch, rch))
 			name = rch->name;
 		else
-			name = (char*) format_char_attribute(rch, 0).c_str();
+			name = (char*) attrib.c_str();
 		if (!can_see(ch, rch) || !nifty_is_name_prefix(arg, name))
 			continue;
 		if (number == 0 && !IS_NPC(rch))
@@ -2594,10 +2596,11 @@ CHAR_DATA* get_char_world(CHAR_DATA *ch, char *argument)
 	/* check the room for an exact match */
 	for (wch = ch->in_room->first_person; wch; wch = wch->next_in_room)
 	{
+		const SWString &attrib = format_char_attribute(wch, 0);
 		if (IS_NPC(ch) || IS_NPC(wch) || does_knows(ch, wch))
 			name = wch->name;
 		else
-			name = (char*) format_char_attribute(wch, 0).c_str();
+			name = (char*) attrib.c_str();
 		if ((nifty_is_name(arg, name) || (IS_NPC(wch) && vnum == wch->pIndexData->vnum)) && is_wizvis(ch, wch))
 		{
 			if (number == 0 && !IS_NPC(wch))
@@ -2612,10 +2615,11 @@ CHAR_DATA* get_char_world(CHAR_DATA *ch, char *argument)
 	/* check the world for an exact match */
 	for (wch = first_char; wch; wch = wch->next)
 	{
+		const SWString &attrib = format_char_attribute(wch, 0);
 		if (IS_NPC(ch) || IS_NPC(wch) || does_knows(ch, wch))
 			name = wch->name;
 		else
-			name = (char*) format_char_attribute(wch, 0).c_str();
+			name = (char*) attrib.c_str();
 		if ((nifty_is_name(arg, name) || (IS_NPC(wch) && vnum == wch->pIndexData->vnum)) && is_wizvis(ch, wch))
 		{
 			if (number == 0 && !IS_NPC(wch))
@@ -2637,10 +2641,11 @@ CHAR_DATA* get_char_world(CHAR_DATA *ch, char *argument)
 	count = 0;
 	for (wch = ch->in_room->first_person; wch; wch = wch->next_in_room)
 	{
+		const SWString &attrib = format_char_attribute(wch, 0);
 		if (IS_NPC(ch) || IS_NPC(wch) || does_knows(ch, wch))
 			name = wch->name;
 		else
-			name = (char *)format_char_attribute(wch, 0).c_str();
+			name = (char*) attrib.c_str();
 		if (!nifty_is_name_prefix(arg, name))
 			continue;
 		if (number == 0 && !IS_NPC(wch) && is_wizvis(ch, wch))
@@ -2657,10 +2662,11 @@ CHAR_DATA* get_char_world(CHAR_DATA *ch, char *argument)
 	count = 0;
 	for (wch = first_char; wch; wch = wch->next)
 	{
+		const SWString &attrib = format_char_attribute(wch, 0);
 		if (IS_NPC(ch) || IS_NPC(wch) || does_knows(ch, wch))
 			name = wch->name;
 		else
-			name = (char*)format_char_attribute(wch, 0).c_str();
+			name = (char*) attrib.c_str();
 		if (!nifty_is_name_prefix(arg, name))
 			continue;
 		if (number == 0 && !IS_NPC(wch) && is_wizvis(ch, wch))
@@ -2701,7 +2707,8 @@ CHAR_DATA* get_player_world(CHAR_DATA *ch, char *argument)
 			if (!(wch = CH(d)) || IS_NPC(wch))
 				continue;
 
-			if ((ch) && !str_cmp(arg, does_knows(ch, wch) ? wch->name : format_char_attribute(wch, 0).c_str()))
+			const SWString &attrib = format_char_attribute(wch, 0);
+			if ((ch) && !str_cmp(arg, does_knows(ch, wch) ? wch->name : attrib.c_str()))
 				return wch;
 		}
 	}
@@ -2713,7 +2720,8 @@ CHAR_DATA* get_player_world(CHAR_DATA *ch, char *argument)
 		if (!(wch = CH(d)) || IS_NPC(wch))
 			continue;
 
-		if ((ch) && !str_prefix(arg, does_knows(ch, wch) ? wch->name : format_char_attribute(wch, 0).c_str()) && count == number)
+		const SWString &attrib = format_char_attribute(wch, 0);
+		if ((ch) && !str_prefix(arg, does_knows(ch, wch) ? wch->name : attrib.c_str()) && count == number)
 			return wch;
 
 		count++;

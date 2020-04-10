@@ -226,22 +226,16 @@ void nanny_confirm_suicide(DESCRIPTOR_DATA *d, char *argument)
 		ch->wait = 30;
 		d->connected = CON_PLAYING;
 
-		sprintf(log_buf, "%s!%s@%s suicide: Wrong Password.", ch->name, d->user,
-				d->host);
+		sprintf(log_buf, "%s!%s@%s suicide: Wrong Password.", ch->name, d->user, d->host);
 		log_string(log_buf);
 		return;
 	}
 
 	write_to_buffer(d, NL, 0);
-	act( FG_RED,
-			"Z ciê¿k± determinacj± i ogromnym smutkiem podcinasz sobie ¿y³y...",
-			ch, NULL, NULL, TO_CHAR);
-	act( FG_RED,
-			"Zimny dreszcz przechodzi twoje plecy widz±c, jak $n podcina sobie ¿y³y!",
-			ch, NULL, NULL, TO_ROOM);
+	act( FG_RED, "Z ciê¿k± determinacj± i ogromnym smutkiem podcinasz sobie ¿y³y...", ch, NULL, NULL, TO_CHAR);
+	act( FG_RED, "Zimny dreszcz przechodzi twoje plecy widz±c, jak $n podcina sobie ¿y³y!", ch, NULL, NULL, TO_ROOM);
 
-	sprintf(log_buf, "%s!%s@%s: Suicide. Deleting Character.", ch->name,
-			d->user, d->host);
+	sprintf(log_buf, "%s!%s@%s: Suicide. Deleting Character.", ch->name, d->user, d->host);
 	log_string(log_buf);
 
 	set_cur_char(ch);
@@ -265,13 +259,11 @@ void nanny_get_name(DESCRIPTOR_DATA *d, char *argument)
 	argument[0] = UPPER(argument[0]);
 	if (!check_parse_name(argument))
 	{
-		write_to_buffer(d,
-				"Nieprawidlowe imie, sprobuj podac inne." NL "Imie:  ", 0);
+		write_to_buffer(d, "Nieprawidlowe imie, sprobuj podac inne." NL "Imie:  ", 0);
 		return;
 	}
 
-	if (!str_cmp(argument, "New") || !str_cmp(argument, "Nowy")
-			|| !str_cmp(argument, "Nowe") || !str_cmp(argument, "Nowa"))
+	if (!str_cmp(argument, "New") || !str_cmp(argument, "Nowy") || !str_cmp(argument, "Nowe") || !str_cmp(argument, "Nowa"))
 	{
 		if (d->newstate == 0)
 		{
@@ -287,16 +279,16 @@ void nanny_get_name(DESCRIPTOR_DATA *d, char *argument)
 			}
 
 			sprintf(buf,
-					NL
-					"                                  Witaj." NL
-					"Jesli chcesz zalozyc sobie postac, musisz wymyslic imie dla swojej postaci." NL
-					"Wybór imienia jest bardzo wazny. Postaraj sie sprawic, by w miare mozliwosci" NL
-					"nie nalezalo do istniejacych juz bohaterow Gwiezdnych Wojen. Upewnij sie, ze" NL
-					"wybierasz imie pasujace do postaci, ktora zamierzasz odgrywac i postaraj sie" NL
-					"dopasowac ja do swiata naszej gry. Jesli imie, ktore wybierzesz nie bedzie" NL
-					"zbyt ciekawe lub z jakichkolwiek innych powodow bedzie nieakceptowalne mozemy" NL
-					"poprosic Cie o wymyslenie innego imienia, wiec dobrze sie postaraj." NL NL
-					"Wybierz teraz imie dla swojej postaci: ");
+			NL
+			"                                  Witaj." NL
+			"Jesli chcesz zalozyc sobie postac, musisz wymyslic imie dla swojej postaci." NL
+			"Wybór imienia jest bardzo wazny. Postaraj sie sprawic, by w miare mozliwosci" NL
+			"nie nalezalo do istniejacych juz bohaterow Gwiezdnych Wojen. Upewnij sie, ze" NL
+			"wybierasz imie pasujace do postaci, ktora zamierzasz odgrywac i postaraj sie" NL
+			"dopasowac ja do swiata naszej gry. Jesli imie, ktore wybierzesz nie bedzie" NL
+			"zbyt ciekawe lub z jakichkolwiek innych powodow bedzie nieakceptowalne mozemy" NL
+			"poprosic Cie o wymyslenie innego imienia, wiec dobrze sie postaraj." NL NL
+			"Wybierz teraz imie dla swojej postaci: ");
 			write_to_buffer(d, buf, 0);
 			d->newstate++;
 			d->connected = CON_GET_NAME;
@@ -304,8 +296,7 @@ void nanny_get_name(DESCRIPTOR_DATA *d, char *argument)
 		}
 		else
 		{
-			write_to_buffer(d,
-					"Nieprawidlowe imie, sprobuj podac inne." NL "Imie: ", 0);
+			write_to_buffer(d, "Nieprawidlowe imie, sprobuj podac inne." NL "Imie: ", 0);
 			return;
 		}
 	}
@@ -333,12 +324,10 @@ void nanny_get_name(DESCRIPTOR_DATA *d, char *argument)
 	{
 		if (!reg_cmp(pban->name, d->host) && pban->level >= get_trust(ch))
 		{
-			write_to_buffer(d,
-					"Ten adres zostal zbanowany. Nie masz dostepu." NL, 0);
+			write_to_buffer(d, "Ten adres zostal zbanowany. Nie masz dostepu." NL, 0);
 			close_socket(d, false);
 			free_char(d->character);
-			sprintf(log_buf, "Rejected banned user from: %s, related ban: %s",
-					d->host, pban->name);
+			sprintf(log_buf, "Rejected banned user from: %s, related ban: %s", d->host, pban->name);
 			log_string_plus(log_buf, LOG_COMM, sysdata.log_level);
 			return;
 		}
@@ -373,9 +362,7 @@ void nanny_get_name(DESCRIPTOR_DATA *d, char *argument)
 		fOld = true;
 	else if (wizlock && !IS_IMMORTAL(ch))
 	{
-		write_to_buffer(d,
-				"Gra jest zamknieta dla graczy. Moga laczyc sie tylko administratorzy." NL,
-				0);
+		write_to_buffer(d, "Gra jest zamknieta dla graczy. Moga laczyc sie tylko administratorzy." NL, 0);
 		write_to_buffer(d, "Sprobuj za jakis czas." NL, 0);
 		close_socket(d, false);
 		free_char(d->character);
@@ -386,9 +373,7 @@ void nanny_get_name(DESCRIPTOR_DATA *d, char *argument)
 	{
 		if (d->newstate != 0)
 		{
-			write_to_buffer(d,
-					"Taki gracz juz niestety istnieje." NL "Wybierz inne imie: ",
-					0);
+			write_to_buffer(d, "Taki gracz juz niestety istnieje." NL "Wybierz inne imie: ", 0);
 			d->connected = CON_GET_NAME;
 			d->character->desc = NULL;
 			free_char(d->character); /* Big Memory Leak before --Shaddai */
@@ -439,8 +424,7 @@ void nanny_get_old_password(DESCRIPTOR_DATA *d, char *argument)
 		write_to_buffer(d, "Bledne haslo." NL, 0);
 		if (++d->pass_try > MAX_PASS_TRY)
 		{
-			write_to_descriptor(d->descriptor,
-					"Wroc moze jak poznasz to haslo." NL, 0);
+			write_to_descriptor(d->descriptor, "Wroc moze jak poznasz to haslo." NL, 0);
 			/* clear descriptor pointer to get rid of bug message in log */
 			d->character->desc = NULL;
 			close_socket(d, true);
@@ -554,14 +538,9 @@ void nanny_get_new_colour(DESCRIPTOR_DATA *d, char *argument)
 	}
 
 	send_to_char(
-	NL "Oto lista dostepnych standardow kodowania polskich znakow:" NL NL,
-			d->character);
-	write_to_buffer(d,
-			"[I]SO       - polskie znaki w standardzie ISO-8859-2. (UNIX)" NL,
-			0);
-	write_to_buffer(d,
-			"[W]IN       - polskie znaki w standardzie CP-1250. (Windows)" NL,
-			0);
+	NL "Oto lista dostepnych standardow kodowania polskich znakow:" NL NL, d->character);
+	write_to_buffer(d, "[I]SO       - polskie znaki w standardzie ISO-8859-2. (UNIX)" NL, 0);
+	write_to_buffer(d, "[W]IN       - polskie znaki w standardzie CP-1250. (Windows)" NL, 0);
 	write_to_buffer(d, "[N]OPOL     - nie masz polskich znakow." NL, 0);
 	send_to_char( NL "Wybierz typ kodowania polskich znakow: ", ch);
 
@@ -587,23 +566,16 @@ void nanny_get_char_set(DESCRIPTOR_DATA *d, char *argument)
 		break;
 	default:
 		send_to_char(
-		NL "Oto lista dostepnych standardow kodowania polskich znakow:" NL NL,
-				d->character);
-		write_to_buffer(d,
-				"[I]SO       - polskie znaki w standardzie ISO-8859-2. (UNIX)" NL,
-				0);
-		write_to_buffer(d,
-				"[W]IN       - polskie znaki w standardzie CP-1250. (Windows)" NL,
-				0);
+		NL "Oto lista dostepnych standardow kodowania polskich znakow:" NL NL, d->character);
+		write_to_buffer(d, "[I]SO       - polskie znaki w standardzie ISO-8859-2. (UNIX)" NL, 0);
+		write_to_buffer(d, "[W]IN       - polskie znaki w standardzie CP-1250. (Windows)" NL, 0);
 		write_to_buffer(d, "[N]OPOL     - nie masz polskich znakow." NL, 0);
-		send_to_char( NL "Wybierz typ kodowania polskich znakow: ",
-				d->character);
+		send_to_char( NL "Wybierz typ kodowania polskich znakow: ", d->character);
 		return;
 	}
 	write_to_buffer(d, NL "Test polskich znaków:" NL, 0);
 	write_to_buffer(d, NL "[-¡-±-Æ-æ-Ê-ê-£-³-Ñ-ñ-Ó-ó-¦-¶-¯-¿-¬-¼-]" NL, 0);
-	write_to_buffer(d, NL "Czy polskie znaki wy¶wietlane s± poprawnie? (T/N): ",
-			0);
+	write_to_buffer(d, NL "Czy polskie znaki wy¶wietlane s± poprawnie? (T/N): ", 0);
 	d->connected = CON_CHECK_CHAR_SET;
 }
 
@@ -619,17 +591,11 @@ void nanny_check_char_set(DESCRIPTOR_DATA *d, char *argument)
 		break;
 	default:
 		send_to_char(
-		NL "Oto lista dostepnych standardow kodowania polskich znakow:" NL NL,
-				d->character);
-		write_to_buffer(d,
-				"[I]SO       - polskie znaki w standardzie ISO-8859-2. (UNIX)" NL,
-				0);
-		write_to_buffer(d,
-				"[W]IN       - polskie znaki w standardzie CP-1250. (Windows)" NL,
-				0);
+		NL "Oto lista dostepnych standardow kodowania polskich znakow:" NL NL, d->character);
+		write_to_buffer(d, "[I]SO       - polskie znaki w standardzie ISO-8859-2. (UNIX)" NL, 0);
+		write_to_buffer(d, "[W]IN       - polskie znaki w standardzie CP-1250. (Windows)" NL, 0);
 		write_to_buffer(d, "[N]OPOL     - nie masz polskich znakow." NL, 0);
-		send_to_char( NL "Wybierz typ kodowania polskich znakow: ",
-				d->character);
+		send_to_char( NL "Wybierz typ kodowania polskich znakow: ", d->character);
 		d->connected = CON_GET_CHAR_SET;
 		return;
 	}
@@ -699,33 +665,27 @@ void nanny_wprowadzenie(DESCRIPTOR_DATA *d, char *argument)
 	char buf[MSL];
 
 	send_to_char(
-			CLRSCR NL
-			FG_GREEN "*" PLAIN " " FB_GREEN "WYBÓR RASY" PLAIN " " FG_GREEN "*" EOL NL
-			FG_GREEN "¦wiat Star-Wars, a w takim ¶wiecie dzieje siê akcja naszej gry, sk³ada" EOL
-			FG_GREEN "siê z " FB_WHITE "PLANET" FG_GREEN ", na których ¿yj± przedstawiciele ró¿nych " FB_WHITE "RAS" FG_GREEN ". Ka¿da z nich" EOL
-			FG_GREEN "posiada unikalne dla niej " FB_WHITE "CECHY" FG_GREEN " i " FB_WHITE "ATRYBUTY" FG_GREEN ". Twoja postaæ mo¿e staæ siê" EOL
-			FG_GREEN "przedstawicielem jednej z nich staj±c siê w ten sposób czê¶ci± naszego ¦WIATA." EOL,
-			d->character);
+	CLRSCR NL
+	FG_GREEN "*" PLAIN " " FB_GREEN "WYBÓR RASY" PLAIN " " FG_GREEN "*" EOL NL
+	FG_GREEN "¦wiat Star-Wars, a w takim ¶wiecie dzieje siê akcja naszej gry, sk³ada" EOL
+	FG_GREEN "siê z " FB_WHITE "PLANET" FG_GREEN ", na których ¿yj± przedstawiciele ró¿nych " FB_WHITE "RAS" FG_GREEN ". Ka¿da z nich" EOL
+	FG_GREEN "posiada unikalne dla niej " FB_WHITE "CECHY" FG_GREEN " i " FB_WHITE "ATRYBUTY" FG_GREEN ". Twoja postaæ mo¿e staæ siê" EOL
+	FG_GREEN "przedstawicielem jednej z nich staj±c siê w ten sposób czê¶ci± naszego ¦WIATA." EOL, d->character);
 
-	send_to_char( EOL FG_GREEN "Wybierz zatem rasê swojej postaci:" EOL NL,
-			d->character);
+	send_to_char( EOL FG_GREEN "Wybierz zatem rasê swojej postaci:" EOL NL, d->character);
 
-	send_to_char(
-			"[ " FB_WHITE "1" PLAIN "] " FB_BLUE "Cz³owiek            " PLAIN " ",
-			ch);
+	send_to_char("[ " FB_WHITE "1" PLAIN "] " FB_BLUE "Cz³owiek            " PLAIN " ", ch);
 	FOREACH( race, first_race )
 	{
 		if (!IS_SET(race->flags, FRACE_PC_AVAIL))
 			continue;
 
 		i++;
-		sprintf(buf, "[" FB_WHITE "%2d" PLAIN "] " FB_BLUE "%-20s" PLAIN "%s",
-				i, race->przypadki[0], i % 3 == 0 ? NL : " ");
+		sprintf(buf, "[" FB_WHITE "%2d" PLAIN "] " FB_BLUE "%-20s" PLAIN "%s", i, race->przypadki[0], i % 3 == 0 ? NL : " ");
 		send_to_char(buf, ch);
 	}
 
-	send_to_char( EOL NL FG_BLUE "Jaki jest twój wybór?" PLAIN " ",
-			d->character);
+	send_to_char( EOL NL FG_BLUE "Jaki jest twój wybór?" PLAIN " ", d->character);
 	d->connected = CON_GET_NEW_RACE;
 }
 
@@ -739,8 +699,7 @@ void nanny_old_pass_to_change(DESCRIPTOR_DATA *d, char *argument)
 		send_to_char("Z³e has³o. Poczekaj 10 sekund." NL, ch);
 		d->connected = CON_PLAYING;
 		write_to_buffer(d, echo_on_str, 0);
-		sprintf(log_buf, "%s!%s@%s bad password to change.", ch->name, d->user,
-				d->host);
+		sprintf(log_buf, "%s!%s@%s bad password to change.", ch->name, d->user, d->host);
 		log_string(log_buf);
 	}
 	else
@@ -772,9 +731,8 @@ void nanny_new_pass_to_change(DESCRIPTOR_DATA *d, char *argument)
 	{
 		if (*p == '~')
 		{
-			write_to_buffer(d,
-					"Przykro mi, ale nowe has³o nie mo¿e zostaæ zaakceptowane, podaj inne." NL
-					"Has³o: ", 0);
+			write_to_buffer(d, "Przykro mi, ale nowe has³o nie mo¿e zostaæ zaakceptowane, podaj inne." NL
+			"Has³o: ", 0);
 			return;
 		}
 	}
@@ -806,9 +764,8 @@ void nanny_get_new_password(DESCRIPTOR_DATA *d, char *argument)
 	{
 		if (*p == '~')
 		{
-			write_to_buffer(d,
-					"Przykro mi, ale nowe has³o nie mo¿e zostaæ zaakceptowane, podaj inne." NL
-					"Has³o: ", 0);
+			write_to_buffer(d, "Przykro mi, ale nowe has³o nie mo¿e zostaæ zaakceptowane, podaj inne." NL
+			"Has³o: ", 0);
 			return;
 		}
 	}
@@ -882,9 +839,8 @@ void nanny_get_new_sex(DESCRIPTOR_DATA *d, char *argument)
 		break;
 	default:
 		send_to_char(
-				FG_BLUE
-				"To nie jest p³eæ. Jak± chcesz mieæ " FG_GREEN "P£EÆ" FG_BLUE "?" PLAIN " ",
-				d->character);
+		FG_BLUE
+		"To nie jest p³eæ. Jak± chcesz mieæ " FG_GREEN "P£EÆ" FG_BLUE "?" PLAIN " ", d->character);
 		return;
 	}
 
@@ -892,15 +848,14 @@ void nanny_get_new_sex(DESCRIPTOR_DATA *d, char *argument)
 	send_to_char( CLRSCR, ch);
 
 	send_to_char(
-			FB_GREEN "* WYBÓR ZDOLNO¦CI *" EOL EOL
-			FG_GREEN "S³awê i Chwa³ê mo¿na osi±gn±æ na wiele sposobów, jednak tylko nielicznym" EOL
-			FG_GREEN "udaje siê dost±piæ tego zaszczytu. Aby bramy " FB_WHITE "MOCY" FG_GREEN " otworzy³y siê przed" EOL
-			FG_GREEN "Tob±, przydatnym wydaæ siê mo¿e wybór odpowiedniej " FB_WHITE "ZDOLNO¦CI PODSTAWOWEJ" EOL
-			FG_GREEN "Mimo, ¿e na naszym mudzie obowi±zuje " FB_WHITE "MULTIKLASOWO¦Æ" FG_GREEN " i twoja postaæ bêdzie" EOL
-			FG_GREEN "posiada³a zdolno¶ci WSZYSTKICH klas, to od zdolno¶ci podstawowej zale¿y, jaki" EOL
-			FG_GREEN "kierunek obierzesz w tej d³ugiej i krêtej DRODZE." EOL
-			FG_GREEN "Plotki g³osz±, ¿e niektórzy rodz± siê posiadaj±c jeszcze inn± zdolno¶æ..." EOL,
-			d->character);
+	FB_GREEN "* WYBÓR ZDOLNO¦CI *" EOL EOL
+	FG_GREEN "S³awê i Chwa³ê mo¿na osi±gn±æ na wiele sposobów, jednak tylko nielicznym" EOL
+	FG_GREEN "udaje siê dost±piæ tego zaszczytu. Aby bramy " FB_WHITE "MOCY" FG_GREEN " otworzy³y siê przed" EOL
+	FG_GREEN "Tob±, przydatnym wydaæ siê mo¿e wybór odpowiedniej " FB_WHITE "ZDOLNO¦CI PODSTAWOWEJ" EOL
+	FG_GREEN "Mimo, ¿e na naszym mudzie obowi±zuje " FB_WHITE "MULTIKLASOWO¦Æ" FG_GREEN " i twoja postaæ bêdzie" EOL
+	FG_GREEN "posiada³a zdolno¶ci WSZYSTKICH klas, to od zdolno¶ci podstawowej zale¿y, jaki" EOL
+	FG_GREEN "kierunek obierzesz w tej d³ugiej i krêtej DRODZE." EOL
+	FG_GREEN "Plotki g³osz±, ¿e niektórzy rodz± siê posiadaj±c jeszcze inn± zdolno¶æ..." EOL, d->character);
 
 	send_to_char( EOL FG_GREEN "Wybierz teraz zdolno¶æ:" EOL, d->character);
 	strcpy(buf, EOL "[" FB_WHITE " 1" PLAIN "] " FB_BLUE);
@@ -912,14 +867,12 @@ void nanny_get_new_sex(DESCRIPTOR_DATA *d, char *argument)
 			continue;
 
 		if (iClass > 0)
-			sprintf(buf, EOL "[" FB_WHITE "%2d" PLAIN "] " FB_BLUE,
-					(iClass + 1));
+			sprintf(buf, EOL "[" FB_WHITE "%2d" PLAIN "] " FB_BLUE, (iClass + 1));
 		strcat(buf, class_table[iClass].przypadki[0]);
 		send_to_char(buf, ch);
 	}
 
-	send_to_char( EOL NL FG_BLUE "Jaki jest twój wybór?" PLAIN " ",
-			d->character);
+	send_to_char( EOL NL FG_BLUE "Jaki jest twój wybór?" PLAIN " ", d->character);
 	d->connected = CON_GET_NEW_CLASS;
 }
 
@@ -936,14 +889,11 @@ void nanny_get_new_race(DESCRIPTOR_DATA *d, char *argument)
 	if (!str_cmp(arg, "help"))
 	{
 		do_help(ch, argument);
-		send_to_char( EOL FG_BLUE "Jaki jest twój wybór?" PLAIN " ",
-				d->character);
+		send_to_char( EOL FG_BLUE "Jaki jest twój wybór?" PLAIN " ", d->character);
 		return;
 	}
 
-	if ((atoi(arg) == 1)
-			|| (toupper(arg[0]) == toupper(base_race->przypadki[0][0])
-					&& !str_prefix(arg, base_race->przypadki[0])))
+	if ((atoi(arg) == 1) || (toupper(arg[0]) == toupper(base_race->przypadki[0][0]) && !str_prefix(arg, base_race->przypadki[0])))
 	{
 		ch->race = base_race;
 		found = true;
@@ -955,9 +905,7 @@ void nanny_get_new_race(DESCRIPTOR_DATA *d, char *argument)
 				continue;
 
 			i++;
-			if ((atoi(arg) == i)
-					|| (toupper(arg[0]) == toupper(race->przypadki[0][0])
-							&& !str_prefix(arg, race->przypadki[0])))
+			if ((atoi(arg) == i) || (toupper(arg[0]) == toupper(race->przypadki[0][0]) && !str_prefix(arg, race->przypadki[0])))
 			{
 				ch->race = race;
 				found = true;
@@ -968,9 +916,8 @@ void nanny_get_new_race(DESCRIPTOR_DATA *d, char *argument)
 	if (!found)
 	{
 		send_to_char(
-				EOL FG_BLUE
-				"To nie jest rasa. Jak± " FG_GREEN "RASÊ" FG_BLUE " chcesz wybraæ?" PLAIN " ",
-				d->character);
+		EOL FG_BLUE
+		"To nie jest rasa. Jak± " FG_GREEN "RASÊ" FG_BLUE " chcesz wybraæ?" PLAIN " ", d->character);
 		return;
 	}
 
@@ -978,8 +925,8 @@ void nanny_get_new_race(DESCRIPTOR_DATA *d, char *argument)
 //	do_help( ch, (char *)(ch->race->name) );
 
 	ch_printf(ch,
-			EOL FG_BLUE "Czy na pewno chcesz byæ " FB_WHITE "%s" FG_BLUE "? (" FB_BLUE "T" FG_BLUE "/" FB_BLUE "N" FG_BLUE "):" PLAIN " ",
-			IS_RACE(ch, "HUMAN") ? "Cz³owiekiem" : ch->race->przypadki[4]);
+	EOL FG_BLUE "Czy na pewno chcesz byæ " FB_WHITE "%s" FG_BLUE "? (" FB_BLUE "T" FG_BLUE "/" FB_BLUE "N" FG_BLUE "):" PLAIN " ",
+	IS_RACE(ch, "HUMAN") ? "Cz³owiekiem" : ch->race->przypadki[4]);
 	d->connected = CON_CONFIRM_NEW_RACE;
 }
 
@@ -1000,23 +947,18 @@ void nanny_confirm_new_race(DESCRIPTOR_DATA *d, char *argument)
 	default:
 		send_to_char( EOL FG_GREEN "Wybierz rasê:" EOL NL, d->character);
 
-		send_to_char(
-				"[ " FB_WHITE "1" PLAIN "] " FB_BLUE "Cz³owiek            " PLAIN " ",
-				ch);
+		send_to_char("[ " FB_WHITE "1" PLAIN "] " FB_BLUE "Cz³owiek            " PLAIN " ", ch);
 		FOREACH( race, first_race )
 		{
 			if (!IS_SET(race->flags, FRACE_PC_AVAIL))
 				continue;
 
 			i++;
-			sprintf(buf,
-					"[" FB_WHITE "%2d" PLAIN "] " FB_BLUE "%-20s" PLAIN "%s", i,
-					race->przypadki[0], i % 3 == 0 ? NL : " ");
+			sprintf(buf, "[" FB_WHITE "%2d" PLAIN "] " FB_BLUE "%-20s" PLAIN "%s", i, race->przypadki[0], i % 3 == 0 ? NL : " ");
 			send_to_char(buf, ch);
 		}
 
-		send_to_char( EOL NL FG_BLUE "Jaki jest twój wybór?" PLAIN " ",
-				d->character);
+		send_to_char( EOL NL FG_BLUE "Jaki jest twój wybór?" PLAIN " ", d->character);
 
 		d->connected = CON_GET_NEW_RACE;
 		return;
@@ -1024,23 +966,20 @@ void nanny_confirm_new_race(DESCRIPTOR_DATA *d, char *argument)
 
 	send_to_char( CLRSCR, ch);
 
-	send_to_char(
-			" " FB_GREEN "*" PLAIN " " FG_GREEN "WYBÓR P£CI" PLAIN " " FB_GREEN "*" EOL NL
-			FG_GREEN "Teraz mo¿esz wybraæ " FB_WHITE "P£EÆ" FG_GREEN " twojej postaci. Mimo, ¿e wybór ten" EOL
-			FG_GREEN "nie ma bezpo¶redniego wp³ywu na przebieg gry. Dobrze jest wybraæ" EOL
-			FG_GREEN "tak±, jaka najbardziej pasuje do postaci, któr± chcesz odgrywaæ." EOL
-			FG_GREEN "Pamiêtaj jednak, ¿e w pó¼niejszej grze mog± zdarzyæ siê sytuacje, ¿e" EOL
-			FG_GREEN "p³eæ twojej postaci mo¿e siê " FB_WHITE "ZMIENIÆ" FG_GREEN ". Nie martw siê jednak," EOL
-			FG_GREEN "bo w ¶wiecie " FB_WHITE "STAR-WARS" FG_GREEN " wszystko jest mo¿liwe." EOL,
-			d->character);
+	send_to_char(" " FB_GREEN "*" PLAIN " " FG_GREEN "WYBÓR P£CI" PLAIN " " FB_GREEN "*" EOL NL
+	FG_GREEN "Teraz mo¿esz wybraæ " FB_WHITE "P£EÆ" FG_GREEN " twojej postaci. Mimo, ¿e wybór ten" EOL
+	FG_GREEN "nie ma bezpo¶redniego wp³ywu na przebieg gry. Dobrze jest wybraæ" EOL
+	FG_GREEN "tak±, jaka najbardziej pasuje do postaci, któr± chcesz odgrywaæ." EOL
+	FG_GREEN "Pamiêtaj jednak, ¿e w pó¼niejszej grze mog± zdarzyæ siê sytuacje, ¿e" EOL
+	FG_GREEN "p³eæ twojej postaci mo¿e siê " FB_WHITE "ZMIENIÆ" FG_GREEN ". Nie martw siê jednak," EOL
+	FG_GREEN "bo w ¶wiecie " FB_WHITE "STAR-WARS" FG_GREEN " wszystko jest mo¿liwe." EOL, d->character);
 
 	send_to_char(
-			EOL FG_GREEN "Wybierz p³eæ:" EOL NL
-			"[" FB_WHITE "1" PLAIN "] "
-			FB_BLUE "Mê¿czyzna" FG_BLUE "     - Silny, odwa¿ny i honorowy." EOL
-			"[" FB_WHITE "2" PLAIN "] "
-			FB_BLUE "Kobieta  " FG_BLUE "     - Nieco s³absza fizycznie, ale ten urok..." EOL,
-			d->character);
+	EOL FG_GREEN "Wybierz p³eæ:" EOL NL
+	"[" FB_WHITE "1" PLAIN "] "
+	FB_BLUE "Mê¿czyzna" FG_BLUE "     - Silny, odwa¿ny i honorowy." EOL
+	"[" FB_WHITE "2" PLAIN "] "
+	FB_BLUE "Kobieta  " FG_BLUE "     - Nieco s³absza fizycznie, ale ten urok..." EOL, d->character);
 	send_to_char( EOL FG_BLUE "Jaki jest twój wybór?" PLAIN " ", d->character);
 
 	d->connected = CON_GET_NEW_SEX;
@@ -1056,8 +995,7 @@ void nanny_get_new_class(DESCRIPTOR_DATA *d, char *argument)
 	if (!str_cmp(arg, "help"))
 	{
 		do_help(ch, argument);
-		send_to_char( EOL FG_BLUE "Jaki jest twój wybór?" PLAIN " ",
-				d->character);
+		send_to_char( EOL FG_BLUE "Jaki jest twój wybór?" PLAIN " ", d->character);
 		return;
 	}
 
@@ -1068,17 +1006,14 @@ void nanny_get_new_class(DESCRIPTOR_DATA *d, char *argument)
 			continue;
 
 		if ((atoi(arg) == iClass + 1)
-				|| (toupper(arg[0])
-						== toupper(class_table[iClass].przypadki[0][0])
-						|| !str_prefix(arg, class_table[iClass].przypadki[0])))
+				|| (toupper(arg[0]) == toupper(class_table[iClass].przypadki[0][0]) || !str_prefix(arg, class_table[iClass].przypadki[0])))
 		{
 			ch->main_ability = iClass;
 			break;
 		}
 	}
 
-	if (iClass == MAX_ABILITY || !class_table[iClass].przypadki[0]
-			|| class_table[iClass].przypadki[0][0] == '\0')
+	if (iClass == MAX_ABILITY || !class_table[iClass].przypadki[0] || class_table[iClass].przypadki[0][0] == '\0')
 	{
 		send_to_char( FG_BLUE
 		"To nie jest zdolno¶æ. Jak± " FG_GREEN "ZDOLNO¦Æ" FG_BLUE
@@ -1087,8 +1022,7 @@ void nanny_get_new_class(DESCRIPTOR_DATA *d, char *argument)
 	}
 
 	ch_printf(ch,
-			NL FG_BLUE "Czy napewno chcesz by to by³a twoja zdolno¶æ podstawowa? (&BT&b/&BN&b):&w ",
-			0);
+	NL FG_BLUE "Czy napewno chcesz by to by³a twoja zdolno¶æ podstawowa? (&BT&b/&BN&b):&w ", 0);
 	d->connected = CON_CONFIRM_CLASS;
 }
 
@@ -1115,28 +1049,24 @@ void nanny_confirm_class(DESCRIPTOR_DATA *d, char *argument)
 				continue;
 
 			if (iClass > 0)
-				sprintf(buf, EOL "[" FB_WHITE "%2d" PLAIN "] " FB_BLUE,
-						(iClass + 1));
+				sprintf(buf, EOL "[" FB_WHITE "%2d" PLAIN "] " FB_BLUE, (iClass + 1));
 
 			strcat(buf, class_table[iClass].przypadki[0]);
 			send_to_char(buf, ch);
 		}
-		send_to_char( EOL NL FG_BLUE "Jaki jest twój wybór?" PLAIN " ",
-				d->character);
+		send_to_char( EOL NL FG_BLUE "Jaki jest twój wybór?" PLAIN " ", d->character);
 		d->connected = CON_GET_NEW_CLASS;
 		return;
 	}
 
 	send_to_char(
-			CLRSCR NL
-			FB_GREEN "*" FG_GREEN " ODMIANA IMIENIA " FB_GREEN "*" EOL NL
-			FG_GREEN "Nasz MUD jest gr± " FB_WHITE "POLSK¡" FG_GREEN ". Zosta³ stworzony w Polsce i przez Polaków." EOL
-			FG_GREEN "Oznacza to, ¿e imiona graczy bior±cych udzia³ w grze powinny zostaæ" EOL
-			FB_WHITE "PRAWID£OWO" FG_GREEN " odmienione przez " FB_WHITE "PRZYPADKI" FG_GREEN "." EOL,
-			d->character);
+	CLRSCR NL
+	FB_GREEN "*" FG_GREEN " ODMIANA IMIENIA " FB_GREEN "*" EOL NL
+	FG_GREEN "Nasz MUD jest gr± " FB_WHITE "POLSK¡" FG_GREEN ". Zosta³ stworzony w Polsce i przez Polaków." EOL
+	FG_GREEN "Oznacza to, ¿e imiona graczy bior±cych udzia³ w grze powinny zostaæ" EOL
+	FB_WHITE "PRAWID£OWO" FG_GREEN " odmienione przez " FB_WHITE "PRZYPADKI" FG_GREEN "." EOL, d->character);
 
-	send_to_char( FG_GREEN "Wprowad¼ wiêc odmianê imienia swojej postaci:" EOL,
-			ch);
+	send_to_char( FG_GREEN "Wprowad¼ wiêc odmianê imienia swojej postaci:" EOL, ch);
 
 	STRDUP(ch->przypadki[0], ch->name);
 	ch_printf(ch, NL FG_BLUE "%s " FB_WHITE "%s" EOL, inf_name(0), ch->name);
@@ -1246,15 +1176,14 @@ case 'T':
 case 'y':
 case 'Y':
 	send_to_char(
-			CLRSCR NL
-			NL FB_GREEN "*" FG_GREEN " LOSOWANIE ATRYBUTÓW " FB_GREEN "*" EOL NL
-			FG_GREEN "Nasz mud wylosuje ci teraz " FB_WHITE "ATRYBUTY" FG_GREEN ". S± one bardzo wa¿nym elementem gry, bo" EOL
-			FG_GREEN "to od nich zale¿eæ bêdzie wizerunek twojej postaci oraz stopieñ przyswajania" EOL
-			FG_GREEN "sobie " FB_WHITE "ZDOLNO¦CI" FG_GREEN ". Zastanów siê, jak± postac chcesz odgrywaæ i który z sze¶ciu " EOL
-			FG_GREEN "poni¿szych ATRYBUTÓW bêdzie dla ciebie najwa¿niejszy. Mo¿esz niezgodziæ siê z" EOL
-			FG_GREEN "wynikiem losowania, nasz mud powtórzy je do skutku. Nie licz jednak na to, ¿e" EOL
-			FG_GREEN "wszystkie z nich bêd± na wysokim poziomie. W koñcu 'Co¶ za co¶' ;-)" EOL,
-			ch);
+	CLRSCR NL
+	NL FB_GREEN "*" FG_GREEN " LOSOWANIE ATRYBUTÓW " FB_GREEN "*" EOL NL
+	FG_GREEN "Nasz mud wylosuje ci teraz " FB_WHITE "ATRYBUTY" FG_GREEN ". S± one bardzo wa¿nym elementem gry, bo" EOL
+	FG_GREEN "to od nich zale¿eæ bêdzie wizerunek twojej postaci oraz stopieñ przyswajania" EOL
+	FG_GREEN "sobie " FB_WHITE "ZDOLNO¦CI" FG_GREEN ". Zastanów siê, jak± postac chcesz odgrywaæ i który z sze¶ciu " EOL
+	FG_GREEN "poni¿szych ATRYBUTÓW bêdzie dla ciebie najwa¿niejszy. Mo¿esz niezgodziæ siê z" EOL
+	FG_GREEN "wynikiem losowania, nasz mud powtórzy je do skutku. Nie licz jednak na to, ¿e" EOL
+	FG_GREEN "wszystkie z nich bêd± na wysokim poziomie. W koñcu 'Co¶ za co¶' ;-)" EOL, ch);
 	break;
 
 default:
@@ -1289,13 +1218,11 @@ default:
 	ch_printf(ch, NL NL "      " FB_BLUE
 	"Charyzma:    " FB_WHITE "%2d     " FB_BLUE
 	"Inteligencja:" FB_WHITE "%2d     " FB_BLUE
-	"M±dro¶æ:     " FB_WHITE "%2d" EOL, ch->perm_cha, ch->perm_int,
-			ch->perm_wis);
+	"M±dro¶æ:     " FB_WHITE "%2d" EOL, ch->perm_cha, ch->perm_int, ch->perm_wis);
 	ch_printf(ch, "      " FB_BLUE
 	"Zrêczno¶æ:   " FB_WHITE "%2d     " FB_BLUE
 	"Kondycja:    " FB_WHITE "%2d     " FB_BLUE
-	"Si³a:        " FB_WHITE "%2d" EOL NL, ch->perm_dex, ch->perm_con,
-			ch->perm_str);
+	"Si³a:        " FB_WHITE "%2d" EOL NL, ch->perm_dex, ch->perm_con, ch->perm_str);
 
 	ch_printf(ch, NL FG_BLUE "Czy takie warto¶ci ciê zadowalaj±? "
 	"(" FB_BLUE "T" FG_BLUE "/" FB_BLUE "N" FG_BLUE "):" PLAIN " ");
@@ -1313,7 +1240,8 @@ void show_look_groups(CHAR_DATA *ch)
 	{
 		ch_printf(ch, FG_GREEN " Jeste¶ rozpoznawan%s jako : " FG_YELLOW,
 		MALE(ch) ? "y" : "a");
-		ch_printf(ch, format_char_attribute1(ch, 0).c_str());
+		const SWString &attrib = format_char_attribute1(ch, 0);
+		ch_printf(ch, attrib.c_str());
 		ch_printf(ch, EOL);
 	}
 	ch_printf(ch, NL FG_GREEN " Wybierz jedn± z grup:" NL NL " ");
@@ -1323,8 +1251,7 @@ void show_look_groups(CHAR_DATA *ch)
 		if (pRace->desc_restrictions[index] == 0)
 			continue;
 
-		if (ch->attribute2 != INT_MIN && ch->attribute2 / 100 == FUR
-				&& index == FUR)
+		if (ch->attribute2 != INT_MIN && ch->attribute2 / 100 == FUR && index == FUR)
 			continue;
 
 		splitCounter++;
@@ -1351,12 +1278,12 @@ void show_look_traits(CHAR_DATA *ch, int index)
 	{
 		ch_printf(ch, NL FG_GREEN " Jeste¶ rozpoznawan%s jako : " FG_YELLOW,
 		MALE(ch) ? "y" : "a");
-		ch_printf(ch, format_char_attribute1(ch, 0).c_str());
+		const SWString &attrib = format_char_attribute1(ch, 0);
+		ch_printf(ch, attrib.c_str());
 		ch_printf(ch, EOL NL);
 	}
 	ch_printf(ch,
-	FG_GREEN " Cechy wygl±du zebrane w kategorii " FG_YELLOW "%s." EOL NL,
-			category_desc[descGroup]);
+	FG_GREEN " Cechy wygl±du zebrane w kategorii " FG_YELLOW "%s." EOL NL, category_desc[descGroup]);
 
 	for (descItem = 0, splitCounter = 0; descItem < 61; descItem++)
 	{
@@ -1366,12 +1293,10 @@ void show_look_traits(CHAR_DATA *ch, int index)
 			continue;
 
 		splitCounter++;
-		sprintf(buf, FG_YELLOW "%s" PLAIN,
-				char_attribute((desc_type) descGroup, descItem, ch->sex, 0).c_str());
+		const SWString &attrib = char_attribute((desc_type) descGroup, descItem, ch->sex, 0);
+		sprintf(buf, FG_YELLOW "%s" PLAIN, attrib.c_str());
 		if (splitCounter == 1)
-			sprintf(buf, FG_YELLOW " %s" PLAIN,
-					char_attribute((desc_type) descGroup, descItem, ch->sex,
-							0).c_str());
+			sprintf(buf, FG_YELLOW " %s" PLAIN, attrib.c_str());
 		count = 26 - strlen(buf);
 		if (splitCounter == 1)
 			count++;
@@ -1399,18 +1324,12 @@ void nanny_stats_ok(DESCRIPTOR_DATA *d, char *argument)
 #if defined( ARMAGEDDON )
 	roll_stats( ch );
 #else
-		ch->perm_str = number_range(1, 6) + number_range(1, 6)
-				+ number_range(1, 6);
-		ch->perm_int = number_range(3, 6) + number_range(1, 6)
-				+ number_range(1, 6);
-		ch->perm_wis = number_range(3, 6) + number_range(1, 6)
-				+ number_range(1, 6);
-		ch->perm_dex = number_range(3, 6) + number_range(1, 6)
-				+ number_range(1, 6);
-		ch->perm_con = number_range(3, 6) + number_range(1, 6)
-				+ number_range(1, 6);
-		ch->perm_cha = number_range(3, 6) + number_range(1, 6)
-				+ number_range(1, 6);
+		ch->perm_str = number_range(1, 6) + number_range(1, 6) + number_range(1, 6);
+		ch->perm_int = number_range(3, 6) + number_range(1, 6) + number_range(1, 6);
+		ch->perm_wis = number_range(3, 6) + number_range(1, 6) + number_range(1, 6);
+		ch->perm_dex = number_range(3, 6) + number_range(1, 6) + number_range(1, 6);
+		ch->perm_con = number_range(3, 6) + number_range(1, 6) + number_range(1, 6);
+		ch->perm_cha = number_range(3, 6) + number_range(1, 6) + number_range(1, 6);
 
 		ch->perm_str += ch->race->str_plus;
 		ch->perm_int += ch->race->int_plus;
@@ -1422,13 +1341,11 @@ void nanny_stats_ok(DESCRIPTOR_DATA *d, char *argument)
 		ch_printf(ch, NL NL "      " FB_BLUE
 		"Charyzma:    " FB_WHITE "%2d     " FB_BLUE
 		"Inteligencja:" FB_WHITE "%2d     " FB_BLUE
-		"M±dro¶æ:     " FB_WHITE "%2d" EOL, ch->perm_cha, ch->perm_int,
-				ch->perm_wis);
+		"M±dro¶æ:     " FB_WHITE "%2d" EOL, ch->perm_cha, ch->perm_int, ch->perm_wis);
 		ch_printf(ch, "      " FB_BLUE
 		"Zrêczno¶æ:   " FB_WHITE "%2d     " FB_BLUE
 		"Kondycja:    " FB_WHITE "%2d     " FB_BLUE
-		"Si³a:        " FB_WHITE "%2d" EOL NL, ch->perm_dex, ch->perm_con,
-				ch->perm_str);
+		"Si³a:        " FB_WHITE "%2d" EOL NL, ch->perm_dex, ch->perm_con, ch->perm_str);
 
 		ch_printf(ch, NL FG_BLUE "Czy takie warto¶ci ciê zadowalaj±? "
 		"(" FB_BLUE "T" FG_BLUE "/" FB_BLUE "N" FG_BLUE "):" PLAIN " ");
@@ -1445,10 +1362,10 @@ void nanny_stats_ok(DESCRIPTOR_DATA *d, char *argument)
 	drawlots_fevents(ch);
 
 	ch_printf(ch,
-			CLRSCR NL FB_GREEN "*" FG_GREEN " OKRE¦LENIE WYGL¡DU " FB_GREEN "*" EOL NL
-			FG_GREEN " Twoj± postaæ charakteryzuj± dwie cechy wygl±du. Tak postrzegaæ bêd± Ciê inni" NL
-			" gracze i to one bêd± Ciê spo¶ród nich wyró¿niaæ. Ka¿da z ras posiada specyficzne cechy" NL
-			" Cechy te podzielone s± na kilka grup. Wybierz najpierw grupê, potem interesuj±ca Ciê ceche" NL);
+	CLRSCR NL FB_GREEN "*" FG_GREEN " OKRE¦LENIE WYGL¡DU " FB_GREEN "*" EOL NL
+	FG_GREEN " Twoj± postaæ charakteryzuj± dwie cechy wygl±du. Tak postrzegaæ bêd± Ciê inni" NL
+	" gracze i to one bêd± Ciê spo¶ród nich wyró¿niaæ. Ka¿da z ras posiada specyficzne cechy" NL
+	" Cechy te podzielone s± na kilka grup. Wybierz najpierw grupê, potem interesuj±ca Ciê ceche" NL);
 	show_look_groups(ch);
 
 	d->connected = CON_SHOW_LOOK_TRAIT;
@@ -1467,22 +1384,20 @@ void nanny_show_look_trait(DESCRIPTOR_DATA *d, char *argument)
 
 	if (ch->attribute1 >= 0 && ch->attribute2 >= 0)
 	{
-
+		const SWString &attrib = format_char_attribute1(ch, 0);
 		ch_printf(ch,
-				CLRSCR NL FB_GREEN "*" FG_GREEN " USTALENIE HAS£A " FB_GREEN "*" EOL NL
-				FG_GREEN "Twoja postaæ zosta³a " FB_WHITE "STWORZONA" FG_GREEN ". Oto jak siê prezentuje:" EOL NL
-				FB_PINK "Nazywasz siê " FB_WHITE "%s" FB_PINK " i jeste¶ " FB_WHITE "%s" FB_PINK ", a twoj± podstawow± zdolno¶ci±" EOL
-				FB_PINK "jest " FB_WHITE "%s" FB_PINK ". Jeste¶ %s postrzegan%s jako " FB_WHITE "%s." EOL,
-				ch->name,
-				IS_RACE(ch, "HUMAN") ? "Cz³owiekiem" : CH_RACE(ch, 4), //Pixel: przypadkiF
-				class_table[ch->main_ability].przypadki[0],
-				MALE( ch ) ? "mê¿czyzn±" : "kobiet±",
-				MALE( ch ) ? "yn" : "±", format_char_attribute1(ch, 0).c_str());
+		CLRSCR NL FB_GREEN "*" FG_GREEN " USTALENIE HAS£A " FB_GREEN "*" EOL NL
+		FG_GREEN "Twoja postaæ zosta³a " FB_WHITE "STWORZONA" FG_GREEN ". Oto jak siê prezentuje:" EOL NL
+		FB_PINK "Nazywasz siê " FB_WHITE "%s" FB_PINK " i jeste¶ " FB_WHITE "%s" FB_PINK ", a twoj± podstawow± zdolno¶ci±" EOL
+		FB_PINK "jest " FB_WHITE "%s" FB_PINK ". Jeste¶ %s postrzegan%s jako " FB_WHITE "%s." EOL, ch->name,
+		IS_RACE(ch, "HUMAN") ? "Cz³owiekiem" : CH_RACE(ch, 4), //Pixel: przypadkiF
+		class_table[ch->main_ability].przypadki[0],
+		MALE( ch ) ? "mê¿czyzn±" : "kobiet±",
+		MALE( ch ) ? "yn" : "±", attrib.c_str());
 		send_to_char(
-				EOL FG_GREEN "Ostatni± rzecz±, jak± musisz wykonaæ jest wymy¶lenie trudnego do odgadniêcia" EOL
-				FB_WHITE "HAS£A" FG_GREEN ". Nasz mud zapyta Ciê o nie przy ka¿dej nastêpnej próbie zalogowania siê." EOL
-				FG_GREEN "Pomy¶l wiêc jakie ma ono byæ i dobrze je " FB_WHITE "ZAPAMIÊTAJ" FG_GREEN "!" EOL NL,
-				ch);
+		EOL FG_GREEN "Ostatni± rzecz±, jak± musisz wykonaæ jest wymy¶lenie trudnego do odgadniêcia" EOL
+		FB_WHITE "HAS£A" FG_GREEN ". Nasz mud zapyta Ciê o nie przy ka¿dej nastêpnej próbie zalogowania siê." EOL
+		FG_GREEN "Pomy¶l wiêc jakie ma ono byæ i dobrze je " FB_WHITE "ZAPAMIÊTAJ" FG_GREEN "!" EOL NL, ch);
 
 		send_to_char( EOL FG_BLUE, ch);
 		sprintf(buf, "Podaj has³o dla postaci %s: %s", ch->name, echo_off_str);
@@ -1499,8 +1414,7 @@ void nanny_show_look_trait(DESCRIPTOR_DATA *d, char *argument)
 	}
 	for (descGroup = 0; descGroup <= MAX_DESC_TYPES; descGroup++)
 	{
-		if (!strcmp(category_desc[descGroup], "Empty")
-				|| descGroup >= MAX_DESC_TYPES)
+		if (!strcmp(category_desc[descGroup], "Empty") || descGroup >= MAX_DESC_TYPES)
 		{
 			send_to_char( FG_GREEN NL "Nie ma takiej kategorii" NL, ch);
 			return;
@@ -1511,8 +1425,7 @@ void nanny_show_look_trait(DESCRIPTOR_DATA *d, char *argument)
 			break;
 	}
 
-	ch_printf(ch, FG_GREEN " Wybrana kategoria to " FG_YELLOW "%s." EOL NL,
-			category_desc[descGroup]); // moze NL?
+	ch_printf(ch, FG_GREEN " Wybrana kategoria to " FG_YELLOW "%s." EOL NL, category_desc[descGroup]); // moze NL?
 	show_look_traits(ch, descGroup);
 	send_to_char(NL, ch);
 	look_trait_group = descGroup;
@@ -1546,13 +1459,11 @@ void nanny_confirm_choice(DESCRIPTOR_DATA *d, char *argument)
 
 		for (descItem = 0; descItem < 61; descItem++)
 		{
-			if (!IS_SET(pRace->desc_restrictions[descGroup],
-					(1 << (descItem + 1))))
+			if (!IS_SET(pRace->desc_restrictions[descGroup], (1 << (descItem + 1))))
 				continue;
 
-			if (is_name_prefix(arg,
-					char_attribute((desc_type) descGroup, descItem, ch->sex,
-							0).c_str()))
+			const SWString &attrib = char_attribute((desc_type) descGroup, descItem, ch->sex, 0);
+			if (is_name_prefix(arg, attrib.c_str()))
 			{
 				//cecha wygladu znaleziona
 				bFound = true;
@@ -1594,15 +1505,15 @@ void nanny_confirm_choice(DESCRIPTOR_DATA *d, char *argument)
 		else
 			ch->attribute1 = markIndex;
 
-		if ((ch->attribute1 < 0 && ch->attribute1 != INT_MIN)
-				|| (ch->attribute2 < 0 && ch->attribute2 != INT_MIN))
+		if ((ch->attribute1 < 0 && ch->attribute1 != INT_MIN) || (ch->attribute2 < 0 && ch->attribute2 != INT_MIN))
 		{
 			ch_printf(ch,
 			NL FG_GREEN " Czy chcesz byæ rozpoznawan%s jako : " FG_YELLOW,
 			MALE(ch) ? "y" : "a");
-			ch_printf(ch, format_char_attribute1(ch, 0).c_str());
+			const SWString &attrib = format_char_attribute1(ch, 0);
+			ch_printf(ch, attrib.c_str());
 			ch_printf(ch,
-					FG_GREEN "? (" FB_GREEN "T" FG_GREEN "/" FB_GREEN "N" FG_GREEN "):");
+			FG_GREEN "? (" FB_GREEN "T" FG_GREEN "/" FB_GREEN "N" FG_GREEN "):");
 		}
 		d->connected = CON_CONFIRM_ALL_LOOK_TRAIT_CHOICE;
 	}
@@ -1625,24 +1536,22 @@ void nanny_final_confirm(DESCRIPTOR_DATA *d, char *argument)
 		}
 		if (ch->attribute1 >= 0 && ch->attribute2 >= 0)
 		{
+			const SWString &attrib = format_char_attribute1(ch, 0);
 			ch_printf(ch,
-					CLRSCR NL FB_GREEN "*" FG_GREEN " USTALENIE HAS£A " FB_GREEN "*" EOL NL
-					FG_GREEN "Twoja postaæ zosta³a " FB_WHITE "STWORZONA" FG_GREEN ". Oto jak siê prezentuje:" EOL NL
-					FB_PINK "Nazywasz siê " FB_WHITE "%s" FB_PINK " i jeste¶ " FB_WHITE "%s" FB_PINK ", a twoj± podstawow± zdolno¶ci±" EOL
-					FB_PINK "jest " FB_WHITE "%s" FB_PINK ". Jeste¶ %s postrzegan%s jako " FB_WHITE "%s." EOL,
-					ch->name, CH_RACE(ch, 4), // Pixel: przypadkiF
-					class_table[ch->main_ability].przypadki[0],
-					MALE( ch ) ? "mê¿czyzn±" : "kobiet±",
-					MALE( ch ) ? "yn" : "±", format_char_attribute1(ch, 0).c_str());
+			CLRSCR NL FB_GREEN "*" FG_GREEN " USTALENIE HAS£A " FB_GREEN "*" EOL NL
+			FG_GREEN "Twoja postaæ zosta³a " FB_WHITE "STWORZONA" FG_GREEN ". Oto jak siê prezentuje:" EOL NL
+			FB_PINK "Nazywasz siê " FB_WHITE "%s" FB_PINK " i jeste¶ " FB_WHITE "%s" FB_PINK ", a twoj± podstawow± zdolno¶ci±" EOL
+			FB_PINK "jest " FB_WHITE "%s" FB_PINK ". Jeste¶ %s postrzegan%s jako " FB_WHITE "%s." EOL, ch->name, CH_RACE(ch, 4), // Pixel: przypadkiF
+			class_table[ch->main_ability].przypadki[0],
+			MALE( ch ) ? "mê¿czyzn±" : "kobiet±",
+			MALE( ch ) ? "yn" : "±", attrib.c_str());
 			send_to_char(
-					EOL FG_GREEN "Ostatni± rzecz±, jak± musisz wykonaæ jest wymy¶lenie trudnego do odgadniêcia" EOL
-					FB_WHITE "HAS£A" FG_GREEN ". Nasz mud zapyta Ciê o nie przy ka¿dej nastêpnej próbie zalogowania siê." EOL
-					FG_GREEN "Pomy¶l wiêc jakie ma ono byæ i dobrze je " FB_WHITE "ZAPAMIÊTAJ" FG_GREEN "!" EOL NL,
-					ch);
+			EOL FG_GREEN "Ostatni± rzecz±, jak± musisz wykonaæ jest wymy¶lenie trudnego do odgadniêcia" EOL
+			FB_WHITE "HAS£A" FG_GREEN ". Nasz mud zapyta Ciê o nie przy ka¿dej nastêpnej próbie zalogowania siê." EOL
+			FG_GREEN "Pomy¶l wiêc jakie ma ono byæ i dobrze je " FB_WHITE "ZAPAMIÊTAJ" FG_GREEN "!" EOL NL, ch);
 
 			send_to_char( EOL FG_BLUE, ch);
-			sprintf(buf, "Podaj has³o dla postaci %s: %s", ch->name,
-					echo_off_str);
+			sprintf(buf, "Podaj has³o dla postaci %s: %s", ch->name, echo_off_str);
 			write_to_buffer(d, buf, 0);
 
 			d->connected = CON_GET_NEW_PASSWORD;
@@ -1664,16 +1573,15 @@ void nanny_final_confirm(DESCRIPTOR_DATA *d, char *argument)
 		d->connected = CON_CONFIRM_LOOK_TRAIT_CHOICE;
 		break;
 	default:
-		if ((ch->attribute1 < 0 && ch->attribute1 != INT_MIN)
-				|| (ch->attribute2 < 0 && ch->attribute2 != INT_MIN))
+		if ((ch->attribute1 < 0 && ch->attribute1 != INT_MIN) || (ch->attribute2 < 0 && ch->attribute2 != INT_MIN))
 		{
 			ch_printf(ch,
 			NL FG_GREEN " Czy chcesz byæ rozpoznawan%s jako : " FG_YELLOW,
 			MALE(ch) ? "y" : "a");
-			ch_printf(ch, format_char_attribute1(ch, 0).c_str());
+			const SWString &attrib = format_char_attribute1(ch, 0);
+			ch_printf(ch, attrib.c_str());
 			ch_printf(ch,
-					EOL FG_BLUE " Odpowiedz tylko " FB_BLUE "T" FG_BLUE "/" FB_BLUE "N" FG_BLUE "" PLAIN,
-					CH_RACE(ch, 4));  // Pixel: przypadkiF
+			EOL FG_BLUE " Odpowiedz tylko " FB_BLUE "T" FG_BLUE "/" FB_BLUE "N" FG_BLUE "" PLAIN, CH_RACE(ch, 4));  // Pixel: przypadkiF
 		}
 		d->connected = CON_CONFIRM_ALL_LOOK_TRAIT_CHOICE;
 	}
@@ -1803,13 +1711,9 @@ void nanny_read_motd(DESCRIPTOR_DATA *d, char *argument)
 	}
 	else if (!IS_IMMORTAL(ch) && ch->pcdata->release_date > current_time)
 		char_to_room(ch, get_room_index(6));
-	else if (ch->in_room && !IS_IMMORTAL(ch)
-			&& !IS_SET(ch->in_room->room_flags, ROOM_SPACECRAFT)
-			&& ch->in_room != get_room_index(6))
+	else if (ch->in_room && !IS_IMMORTAL(ch) && !IS_SET(ch->in_room->room_flags, ROOM_SPACECRAFT) && ch->in_room != get_room_index(6))
 		char_to_room(ch, ch->in_room);
-	else if (ch->in_room && !IS_IMMORTAL(ch)
-			&& IS_SET(ch->in_room->room_flags, ROOM_SPACECRAFT)
-			&& ch->in_room != get_room_index(6))
+	else if (ch->in_room && !IS_IMMORTAL(ch) && IS_SET(ch->in_room->room_flags, ROOM_SPACECRAFT) && ch->in_room != get_room_index(6))
 	{
 		SHIP_DATA *ship;
 
@@ -1870,8 +1774,7 @@ void nanny_read_motd(DESCRIPTOR_DATA *d, char *argument)
 	act( COL_ACTION, "$n $T do gry.", ch, NULL,
 	MALE( ch ) ? "wszed³" : FEMALE(ch) ? "wesz³a" : "wesz³o", TO_ROOM);
 
-	sprintf(log_buf, "%s!%s@%s has entered the game.", ch->name, d->user,
-			d->host);
+	sprintf(log_buf, "%s!%s@%s has entered the game.", ch->name, d->user, d->host);
 	if (ch->top_level < LEVEL_DEMI)
 		log_string_plus(log_buf, LOG_COMM, sysdata.log_level);
 	else
@@ -1898,8 +1801,7 @@ void nanny_read_motd(DESCRIPTOR_DATA *d, char *argument)
 
 		if ((questor = get_mob_index(ch->inquest->pIndexData->questor)) != NULL)
 			ch_printf(ch, NL "                "
-			FB_GREEN "*** Pamiêtaj o zadaniu dla %s ***" EOL,
-					questor->przypadki[1]);
+			FB_GREEN "*** Pamiêtaj o zadaniu dla %s ***" EOL, questor->przypadki[1]);
 		else
 			bug("No questor found for %s's quest", ch->name);
 	}
@@ -1921,24 +1823,19 @@ DEF_DO_FUN( suicide )
 
 	if ( IS_NPC(ch) || !ch->pcdata)
 	{
-		send_to_char("Tak! Na pewno! Poczekaj, mo¿e jaki¶ gracz ciê zabije." NL,
-				ch);
+		send_to_char("Tak! Na pewno! Poczekaj, mo¿e jaki¶ gracz ciê zabije." NL, ch);
 		return;
 	}
 
 	if (IS_COUNCIL(ch->name))
 	{
-		send_to_char(
-				"Co?! Jeste¶ cz³onkiem rady! Nie mo¿na byæ tak nieodpowiedzialnym!" NL,
-				ch);
+		send_to_char("Co?! Jeste¶ cz³onkiem rady! Nie mo¿na byæ tak nieodpowiedzialnym!" NL, ch);
 		return;
 	}
 
 	if (ch->top_level >= LEVEL_IMMORTAL)
 	{
-		send_to_char(
-				"Jeste¶ nie¶miertelny! Podcinaj±c ¿y³y sprawisz sobie tylko niepotrzebny ból." NL,
-				ch);
+		send_to_char("Jeste¶ nie¶miertelny! Podcinaj±c ¿y³y sprawisz sobie tylko niepotrzebny ból." NL, ch);
 		return;
 	}
 
@@ -1956,22 +1853,20 @@ DEF_DO_FUN( suicide )
 
 	if (argument[0] != '\0')
 	{
-		send_to_char(
-				"Je¶li naprawdê chcesz skasowaæ swoj± postaæ. Wpisz 'suicide' bez argumentu." NL,
-				ch);
+		send_to_char("Je¶li naprawdê chcesz skasowaæ swoj± postaæ. Wpisz 'suicide' bez argumentu." NL, ch);
 		return;
 	}
 
 	ch->desc->connected = CON_CONFIRM_SUICIDE;
 
 	send_to_char(
-			EOL NL "         "
-			"* * * * * * * * * * * " FB_YELLOW "UWAGA !!!" PLAIN " * * * * * * * * * *" NL "         "
-			"* Z tej sytuacji nie bêdzie ju¿ odwrotu, a twoja  *" NL "         "
-			"* postaæ zniknie z listy graczy. Czy masz pewno¶æ *" NL "         "
-			"* ¿e chcesz to zrobiæ ?                           *" NL "         "
-			"* * * * * * * * * * * * * * * * * * * * * * * * * *" NL NL
-			"Podaj swoje has³o je¶li na pewno chcesz siê zabiæ: ", ch);
+	EOL NL "         "
+	"* * * * * * * * * * * " FB_YELLOW "UWAGA !!!" PLAIN " * * * * * * * * * *" NL "         "
+	"* Z tej sytuacji nie bêdzie ju¿ odwrotu, a twoja  *" NL "         "
+	"* postaæ zniknie z listy graczy. Czy masz pewno¶æ *" NL "         "
+	"* ¿e chcesz to zrobiæ ?                           *" NL "         "
+	"* * * * * * * * * * * * * * * * * * * * * * * * * *" NL NL
+	"Podaj swoje has³o je¶li na pewno chcesz siê zabiæ: ", ch);
 
 	write_to_buffer(ch->desc, echo_off_str, 0);
 	return;
@@ -1981,9 +1876,7 @@ DEF_DO_FUN( password )
 {
 	if (IS_NPC(ch))
 	{
-		send_to_char(
-				"Nie martw siê. Moby maj± u nas zawsze bezpieczny dostêp." NL,
-				ch);
+		send_to_char("Nie martw siê. Moby maj± u nas zawsze bezpieczny dostêp." NL, ch);
 		return;
 	}
 
@@ -2038,16 +1931,13 @@ void rename_done(DESCRIPTOR_DATA *d, bool accept)
 	{
 		CHAR_DATA *victim;
 
-		if ((victim = get_char_world(ch, d->tmp_ch->name))
-				== NULL|| IS_NPC( victim ))
+		if ((victim = get_char_world(ch, d->tmp_ch->name)) == NULL || IS_NPC(victim))
 			send_to_char("Your victim is gone..." NL "Couldn't rename." NL, ch);
 		else
 		{
 			rename_char(victim, d->tmp_ch);
 
-			ch_printf(victim,
-					"Twoje imiê zosta³o zmienione na " FB_WHITE "%s" PLAIN "." NL,
-					victim->name);
+			ch_printf(victim, "Twoje imiê zosta³o zmienione na " FB_WHITE "%s" PLAIN "." NL, victim->name);
 		}
 		send_to_char("Done." NL, ch);
 	}
@@ -2112,7 +2002,7 @@ const SWString format_char_attribute1(CHAR_DATA *ch, int przypadek)
 {
 	char buf[MSL] =
 	{ 0 };
-	char buf2[MSL*2] =
+	char buf2[MSL] =
 	{ 0 };
 	//if ( !IS_DESCRIBED( ch ) )
 	//{
@@ -2130,26 +2020,30 @@ const SWString format_char_attribute1(CHAR_DATA *ch, int przypadek)
 		attribute2 = ch->attribute2;
 
 	if (attribute1 >= 0)
-		strcpy(buf,
-				char_attribute(
-						(desc_type) (attribute1 == 0 ? 0 : attribute1 / 100),
-						attribute1 % 100, ch->sex, przypadek).c_str());
+	{
+		const SWString &attrib = char_attribute((desc_type) (attribute1 == 0 ? 0 : attribute1 / 100), attribute1 % 100, ch->sex, przypadek);
+		swstrncpy(buf, attrib.c_str(), MSL);
+	}
 
 	if (attribute2 >= 0)
 	{
 		if (desc_table[attribute2 / 100][attribute2 % 100].type == FUR)
-			sprintf(buf2, "%s %s z %s futrem", buf, CH_RACE(ch, przypadek), // Pixel: przypadkiF
-					char_attribute(
-							(desc_type) (attribute2 == 0 ? 0 : attribute2 / 100),
-							attribute2 % 100, ch->sex, przypadek).c_str());
+		{
+			const SWString &attrib = char_attribute((desc_type) (attribute2 == 0 ? 0 : attribute2 / 100), attribute2 % 100, ch->sex,
+					przypadek);
+			swsnprintf(buf2, MSL, "%s %s z %s futrem", buf, CH_RACE(ch, przypadek), // Pixel: przypadkiF
+			attrib.c_str());
+		}
 		else
-			sprintf(buf2, "%s, %s %s", buf,
-					char_attribute(
-							(desc_type) (attribute2 == 0 ? 0 : attribute2 / 100),
-							attribute2 % 100, ch->sex, przypadek).c_str(),
-					CH_RACE(ch, przypadek)); // Pixel: przypadkiF
+		{
+			const SWString &attrib = char_attribute((desc_type) (attribute2 == 0 ? 0 : attribute2 / 100), attribute2 % 100, ch->sex,
+					przypadek);
+			swsnprintf(buf2, MSL, "%s, %s %s", buf, attrib.c_str(), CH_RACE(ch, przypadek)); // Pixel: przypadkiF
+		}
 	}
 	else
-		sprintf(buf2, "%s %s", buf, CH_RACE(ch, przypadek)); // Pixel: przypadkiF
+		swsnprintf(buf2, MSL, "%s %s", buf, CH_RACE(ch, przypadek)); // Pixel: przypadkiF
 	return SWString(buf2);
 }
+
+

@@ -1307,6 +1307,7 @@ char *	first_arg		args( ( char *argument, char *arg_first, bool fCase ) );
 char *	string_unpad		args( ( char * argument ) );
 char *	string_proper		args( ( char * argument ) );
 int     swsnprintf      args( (char *str, size_t size, const char *format, ...) );
+char *  swstrncpy       args( (char *dest, const char *src, size_t n) );
 
 
 /* flags.c */
@@ -1376,6 +1377,7 @@ const SWString char_attribute	args( (desc_type desc_type, int index, int gender,
 bool does_knows			args( ( CHAR_DATA *ch, CHAR_DATA *victim ) ); /*Tanglor*/
 bool does_knows_name	args( (CHAR_DATA * ch, char * vict_name) );
 const SWString format_char_attribute	args( (CHAR_DATA *ch, int przypadek) );
+char * format_char_attribute_wrapper	args( (CHAR_DATA *ch, int przypadek) );
 const bool is_invited			args( (const CHAR_DATA * ch, const ROOM_INDEX_DATA * home) ); /*Ganis*/
 void evacuate_guests	args( (ROOM_INDEX_DATA * home) ); /*Ganis*/
 

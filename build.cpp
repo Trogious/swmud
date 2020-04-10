@@ -3510,7 +3510,8 @@ DEF_DO_FUN( rset )
 		for (pReset = location->first_reset; pReset; pReset = pReset->next)
 		{
 			num++;
-			if ((bptr = sprint_reset(ch, pReset, num, true).c_str()) == NULL)
+			const SWString &sreset = sprint_reset(ch, pReset, num, true);
+			if ((bptr = sreset.c_str()) == NULL)
 				continue;
 			send_to_char(bptr, ch);
 		}
