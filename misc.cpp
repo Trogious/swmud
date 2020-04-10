@@ -439,7 +439,7 @@ const SWString format_char_attribute(CHAR_DATA *ch, int przypadek)
 	if (!IS_DESCRIBED(ch))
 	{
 		sprintf(buf, "%s", CH_RACE(ch, przypadek)); // Pixel: przypadkiF
-		return buf;
+		return SWString(buf);
 	}
 
 	if (ch->attribute1 >= 0)
@@ -449,25 +449,25 @@ const SWString format_char_attribute(CHAR_DATA *ch, int przypadek)
 		strcpy(buf, attrib.c_str());
 	}
 
+	SWString tmpbuf(buf);
 	if (ch->attribute2 >= 0)
 	{
 		if (desc_table[ch->attribute2 == 0 ? 0 : ch->attribute2 / 100][ch->attribute2 % 100].type == FUR)
 		{
 			const SWString &attrib = char_attribute((desc_type) (ch->attribute2 == 0 ? 0 : ch->attribute2 / 100), ch->attribute2 % 100,
 					ch->sex, przypadek);
-			swsnprintf(buf, MSL, "%s %s z %s futrem", buf, CH_RACE(ch, przypadek), // Pixel: przypadkiF
+			swsnprintf(buf, MSL, "%s %s z %s futrem", tmpbuf.c_str(), CH_RACE(ch, przypadek), // Pixel: przypadkiF
 			attrib.c_str());
 		}
 		else
 		{
 			const SWString &attrib = char_attribute((desc_type) (ch->attribute2 == 0 ? 0 : ch->attribute2 / 100), ch->attribute2 % 100,
 					ch->sex, przypadek);
-			swsnprintf(buf, MSL, "%s, %s %s", buf, attrib.c_str(), CH_RACE(ch, przypadek)); // Pixel: przypadkiF
+			swsnprintf(buf, MSL, "%s, %s %s", tmpbuf.c_str(), attrib.c_str(), CH_RACE(ch, przypadek)); // Pixel: przypadkiF
 		}
 	}
 	else
 	{
-		SWString tmpbuf(buf);
 		swsnprintf(buf, MSL, "%s %s", tmpbuf.c_str(), CH_RACE(ch, przypadek)); // Pixel: przypadkiF
 	}
 	return SWString(buf);
