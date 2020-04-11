@@ -2549,8 +2549,8 @@ void fread_char(CHAR_DATA *ch, FILE *fp)
 				fMatch = true;
 				break;
 			}
-			if (str_cmp(word, "End"))
-				break;
+//			if (str_cmp(word, "End"))
+			break;
 
 		case 'E':
 			if (!str_cmp(word, "End"))

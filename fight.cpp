@@ -279,9 +279,7 @@ void violence_update(void)
 			paf_next = paf->next;
 			if (paf->duration > 0)
 				paf->duration--;
-			else if (paf->duration < 0)
-				;
-			else
+			else if (paf->duration == 0)
 			{
 				if (!paf_next || paf_next->type != paf->type
 						|| paf_next->duration > 0)
@@ -2088,7 +2086,7 @@ ch_ret damage(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt)
 
 			if (obj->wear_loc == WEAR_NONE)
 			{
-				if (obj->pIndexData->progtypes & DROP_PROG && obj->count > 1)
+				if ((obj->pIndexData->progtypes & DROP_PROG) && obj->count > 1)
 				{
 					++cnt;
 					separate_obj(obj);

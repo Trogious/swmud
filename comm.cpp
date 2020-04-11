@@ -2352,7 +2352,7 @@ void pager_printf(CHAR_DATA *ch, const char *fmt, ...)
 	va_end(args);
 
 	IF_BUG(written >= MSL, "characters ommited due to overflow")
-		;
+		; // @suppress("Suspicious semicolon")
 
 	send_to_pager(buf, ch);
 }
