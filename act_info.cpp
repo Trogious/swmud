@@ -1914,10 +1914,12 @@ DEF_DO_FUN( examine )
 				break;
 			}
 		}
+			break;
 
 		case ITEM_CONTAINER:
 			if (IS_OBJ_STAT(obj, ITEM_COVERING))
 				break;
+				/* no break: to prawdopodobnie jest zle??? */
 
 		case ITEM_DRINK_CON:
 			send_to_char("Kiedy zagl±dasz do ¶rodka widzisz:" NL, ch);
@@ -3132,15 +3134,12 @@ DEF_DO_FUN( who )
 
 		sprintf(namebuf, "%s %s", wch->name, wch->pcdata->title);
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wformat-truncation"
-		snprintf(buf1, MSL, "[%s" RESET PLAIN "] %s%s%s%s%s%s%s" RESET EOL, strip_colors(race, 15),
+		swsnprintf(buf1, MSL, "[%s" RESET PLAIN "] %s%s%s%s%s%s%s" RESET EOL, strip_colors(race, 15),
 				(IS_ADMIN( ch->name ) && IS_OLCMAN(wch)) ? FG_GREEN "{OLC}" PLAIN " " : "",/*Thanos*/
 				truststr, invis_str,
 				wch->pcdata && IS_SET(wch->pcdata->flags, PCFLAG_NH) ? FB_BLUE "(" FB_RED "NH" FB_BLUE ")" PLAIN " " : "",
 				IS_IMMORTAL(wch) && wch->desc && wch->desc->olc_editing ? FB_BLUE "(Buduje) " PLAIN : "",
 				IS_SET(wch->act, PLR_AFK) ? FG_YELLOW "(AWAY) " PLAIN : "", namebuf);
-#pragma GCC diagnostic pop
 
 		strcat(buf, buf1);
 
@@ -4279,8 +4278,6 @@ DEF_DO_FUN( credits )
 {
 	do_help(ch, (char*) "credits");
 }
-
-extern int top_area;
 
 /*
  * New do_areas with level ranges

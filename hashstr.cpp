@@ -1,91 +1,89 @@
 /***************************************************************************
-* Star Wars Reality Code Additions and changes from the Smaug Code         *
-* copyright (c) 1997 by Sean Cooper                                        *
-* Starwars and Starwars Names copyright(c) Lucas Film Ltd.                 *
-* SMAUG 1.0 (C) 1994, 1995, 1996 by Derek Snider                           *
-* SMAUG code team: Thoric, Altrag, Blodkai, Narn, Haus,                    *
-* Scryn, Rennard, Swordbearer, Gorog, Grishnakh and Tricops                *
-* Merc 2.1 Diku Mud improvments copyright (C) 1992, 1993 by Michael        *
-* Chastain, Michael Quan, and Mitchell Tse.                                *
-* Original Diku Mud copyright (C) 1990, 1991 by Sebastian Hammer,          *
-* Michael Seifert, Hans Henrik St{rfeldt, Tom Madsen, and Katja Nyboe.     *
-* Advanced string hashing functions (c)1996 D.S.D. Software, written by    *
-* Derek Snider for use in SMAUG.					   *
-* These functions keep track of how many "links" are pointing to the	   *
-* memory allocated, and will free the memory if all the links are removed. *
-* Make absolutely sure you do not mix use of strdup and free with these    *
-* functions, or nasty stuff will happen!				   *
-* Most occurances of strdup/str_dup should be replaced with str_alloc, and *
-* any free/DISPOSE used on the same pointer should be replaced with	   *
-* str_free.  If a function uses strdup for temporary use... it is best if  *
-* it is left as is.  Just don't get usage mixed up between conventions.    *
-* The hashstr_data size is 8 bytes of overhead.  Don't be concerned about  *
-* this as you still save lots of space on duplicate strings.	-Thoric	   *
-* ------------------------------------------------------------------------ *
-*                     ____________   __     ______                         *
-*   Aldegard    Jot  (   ___   ___| /  \   |  __  )   Thanos      Trog     *
-*        ______________\  \|   |  /  ^   \ |     <_______________          *
-*        \________________/|___|/___/"\___\|__|\________________/          *
-*                  \   \/ \/   //  \   |  __  )(  ___/`                    *
-*                    \       //  ^   \ |     <__)  \                       *
-*                      \_!_//___/"\___\|__|\______/TM                      *
-* (c) 2001, 2002            M       U        D                Ver 1.1      *
-****************************************************************************/
+ * Star Wars Reality Code Additions and changes from the Smaug Code         *
+ * copyright (c) 1997 by Sean Cooper                                        *
+ * Starwars and Starwars Names copyright(c) Lucas Film Ltd.                 *
+ * SMAUG 1.0 (C) 1994, 1995, 1996 by Derek Snider                           *
+ * SMAUG code team: Thoric, Altrag, Blodkai, Narn, Haus,                    *
+ * Scryn, Rennard, Swordbearer, Gorog, Grishnakh and Tricops                *
+ * Merc 2.1 Diku Mud improvments copyright (C) 1992, 1993 by Michael        *
+ * Chastain, Michael Quan, and Mitchell Tse.                                *
+ * Original Diku Mud copyright (C) 1990, 1991 by Sebastian Hammer,          *
+ * Michael Seifert, Hans Henrik St{rfeldt, Tom Madsen, and Katja Nyboe.     *
+ * Advanced string hashing functions (c)1996 D.S.D. Software, written by    *
+ * Derek Snider for use in SMAUG.					   *
+ * These functions keep track of how many "links" are pointing to the	   *
+ * memory allocated, and will free the memory if all the links are removed. *
+ * Make absolutely sure you do not mix use of strdup and free with these    *
+ * functions, or nasty stuff will happen!				   *
+ * Most occurances of strdup/str_dup should be replaced with str_alloc, and *
+ * any free/DISPOSE used on the same pointer should be replaced with	   *
+ * str_free.  If a function uses strdup for temporary use... it is best if  *
+ * it is left as is.  Just don't get usage mixed up between conventions.    *
+ * The hashstr_data size is 8 bytes of overhead.  Don't be concerned about  *
+ * this as you still save lots of space on duplicate strings.	-Thoric	   *
+ * ------------------------------------------------------------------------ *
+ *                     ____________   __     ______                         *
+ *   Aldegard    Jot  (   ___   ___| /  \   |  __  )   Thanos      Trog     *
+ *        ______________\  \|   |  /  ^   \ |     <_______________          *
+ *        \________________/|___|/___/"\___\|__|\________________/          *
+ *                  \   \/ \/   //  \   |  __  )(  ___/`                    *
+ *                    \       //  ^   \ |     <__)  \                       *
+ *                      \_!_//___/"\___\|__|\______/TM                      *
+ * (c) 2001, 2002            M       U        D                Ver 1.1      *
+ ****************************************************************************/
 
 #include <sys/types.h>
 #include "mud.h"
 
 #define STR_HASH_SIZE	 1024 /* maxymalna d³ugo¶æ hashowanych stringoff */
 
-
 struct hashstr_data
 {
-    struct hashstr_data	*next;		/* next hash element */
-    unsigned short int	 links;		/* number of links to this string */
-    unsigned short int	 length;	/* length of string */
+	struct hashstr_data *next; /* next hash element */
+	unsigned short int links; /* number of links to this string */
+	unsigned short int length; /* length of string */
 };
 
-char *		str_alloc	( const char *str );
-char *		quick_link	( char *str );
-int		str_free	( char *str );
-void		show_hash	( int count );
-char *		hash_stats	( void );
+char* str_alloc(const char *str);
+char* quick_link(char *str);
+int str_free(char *str);
+void show_hash(int count);
+char* hash_stats(void);
 
-struct hashstr_data *	string_hash	[STR_HASH_SIZE];
-
+struct hashstr_data *string_hash[STR_HASH_SIZE];
 
 /*
  * Check hash table for existing occurance of string.
  * If found, increase link count, and return pointer,
  * otherwise add new string to hash table, and return pointer.
  */
-char *str_alloc( const char *str )
+char* str_alloc(const char *str)
 {
-   register int len, hash, psize;
-   register struct hashstr_data *ptr;
-    
-   len = strlen(str);
-   psize = sizeof(struct hashstr_data);
-   hash = len % STR_HASH_SIZE;
-   for (ptr = string_hash[hash]; ptr; ptr = ptr->next )
-     if ( len == ptr->length && !strcmp(str,(char *)ptr+psize) )
-     {
-	if ( ptr->links < 65535 )
-	  ++ptr->links;
-	return (char *) ptr+psize;
-     }
+	int len, hash, psize;
+	struct hashstr_data *ptr;
+
+	len = strlen(str);
+	psize = sizeof(struct hashstr_data);
+	hash = len % STR_HASH_SIZE;
+	for (ptr = string_hash[hash]; ptr; ptr = ptr->next)
+		if (len == ptr->length && !strcmp(str, (char*) ptr + psize))
+		{
+			if (ptr->links < 65535)
+				++ptr->links;
+			return (char*) ptr + psize;
+		}
 //   ptr = (struct hashstr_data *) calloc(1, len+psize+1);
-   ptr = (struct hashstr_data *) malloc( len+psize+1);
-   ptr->links		= 1;
-   ptr->length		= len;
-   if (len)
-     strcpy( (char *) ptr+psize, str );
-/*     memcpy( (char *) ptr+psize, str, len+1 ); */
-   else
-     strcpy( (char *) ptr+psize, "" );
-   ptr->next		= string_hash[hash];
-   string_hash[hash]	= ptr;
-   return (char *) ptr+psize;
+	ptr = (struct hashstr_data*) malloc(len + psize + 1);
+	ptr->links = 1;
+	ptr->length = len;
+	if (len)
+		strcpy((char*) ptr + psize, str);
+	/*     memcpy( (char *) ptr+psize, str, len+1 ); */
+	else
+		strcpy((char*) ptr + psize, "");
+	ptr->next = string_hash[hash];
+	string_hash[hash] = ptr;
+	return (char*) ptr + psize;
 }
 
 /*
@@ -93,19 +91,19 @@ char *str_alloc( const char *str )
  * in the hash table.  Function increments the link count and returns the
  * same pointer passed.
  */
-char *quick_link( char *str )
+char* quick_link(char *str)
 {
-    register struct hashstr_data *ptr;
+	struct hashstr_data *ptr;
 
-    ptr = (struct hashstr_data *) (str - sizeof(struct hashstr_data));
-    if ( ptr->links == 0 )
-    {
-	fprintf(stderr, "quick_link: bad pointer\n" );
-	return NULL;
-    }
-    if ( ptr->links < 65535 )
-	++ptr->links;
-    return str;
+	ptr = (struct hashstr_data*) (str - sizeof(struct hashstr_data));
+	if (ptr->links == 0)
+	{
+		fprintf(stderr, "quick_link: bad pointer\n");
+		return NULL;
+	}
+	if (ptr->links < 65535)
+		++ptr->links;
+	return str;
 }
 
 /*
@@ -114,149 +112,144 @@ char *quick_link( char *str )
  * hash table and disposed of.
  * returns how many links are left, or -1 if an error occurred.
  */
-int str_free( char *str )
+int str_free(char *str)
 {
-    register int len, hash;
-    register struct hashstr_data *ptr, *ptr2, *ptr2_next;
+	int len, hash;
+	struct hashstr_data *ptr, *ptr2, *ptr2_next;
 
-    len = strlen(str);
-    hash = len % STR_HASH_SIZE;
-    ptr = (struct hashstr_data *) (str - sizeof(struct hashstr_data));
-    if ( ptr->links == 65535 )				/* permanent */
+	len = strlen(str);
+	hash = len % STR_HASH_SIZE;
+	ptr = (struct hashstr_data*) (str - sizeof(struct hashstr_data));
+	if (ptr->links == 65535) /* permanent */
+		return ptr->links;
+	if (ptr->links == 0)
+	{
+		fprintf(stderr, "str_free: bad pointer\n");
+		return -1;
+	}
+	if (--ptr->links == 0)
+	{
+		if (string_hash[hash] == ptr)
+		{
+			string_hash[hash] = ptr->next;
+			free(ptr);
+			return 0;
+		}
+		for (ptr2 = string_hash[hash]; ptr2; ptr2 = ptr2_next)
+		{
+			ptr2_next = ptr2->next;
+			if (ptr2_next == ptr)
+			{
+				ptr2->next = ptr->next;
+				free(ptr);
+				return 0;
+			}
+		}
+		fprintf( stderr, "str_free: pointer not found for string: %s\n", str);
+		return -1;
+	}
 	return ptr->links;
-    if ( ptr->links == 0 )
-    {
-	fprintf(stderr, "str_free: bad pointer\n" );
-	return -1;
-    }
-    if ( --ptr->links == 0 )
-    {
-	if ( string_hash[hash] == ptr )
+}
+
+void show_hash(int count)
+{
+	struct hashstr_data *ptr;
+	int x, c;
+
+	for (x = 0; x < count; x++)
 	{
-	    string_hash[hash] = ptr->next;
-	    free(ptr);
-	    return 0;
+		for (c = 0, ptr = string_hash[x]; ptr; ptr = ptr->next, c++)
+			;
+		fprintf( stderr, " %d", c);
 	}
-	for ( ptr2 = string_hash[hash]; ptr2; ptr2 = ptr2_next )
+	fprintf( stderr, "\n");
+}
+
+void hash_dump(int hash)
+{
+	struct hashstr_data *ptr;
+	char *str;
+	int c, psize;
+
+	if (hash > STR_HASH_SIZE || hash < 0)
 	{
-	    ptr2_next = ptr2->next;
-	    if ( ptr2_next == ptr )
-	    {
-		ptr2->next = ptr->next;
-		free(ptr);
-		return 0;
-	    }
+		fprintf( stderr, "hash_dump: invalid hash size" NL);
+		return;
 	}
-	fprintf( stderr, "str_free: pointer not found for string: %s\n", str );
-	return -1;
-    }
-    return ptr->links;
-}
-
-void show_hash( int count )
-{
-    struct hashstr_data *ptr;
-    int x, c;
-
-    for ( x = 0; x < count; x++ )
-    {
-	for ( c = 0, ptr = string_hash[x]; ptr; ptr = ptr->next, c++ );
-	fprintf( stderr, " %d", c );
-    }
-    fprintf( stderr, "\n" );
-}
-
-void hash_dump( int hash )
-{
-    struct hashstr_data *ptr;
-    char *str;
-    int c, psize;
-
-    if ( hash > STR_HASH_SIZE || hash < 0 )
-    {
-	fprintf( stderr, "hash_dump: invalid hash size" NL );
-	return;
-    }
-    psize = sizeof(struct hashstr_data);
-    for ( c=0, ptr = string_hash[hash]; ptr; ptr = ptr->next, c++ )
-    {
-	str = (char *) (((intptr_t) ptr) + psize);
-	fprintf( stderr, "Len:%4d Lnks:%5d Str: %s" NL,
-	  ptr->length, ptr->links, str );
-    }
-    fprintf( stderr, "Total strings in hash %d: %d" NL, hash, c );
-}
-
-char *check_hash( char *str )
-{
-   static char buf[1024];
-   int len, hash, psize, c;
-   int p = 0;
-   struct hashstr_data *ptr, *fnd;
-
-   buf[0] = '\0';
-   len = strlen(str);
-   psize = sizeof(struct hashstr_data);
-   hash = len % STR_HASH_SIZE;
-   for (fnd = NULL, ptr = string_hash[hash], c = 0; ptr; ptr = ptr->next, c++ )
-     if ( len == ptr->length && !strcmp(str,(char *)ptr+psize) )
-     {
-	fnd = ptr;
-	p = c+1;
-     }
-   if ( fnd )
-     sprintf( buf, 
-     "Hash info on string: %s" NL
-     "Links: %d  Position: %d/%d  Hash: %d  Length: %d" NL,
-	  str, fnd->links, p, c, hash, fnd->length );
-   else
-     sprintf( buf, "%s not found." NL, str );
-   return buf;
-}
-
-char *hash_stats( void )
-{
-    static char buf[1024];
-    struct hashstr_data *ptr;
-    int x, c, total, totlinks, unique, bytesused, wouldhave, hilink;
-
-    totlinks = unique = total = bytesused = wouldhave = hilink = 0;
-    for ( x = 0; x < STR_HASH_SIZE; x++ )
-    {
-	for ( c = 0, ptr = string_hash[x]; ptr; ptr = ptr->next, c++ )
+	psize = sizeof(struct hashstr_data);
+	for (c = 0, ptr = string_hash[hash]; ptr; ptr = ptr->next, c++)
 	{
-	   total++;
-	   if ( ptr->links == 1 )
-	     unique++;
-	   if ( ptr->links > hilink )
-	     hilink = ptr->links;
-	   totlinks += ptr->links;
-	   bytesused += (ptr->length + 1 + sizeof(struct hashstr_data));
-	   wouldhave += (ptr->links * (ptr->length + 1));
+		str = (char*) (((intptr_t) ptr) + psize);
+		fprintf( stderr, "Len:%4d Lnks:%5d Str: %s" NL, ptr->length, ptr->links, str);
 	}
-    }
-    sprintf( buf, 
-    "Hash strings allocated:%8d         Total links  : %d" NL
-    "String bytes allocated:%8d (%dK) Bytes saved  : %d (%dK)" NL
-    "Unique (wasted) links :%8d         Hi-Link count: %d" NL,
-	total, totlinks, 
-	bytesused, (bytesused/1024), wouldhave - bytesused, (wouldhave - bytesused)/1024, 
-	unique, hilink );
-    return buf;
+	fprintf( stderr, "Total strings in hash %d: %d" NL, hash, c);
 }
 
-void show_high_hash( int top )
+char* check_hash(char *str)
 {
-    struct hashstr_data *ptr;
-    int x, psize;
-    char *str;
+	static char buf[1024];
+	int len, hash, psize, c;
+	int p = 0;
+	struct hashstr_data *ptr, *fnd;
 
-    psize = sizeof(struct hashstr_data);
-    for ( x = 0; x < STR_HASH_SIZE; x++ )
-	for ( ptr = string_hash[x]; ptr; ptr = ptr->next )
-	  if ( ptr->links >= top )
-	  {
-	     str = (char *) (((intptr_t) ptr) + psize);
- 	     fprintf( stderr, "Links: %5d  String: >%s<" NL, ptr->links, str );
-	  }
+	buf[0] = '\0';
+	len = strlen(str);
+	psize = sizeof(struct hashstr_data);
+	hash = len % STR_HASH_SIZE;
+	for (fnd = NULL, ptr = string_hash[hash], c = 0; ptr; ptr = ptr->next, c++)
+		if (len == ptr->length && !strcmp(str, (char*) ptr + psize))
+		{
+			fnd = ptr;
+			p = c + 1;
+		}
+	if (fnd)
+		sprintf(buf, "Hash info on string: %s" NL
+		"Links: %d  Position: %d/%d  Hash: %d  Length: %d" NL, str, fnd->links, p, c, hash, fnd->length);
+	else
+		sprintf(buf, "%s not found." NL, str);
+	return buf;
+}
+
+char* hash_stats(void)
+{
+	static char buf[1024];
+	struct hashstr_data *ptr;
+	int x, c, total, totlinks, unique, bytesused, wouldhave, hilink;
+
+	totlinks = unique = total = bytesused = wouldhave = hilink = 0;
+	for (x = 0; x < STR_HASH_SIZE; x++)
+	{
+		for (c = 0, ptr = string_hash[x]; ptr; ptr = ptr->next, c++)
+		{
+			total++;
+			if (ptr->links == 1)
+				unique++;
+			if (ptr->links > hilink)
+				hilink = ptr->links;
+			totlinks += ptr->links;
+			bytesused += (ptr->length + 1 + sizeof(struct hashstr_data));
+			wouldhave += (ptr->links * (ptr->length + 1));
+		}
+	}
+	sprintf(buf, "Hash strings allocated:%8d         Total links  : %d" NL
+	"String bytes allocated:%8d (%dK) Bytes saved  : %d (%dK)" NL
+	"Unique (wasted) links :%8d         Hi-Link count: %d" NL, total, totlinks, bytesused, (bytesused / 1024), wouldhave - bytesused,
+			(wouldhave - bytesused) / 1024, unique, hilink);
+	return buf;
+}
+
+void show_high_hash(int top)
+{
+	struct hashstr_data *ptr;
+	int x, psize;
+	char *str;
+
+	psize = sizeof(struct hashstr_data);
+	for (x = 0; x < STR_HASH_SIZE; x++)
+		for (ptr = string_hash[x]; ptr; ptr = ptr->next)
+			if (ptr->links >= top)
+			{
+				str = (char*) (((intptr_t) ptr) + psize);
+				fprintf( stderr, "Links: %5d  String: >%s<" NL, ptr->links, str);
+			}
 }

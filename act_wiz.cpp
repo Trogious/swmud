@@ -41,7 +41,6 @@ const char *const save_flag[] =
 		"r28", "r29", "r30", "r31" };
 
 /* from comm.c */
-bool write_to_descriptor args( ( int desc, char *txt, int length ) );
 bool check_parse_name args( ( char *name ) );
 
 /*
@@ -2713,10 +2712,7 @@ DEF_DO_FUN( balzhur )
 	{
 		ch_printf(ch, "Unknown error #%d - %s (immortal data).  Report to "
 				"Thoric" NL, errno, strerror(errno));
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wformat-truncation"
-		snprintf(buf2, MSL, "%s balzhuring %s", ch->name, buf);
-#pragma GCC diagnostic pop
+		swsnprintf(buf2, MSL, "%s balzhuring %s", ch->name, buf);
 		perror(buf2);
 	}
 	sprintf(buf2, "%s.are", capitalize(arg));
@@ -5938,10 +5934,7 @@ DEF_DO_FUN( sedit )
 		}
 		CREATE(social, SOCIALTYPE, 1);
 		STRDUP(social->name, arg1);
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wformat-truncation"
-		snprintf(arg2, MIL, "You %s.", arg1);
-#pragma GCC diagnostic pop
+		swsnprintf(arg2, MIL, "You %s.", arg1);
 		STRDUP(social->char_no_arg, arg2);
 		add_social(social);
 		send_to_char("Social added." NL, ch);
@@ -6076,7 +6069,7 @@ void unlink_command(CMDTYPE *command)
 	int hash;
 
 	IF_BUG(command == NULL, "")
-		;
+		; // @suppress("Suspicious semicolon")
 
 	hash = command->name[0] % MAX_CMD_HASH;
 
@@ -6105,11 +6098,11 @@ void add_command(CMDTYPE *command)
 	CMDTYPE *tmp, *prev;
 
 	IF_BUG(command == NULL, "")
-		;
+		; // @suppress("Suspicious semicolon")
 	IF_BUG(!command->name, "")
-		;
+		; // @suppress("Suspicious semicolon")
 	IF_BUG(!command->do_fun, "")
-		;
+		; // @suppress("Suspicious semicolon")
 
 	/* make sure the name is all lowercase */
 	for (x = 0; command->name[x] != '\0'; x++)

@@ -3007,12 +3007,9 @@ void dam_message(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt)
 
 	if (dt == TYPE_HIT)
 	{
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wformat-truncation"
-		snprintf(buf1, MSL, "$n %s $N$3%c", vp, punct);
-		snprintf(buf2, MSL, "%s $N$3%c", vs, punct);
-		snprintf(buf3, MSL, "$n %s ciê%c", vp, punct);
-#pragma GCC diagnostic pop
+		swsnprintf(buf1, MSL, "$n %s $N$3%c", vp, punct);
+		swsnprintf(buf2, MSL, "%s $N$3%c", vs, punct);
+		swsnprintf(buf3, MSL, "$n %s ciê%c", vp, punct);
 	}
 	else       //Added by Onyx
 	if (dam == 0)
@@ -3078,12 +3075,9 @@ void dam_message(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt)
 			attack = attack_table[0];
 		}
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wformat-truncation"
-		snprintf(buf1, MSL, "Zatrute %s $n$1 %s $N$3%c", attack, vp, punct);
-		snprintf(buf2, MSL, "Twoje zatrute %s %s $N$3%c", attack, vp, punct);
-		snprintf(buf3, MSL, "Zatrute %s $n$1 %s ciê%c", attack, vp, punct);
-#pragma GCC diagnostic pop
+		swsnprintf(buf1, MSL, "Zatrute %s $n$1 %s $N$3%c", attack, vp, punct);
+		swsnprintf(buf2, MSL, "Twoje zatrute %s %s $N$3%c", attack, vp, punct);
+		swsnprintf(buf3, MSL, "Zatrute %s $n$1 %s ciê%c", attack, vp, punct);
 	}
 	else
 	{
@@ -3138,40 +3132,37 @@ void dam_message(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt)
 			attack = attack_table[0];
 		}
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wformat-truncation"
 		if (dt > TYPE_HIT)
 		{
 			if (ch == victim)
 			{
-				snprintf(buf1, MSL, "Lamerskie %s $n$1 %s $i%c", attack, vp, punct);
-				snprintf(buf2, MSL, "Twoje lamerskie %s %s Ciebie%c", attack, vp,
+				swsnprintf(buf1, MSL, "Lamerskie %s $n$1 %s $i%c", attack, vp, punct);
+				swsnprintf(buf2, MSL, "Twoje lamerskie %s %s Ciebie%c", attack, vp,
 						punct);
 			}
 			else
 			{
-				snprintf(buf1, MSL, "%s $n$1 %s $N$3%c", attack, vp, punct);
-				snprintf(buf2, MSL, "Twoje %s %s $N$3%c", attack, vp, punct);
-				snprintf(buf3, MSL, "%s $n$1 %s Ciebie%c", attack, vp, punct);
+				swsnprintf(buf1, MSL, "%s $n$1 %s $N$3%c", attack, vp, punct);
+				swsnprintf(buf2, MSL, "Twoje %s %s $N$3%c", attack, vp, punct);
+				swsnprintf(buf3, MSL, "%s $n$1 %s Ciebie%c", attack, vp, punct);
 			}
 		}
 		else
 		{
 			if (ch == victim)
 			{
-				snprintf(buf1, MSL, "$n %s sam%s siebie %s%c", vp, SEX_SUFFIX__AO(ch),
+				swsnprintf(buf1, MSL, "$n %s sam%s siebie %s%c", vp, SEX_SUFFIX__AO(ch),
 						attack, punct);
-				snprintf(buf2, MSL, "%s sam%s siebie %s%c", vs, SEX_SUFFIX__AO(ch),
+				swsnprintf(buf2, MSL, "%s sam%s siebie %s%c", vs, SEX_SUFFIX__AO(ch),
 						attack, punct);
 			}
 			else
 			{
-				snprintf(buf1, MSL, "$n %s $N$3 %s%c", vp, attack, punct);
-				snprintf(buf2, MSL, "%s $N$3 %s%c", vs, attack, punct);
-				snprintf(buf3, MSL, "$n %s ciê %s%c", vp, attack, punct);
+				swsnprintf(buf1, MSL, "$n %s $N$3 %s%c", vp, attack, punct);
+				swsnprintf(buf2, MSL, "%s $N$3 %s%c", vs, attack, punct);
+				swsnprintf(buf3, MSL, "$n %s ciê %s%c", vp, attack, punct);
 			}
 		}
-#pragma GCC diagnostic pop
 	}
 
 	if (!IS_NPC(ch) && IS_SET(ch->act, PLR_HOLYLIGHT))
@@ -3179,10 +3170,7 @@ void dam_message(CHAR_DATA *ch, CHAR_DATA *victim, int dam, int dt)
 		char buf4[MSL] =
 		{ 0 };
 		strncpy(buf4, buf2, MSL);
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wformat-truncation"
-		snprintf(buf2, MSL, "%s Zadajesz cios o sile %d punktów.", buf4, dam);
-#pragma GCC diagnostic pop
+		swsnprintf(buf2, MSL, "%s Zadajesz cios o sile %d punktów.", buf4, dam);
 	}
 
 	act( COL_ACTION, buf1, ch, NULL, victim, TO_NOTVICT);

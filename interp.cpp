@@ -274,10 +274,7 @@ void interpret(CHAR_DATA *ch, char *argument)
 				bug("SUB_REPEATCMD: last_cmd invalid");
 				return;
 			}
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wformat-truncation"
-			snprintf(logline, MIL, "(%s) %s", cmd->name, all_argument);
-#pragma GCC diagnostic pop
+			swsnprintf(logline, MIL, "(%s) %s", cmd->name, all_argument);
 		}
 	}
 

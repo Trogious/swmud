@@ -3183,10 +3183,10 @@ void set_pager_input(DESCRIPTOR_DATA *d, char *argument)
 
 bool pager_output(DESCRIPTOR_DATA *d)
 {
-	register char *last;
+	char *last;
 	CHAR_DATA *ch;
 	int pclines;
-	register int lines;
+	int lines;
 	int total;    //added by Thanos
 	int now;    //i to
 	char *ptr;    //i jeszcze to

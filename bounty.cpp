@@ -40,8 +40,6 @@ INFORM_DATA * first_inform;
 INFORM_DATA * last_inform;
 list<SWBounty *> bounties;
 
-int xp_compute(CHAR_DATA *ch, CHAR_DATA *victim);
-
 void load_informs()
 {
 	FILE * fp;

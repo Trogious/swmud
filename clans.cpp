@@ -36,7 +36,6 @@
  Ju¿ nie - Pixel :) */
 
 //static	OBJ_DATA *	rgObjNest	[MAX_NEST];
-extern int top_clan;
 
 CLAN_DATA *first_clan = NULL;
 CLAN_DATA *last_clan = NULL;
@@ -48,10 +47,8 @@ void fread_clan args( ( CLAN_DATA *clan, FILE *fp ) );
 bool load_clan_file args( ( char *clanfile ) );
 void write_clan_list args( ( void ) );
 void save_clan_list args( ( void ) );
-void fread_politics args( ( CLAN_DATA *clan, char *filename ) );
 void pclan_voting_end args( ( CLAN_DATA *clan ) );
 void application args( ( CHAR_DATA *ch, char *argument ) );
-int max_clan_id args( ( void ) );
 static char* mk_filename args( ( int clan_id ) );
 MEMBER_DATA* highest_ranked args( ( CLAN_DATA *clan, int max_rank ) );
 void adjust_only args( ( CLAN_DATA *clan ) );
