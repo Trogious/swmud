@@ -1,0 +1,4 @@
+
+#define MUD_DIR "/home/mud/mud/"
+#define SQL_CONN_STRING "hostaddr=127.0.0.1 dbname=mud user=mud password=pass"
+
