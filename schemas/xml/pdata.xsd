@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://swmud.pl/ns/swmud/1.0/pdata"
+	xmlns="http://swmud.pl/ns/swmud/1.0/pdata"
+	attributeFormDefault="qualified"
+	elementFormDefault="qualified">
+
+	<xsd:element name="pdata">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="name" type="xsd:normalizedString"/>
+				<xsd:element name="lastplayed">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="current" type="xsd:unsignedInt"/>
+							<xsd:element name="minsplaying" type="xsd:unsignedInt"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="site">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="host" type="xsd:normalizedString"/>
+							<xsd:element name="ident" type="xsd:normalizedString"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="played" type="xsd:unsignedInt"/>
+				<xsd:element name="wizinvis" type="xsd:unsignedByte"/>
+				<xsd:element name="email" type="xsd:normalizedString" minOccurs="0"/>
+				<xsd:element name="trust" type="xsd:unsignedByte" minOccurs="0"/>
+				<xsd:element name="home" type="xsd:unsignedByte" minOccurs="0"/>
+				<xsd:element name="bank" type="xsd:long"/>
+				<xsd:element name="title" type="xsd:normalizedString"/>
+				<xsd:element name="security" type="xsd:unsignedByte" minOccurs="0"/>
+				<xsd:element name="act" type="xsd:long"/>
+				<xsd:element name="stbar">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="width" type="xsd:unsignedByte"/>
+							<xsd:element name="height" type="xsd:unsignedByte"/>
+							<xsd:element name="type" type="xsd:unsignedByte"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="outcasttime" type="xsd:unsignedInt" minOccurs="0"/>
+				<xsd:element name="restoretime" type="xsd:unsignedInt" minOccurs="0"/>
+				<xsd:element name="password" type="xsd:normalizedString"/>
+				<xsd:element name="bamfin" type="xsd:normalizedString" minOccurs="0"/>
+				<xsd:element name="bamfout" type="xsd:normalizedString" minOccurs="0"/>
+				<xsd:element name="rank" type="xsd:normalizedString" minOccurs="0"/>
+				<xsd:element name="forbdncmd" type="xsd:normalizedString" minOccurs="0"/>
+				<xsd:element name="bestowments" type="xsd:normalizedString" minOccurs="0"/>
+				<xsd:element name="authedby" type="xsd:normalizedString"/>
+				<xsd:element name="lastnote" type="xsd:unsignedLong"/>
+				<xsd:element name="editinfo" type="xsd:string" minOccurs="0"/>
+				<xsd:element name="ignorelist" type="xsd:normalizedString" minOccurs="0"/>
+				<xsd:element name="invisexcept" type="xsd:normalizedString" minOccurs="0"/>
+				<xsd:element name="minsnoop" type="xsd:unsignedByte" minOccurs="0"/>
+				<xsd:element name="prompt" type="xsd:normalizedString" minOccurs="0"/>
+				<xsd:element name="charset" type="xsd:unsignedByte"/>
+				<xsd:element name="pagerlen" type="xsd:unsignedByte" minOccurs="0"/>
+				<xsd:element name="flags" type="xsd:long"/>
+				<xsd:element name="isolated" type="untilby" minOccurs="0"/>
+				<xsd:element name="silenced" type="untilby" minOccurs="0"/>
+				<xsd:element name="aliases" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="alias" maxOccurs="unbounded">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="name" type="xsd:normalizedString"/>
+										<xsd:element name="sub" type="xsd:normalizedString"/>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="crimes" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="crime" maxOccurs="unbounded">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="planet" type="xsd:normalizedString"/>
+										<xsd:element name="type" type="xsd:unsignedByte"/>
+										<xsd:element name="level" type="xsd:unsignedByte"/>
+										<xsd:element name="jailvnum" type="xsd:positiveInteger"/>
+										<xsd:element name="jailend" type="xsd:unsignedInt"/>
+										<xsd:element name="released" type="xsd:unsignedInt"/>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="pkills" type="xsd:unsignedInt" minOccurs="0"/>
+				<xsd:element name="pdeaths" type="xsd:unsignedInt" minOccurs="0"/>
+				<xsd:element name="ptimer" type="xsd:unsignedInt" minOccurs="0"/>
+				<xsd:element name="mkills" type="xsd:unsignedInt" minOccurs="0"/>
+				<xsd:element name="mdeaths" type="xsd:unsignedInt" minOccurs="0"/>
+				<xsd:element name="illegalpk" type="xsd:unsignedInt" minOccurs="0"/>
+				<!--
+				<xsd:element name="description">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="attribute1" type="xsd:unsignedByte"/>
+							<xsd:element name="attribute2" type="xsd:unsignedByte"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				-->
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- misc -->
+	<xsd:complexType name="untilby">
+		<xsd:sequence>
+			<xsd:element name="until" type="xsd:unsignedInt"/>
+			<xsd:element name="by" type="xsd:normalizedString"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>
+

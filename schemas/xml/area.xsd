@@ -1,0 +1,403 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://swmud.pl/ns/swmud/1.0/area"
+	xmlns="http://swmud.pl/ns/swmud/1.0/area"
+	attributeFormDefault="qualified"
+	elementFormDefault="qualified">
+
+	<xsd:element name="area" type="area"/>
+
+	<xsd:complexType name="area">
+		<xsd:sequence>
+			<xsd:element name="head" type="head"/>
+			<xsd:element name="mobiles" type="mobiles"/>
+			<xsd:element name="objects" type="objects"/>
+			<xsd:element name="rooms" type="rooms"/>
+			<xsd:element name="resets" type="resets"/>
+			<xsd:element name="shops" type="shops"/>
+			<xsd:element name="repairs" type="repairs"/>
+			<xsd:element name="specials" type="specials"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<!-- head -->
+	<xsd:complexType name="head">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:normalizedString"/>
+			<xsd:element name="authors" type="xsd:normalizedString"/>
+			<xsd:element name="builders" type="xsd:normalizedString"/>
+			<xsd:element name="security" type="xsd:unsignedByte"/>
+			<xsd:element name="vnums">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="lvnum" type="xsd:positiveInteger"/>
+						<xsd:element name="uvnum" type="xsd:positiveInteger"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="flags" type="xsd:long"/>
+			<xsd:element name="economy">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="low" type="xsd:unsignedInt"/>
+						<xsd:element name="high" type="xsd:unsignedInt"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="reset">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="frequency" type="xsd:unsignedShort"/>
+						<xsd:element name="message" type="xsd:normalizedString"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="ranges">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="low" type="xsd:unsignedByte"/>
+						<xsd:element name="high" type="xsd:unsignedByte"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<!-- mobiles -->
+	<xsd:complexType name="mobiles">
+		<xsd:sequence>
+			<xsd:element name="mobile" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="vnum" type="xsd:positiveInteger"/>
+						<xsd:element name="name" type="xsd:normalizedString"/>
+						<xsd:element name="short" type="short"/>
+						<xsd:element name="long" type="xsd:string"/>
+						<xsd:element name="description" type="xsd:string"/>
+						<xsd:element name="race" type="xsd:normalizedString"/>
+						<xsd:element name="level" type="xsd:unsignedShort"/>
+						<xsd:element name="act" type="xsd:long"/>
+						<xsd:element name="affected" type="xsd:long"/>
+						<xsd:element name="alignment" type="xsd:short"/>
+						<xsd:element name="sex" type="xsd:unsignedByte"/>
+						<xsd:element name="credits" type="xsd:unsignedInt"/>
+						<xsd:element name="position" type="xsd:unsignedByte"/>
+						<xsd:element name="sectiona" type="sectiona"/>
+						<xsd:element name="sections" type="sections"/>
+						<xsd:element name="sectionr" type="sectionr"/>
+						<xsd:element name="sectionx" type="sectionx"/>
+						<xsd:element name="sectiont" type="sectiont"/>
+						<xsd:element name="sectionv" type="sectionv"/>
+						<xsd:element name="dialog" type="xsd:string"/>
+						<xsd:element name="programs" type="programs"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<!-- objects -->
+	<xsd:complexType name="objects">
+		<xsd:sequence>
+			<xsd:element name="object" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="vnum" type="xsd:positiveInteger"/>
+						<xsd:element name="name" type="xsd:normalizedString"/>
+						<xsd:element name="short" type="short"/>
+						<xsd:element name="description" type="xsd:string"/>
+						<xsd:element name="actiondesc" type="xsd:string"/>
+						<xsd:element name="type" type="xsd:unsignedShort"/>
+						<xsd:element name="extraflags" type="xsd:long"/>
+						<xsd:element name="wearflags" type="xsd:long"/>
+						<xsd:element name="layers" type="xsd:unsignedShort"/>
+						<xsd:element name="values">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="value0" type="xsd:int"/>
+									<xsd:element name="value1" type="xsd:int"/>
+									<xsd:element name="value2" type="xsd:int"/>
+									<xsd:element name="value3" type="xsd:string"/>
+									<xsd:element name="value4" type="xsd:string"/>
+									<xsd:element name="value5" type="xsd:string"/>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="weight" type="xsd:unsignedInt"/>
+						<xsd:element name="cost" type="xsd:unsignedInt"/>
+						<xsd:element name="gender" type="xsd:unsignedInt"/>
+						<xsd:element name="level" type="xsd:unsignedByte"/>
+						<xsd:element name="extradescs" type="extradescs"/>
+						<xsd:element name="requirements">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="requirement" minOccurs="0" maxOccurs="unbounded">
+										<xsd:complexType>
+											<xsd:sequence>
+												<xsd:element name="location" type="xsd:int"/>
+												<xsd:element name="modifier" type="xsd:int"/>
+												<xsd:element name="type" type="xsd:string"/>
+											</xsd:sequence>
+										</xsd:complexType>
+									</xsd:element>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="affects">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="affect" minOccurs="0" maxOccurs="unbounded">
+										<xsd:complexType>
+											<xsd:sequence>
+												<xsd:element name="location" type="xsd:int"/>
+												<xsd:element name="modifier" type="xsd:int"/>
+											</xsd:sequence>
+										</xsd:complexType>
+									</xsd:element>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="programs" type="programs"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<!-- rooms -->
+	<xsd:complexType name="rooms">
+		<xsd:sequence>
+			<xsd:element name="room" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="vnum" type="xsd:positiveInteger"/>
+						<xsd:element name="name" type="xsd:normalizedString"/>
+						<xsd:element name="description" type="xsd:string"/>
+						<xsd:element name="nightdesc" type="xsd:string" minOccurs="0"/>
+						<xsd:element name="light" type="xsd:short"/>
+						<xsd:element name="flags" type="xsd:long"/>
+						<xsd:element name="sector" type="xsd:unsignedShort"/>
+						<xsd:element name="teledelay" type="xsd:nonNegativeInteger"/>
+						<xsd:element name="televnum" type="xsd:nonNegativeInteger"/>
+						<xsd:element name="tunnel" type="xsd:nonNegativeInteger"/>
+						<xsd:element name="exits">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="exit" minOccurs="0" maxOccurs="unbounded">
+										<xsd:complexType>
+											<xsd:sequence>
+												<xsd:element name="direction" type="xsd:unsignedByte"/>
+												<xsd:element name="description" type="xsd:string"/>
+												<xsd:element name="keyword" type="xsd:normalizedString"/>
+												<xsd:element name="flags" type="xsd:long"/>
+												<xsd:element name="key" type="xsd:integer"/>
+												<xsd:element name="vnum" type="xsd:nonNegativeInteger"/>
+												<xsd:element name="distance" type="xsd:unsignedShort"/>
+											</xsd:sequence>
+										</xsd:complexType>
+									</xsd:element>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="extradescs" type="extradescs"/>
+						<xsd:element name="programs" type="programs"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<!-- resets -->
+	<xsd:complexType name="resets">
+		<xsd:sequence>
+			<xsd:element name="reset" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="command">
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:normalizedString">
+									<xsd:pattern value="[MOPGEHBTDRC]"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="extra" type="xsd:integer"/>
+						<xsd:element name="arg1" type="xsd:integer"/>
+						<xsd:element name="arg2" type="xsd:integer"/>
+						<xsd:element name="arg3" type="xsd:integer"/>
+						<xsd:element name="arg4" type="xsd:integer"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<!-- shops -->
+	<xsd:complexType name="shops">
+		<xsd:sequence>
+			<xsd:element name="shop" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="keeper" type="xsd:positiveInteger"/>
+						<xsd:element name="types">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="type0" type="xsd:unsignedByte"/>
+									<xsd:element name="type1" type="xsd:unsignedByte"/>
+									<xsd:element name="type2" type="xsd:unsignedByte"/>
+									<xsd:element name="type3" type="xsd:unsignedByte"/>
+									<xsd:element name="type4" type="xsd:unsignedByte"/>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="profitbuy" type="xsd:unsignedShort"/>
+						<xsd:element name="profitsell" type="xsd:unsignedShort"/>
+						<xsd:element name="open" type="xsd:unsignedByte"/>
+						<xsd:element name="close" type="xsd:unsignedByte"/>
+						<xsd:element name="flags" type="xsd:long"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<!-- repair shops  -->
+	<xsd:complexType name="repairs">
+		<xsd:sequence>
+			<xsd:element name="repair" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="keeper" type="xsd:positiveInteger"/>
+						<xsd:element name="types">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="type0" type="xsd:unsignedByte"/>
+									<xsd:element name="type1" type="xsd:unsignedByte"/>
+									<xsd:element name="type2" type="xsd:unsignedByte"/>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="profitfix" type="xsd:unsignedShort"/>
+						<xsd:element name="shoptype" type="xsd:unsignedShort"/>
+						<xsd:element name="open" type="xsd:unsignedByte"/>
+						<xsd:element name="close" type="xsd:unsignedByte"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<!-- specials -->
+	<xsd:complexType name="specials">
+		<xsd:sequence>
+			<xsd:element name="special" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="vnum" type="xsd:positiveInteger"/>
+						<xsd:element name="function" type="xsd:normalizedString"/>
+						<xsd:element name="function2" type="xsd:normalizedString"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<!-- misc -->
+	<xsd:complexType name="short">
+		<xsd:sequence>
+			<xsd:element name="inflect0" type="xsd:normalizedString"/>
+			<xsd:element name="inflect1" type="xsd:normalizedString"/>
+			<xsd:element name="inflect2" type="xsd:normalizedString"/>
+			<xsd:element name="inflect3" type="xsd:normalizedString"/>
+			<xsd:element name="inflect4" type="xsd:normalizedString"/>
+			<xsd:element name="inflect5" type="xsd:normalizedString"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="sectiona">
+		<xsd:sequence>
+			<xsd:element name="str" type="xsd:unsignedByte"/>
+			<xsd:element name="int" type="xsd:unsignedByte"/>
+			<xsd:element name="wis" type="xsd:unsignedByte"/>
+			<xsd:element name="dex" type="xsd:unsignedByte"/>
+			<xsd:element name="con" type="xsd:unsignedByte"/>
+			<xsd:element name="cha" type="xsd:unsignedByte"/>
+			<xsd:element name="lck" type="xsd:unsignedByte"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="sections">
+		<xsd:sequence>
+			<xsd:element name="saving_poison_death" type="xsd:int"/>
+			<xsd:element name="saving_wand" type="xsd:int"/>
+			<xsd:element name="saving_para_petri" type="xsd:int"/>
+			<xsd:element name="saving_breath" type="xsd:int"/>
+			<xsd:element name="saving_spell_staff" type="xsd:int"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="sectionr">
+		<xsd:sequence>
+			<xsd:element name="height" type="xsd:unsignedByte"/>
+			<xsd:element name="weight" type="xsd:unsignedByte"/>
+			<xsd:element name="speaks" type="xsd:long"/>
+			<xsd:element name="speaking" type="xsd:normalizedString"/>
+			<xsd:element name="numattacks" type="xsd:unsignedByte"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="sectionx">
+		<xsd:sequence>
+			<xsd:element name="hitroll" type="xsd:short"/>
+			<xsd:element name="damroll" type="xsd:short"/>
+			<xsd:element name="xflags" type="xsd:long"/>
+			<xsd:element name="resistant" type="xsd:long"/>
+			<xsd:element name="immune" type="xsd:long"/>
+			<xsd:element name="susceptible" type="xsd:long"/>
+			<xsd:element name="attacks" type="xsd:long"/>
+			<xsd:element name="defenses" type="xsd:long"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="sectiont">
+		<xsd:sequence>
+			<xsd:element name="thac0" type="xsd:short"/>
+			<xsd:element name="ac" type="xsd:short"/>
+			<xsd:element name="hitnodice" type="xsd:unsignedShort"/>
+			<xsd:element name="hitsizedice" type="xsd:unsignedShort"/>
+			<xsd:element name="hitplus" type="xsd:unsignedShort"/>
+			<xsd:element name="damnodice" type="xsd:unsignedShort"/>
+			<xsd:element name="damsizedice" type="xsd:unsignedShort"/>
+			<xsd:element name="damplus" type="xsd:unsignedShort"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="sectionv">
+		<xsd:sequence>
+			<xsd:element name="vipflags" type="xsd:normalizedString"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="programs">
+		<xsd:sequence>
+			<xsd:element name="program" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="type" type="xsd:normalizedString"/>
+						<xsd:element name="args" type="xsd:normalizedString"/>
+						<xsd:element name="comlist" type="xsd:string"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="extradescs">
+		<xsd:sequence>
+			<xsd:element name="extradesc" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="keyword" type="xsd:normalizedString"/>
+						<xsd:element name="description" type="xsd:string"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+</xsd:schema>
+

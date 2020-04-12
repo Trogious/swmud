@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://swmud.pl/ns/swmud/1.0/denynames" xmlns="http://swmud.pl/ns/swmud/1.0/denynames"
+	elementFormDefault="qualified">
+	
+	<xsd:complexType name="denynames">
+		<xsd:sequence maxOccurs="unbounded" minOccurs="0">
+			<xsd:element name="denyname" type="denyname"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="denyname">
+		<xsd:complexContent>
+			<xsd:extension base="xsd:normalizedString">
+				<xsd:attribute name="type">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:enumeration value="name"></xsd:enumeration>
+							<xsd:enumeration value="literature"></xsd:enumeration>
+							<xsd:enumeration value="admin"></xsd:enumeration>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://swmud.pl/ns/swmud/1.0/race"
+	xmlns="http://swmud.pl/ns/swmud/1.0/race"
+	attributeFormDefault="qualified"
+	elementFormDefault="qualified">
+
+	<xsd:element name="race">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="name" type="xsd:normalizedString"/>
+				<xsd:element name="short" type="short"/>
+				<xsd:element name="description" type="xsd:string"/>
+				<xsd:element name="flags" type="xsd:long"/>
+				<xsd:element name="affected" type="xsd:long"/>
+				<xsd:element name="str_plus" type="xsd:byte"/>
+				<xsd:element name="int_plus" type="xsd:byte"/>
+				<xsd:element name="wis_plus" type="xsd:byte"/>
+				<xsd:element name="dex_plus" type="xsd:byte"/>
+				<xsd:element name="con_plus" type="xsd:byte"/>
+				<xsd:element name="cha_plus" type="xsd:byte"/>
+				<xsd:element name="lck_plus" type="xsd:byte"/>
+				<xsd:element name="frc_plus" type="xsd:byte"/>
+				<xsd:element name="hp_plus" type="xsd:byte"/>
+				<xsd:element name="force_plus" type="xsd:byte"/>
+				<xsd:element name="susceptible" type="xsd:long"/>
+				<xsd:element name="resistant" type="xsd:long"/>
+				<xsd:element name="immune" type="xsd:long"/>
+				<xsd:element name="languages" type="languages"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- misc -->
+	<xsd:complexType name="short">
+		<xsd:sequence>
+			<xsd:element name="inflect0" type="xsd:normalizedString"/>
+			<xsd:element name="inflect1" type="xsd:normalizedString"/>
+			<xsd:element name="inflect2" type="xsd:normalizedString"/>
+			<xsd:element name="inflect3" type="xsd:normalizedString"/>
+			<xsd:element name="inflect4" type="xsd:normalizedString"/>
+			<xsd:element name="inflect5" type="xsd:normalizedString"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="languages">
+		<xsd:sequence>
+			<xsd:element name="language" type="xsd:normalizedString" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+</xsd:schema>
+

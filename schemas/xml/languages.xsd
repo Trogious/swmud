@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://swmud.pl/ns/swmud/1.0/languages"
+	xmlns="http://swmud.pl/ns/swmud/1.0/languages"
+	attributeFormDefault="qualified"
+	elementFormDefault="qualified">
+
+	<xsd:element name="languages">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="language" maxOccurs="unbounded">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="name" type="xsd:normalizedString"/>
+							<xsd:element name="alphabet" type="xsd:normalizedString"/>
+							<xsd:element name="deny_text" type="xsd:normalizedString"/>
+							<xsd:element name="max_learn" type="xsd:byte"/>
+							<xsd:element name="max_practice" type="xsd:byte"/>
+							<xsd:element name="min_int" type="xsd:byte"/>
+							<xsd:element name="difficulty" type="xsd:byte"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+</xsd:schema>
+

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://swmud.pl/ns/swmud/1.0/turbocar"
+	xmlns="http://swmud.pl/ns/swmud/1.0/turbocar"
+	attributeFormDefault="qualified"
+	elementFormDefault="qualified">
+
+	<xsd:element name="turbocar">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="name" type="xsd:normalizedString"/>
+				<xsd:element name="vnum" type="xsd:positiveInteger"/>
+				<xsd:element name="stations">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="station" minOccurs="0" maxOccurs="unbounded">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="name" type="xsd:normalizedString"/>
+										<xsd:element name="vnum" type="xsd:positiveInteger"/>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+</xsd:schema>
+

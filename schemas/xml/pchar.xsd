@@ -1,0 +1,292 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://swmud.pl/ns/swmud/1.0/pchar"
+	xmlns="http://swmud.pl/ns/swmud/1.0/pchar"
+	attributeFormDefault="qualified"
+	elementFormDefault="qualified">
+
+	<xsd:element name="pchar">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="name" type="xsd:normalizedString"/>
+				<xsd:element name="short" type="short"/>
+				<xsd:element name="long" type="xsd:string" minOccurs="0"/>
+				<xsd:element name="description" type="xsd:string" minOccurs="0"/>
+				<xsd:element name="sex" type="xsd:unsignedByte" minOccurs="0"/>
+				<xsd:element name="race" type="xsd:normalizedString" minOccurs="0"/>
+				<xsd:element name="mainability" type="xsd:unsignedByte" minOccurs="0"/>
+				<xsd:element name="toplevel" type="xsd:unsignedByte"/>
+				<xsd:element name="practices" type="xsd:unsignedShort" minOccurs="0"/>
+				<xsd:element name="room" type="xsd:positiveInteger"/>
+				<xsd:element name="stats">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="hp" type="stat"/>
+							<xsd:element name="force" type="stat"/>
+							<xsd:element name="move" type="stat"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="credits" type="xsd:int" minOccurs="0"/> <!-- unsignedInt -->
+				<xsd:element name="abilities">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="ability" type="ability" minOccurs="7" maxOccurs="7"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="affectedby" type="xsd:long" minOccurs="0"/>
+				<xsd:element name="disguise" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="name" type="xsd:normalizedString"/>
+							<xsd:element name="short" type="short"/>
+							<xsd:element name="title" type="xsd:normalizedString"/>
+							<xsd:element name="long" type="xsd:string"/>
+							<xsd:element name="description" type="xsd:string"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="position" type="xsd:unsignedByte" minOccurs="0"/>
+				<xsd:element name="saving" minOccurs="0"> <!-- w kodzie poki co sa jako int'y -->
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="poison_death" type="xsd:long" minOccurs="0"/>
+							<xsd:element name="wand" type="xsd:long" minOccurs="0"/>
+							<xsd:element name="para_petri" type="xsd:long" minOccurs="0"/>
+							<xsd:element name="breath" type="xsd:long" minOccurs="0"/>
+							<xsd:element name="spell_staff" type="xsd:long" minOccurs="0"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="alignment" type="xsd:short" minOccurs="0"/>
+				<xsd:element name="quests" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="points" type="xsd:short" minOccurs="0"/>
+							<xsd:element name="done" type="xsd:normalizedString" minOccurs="0"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="hitroll" type="xsd:unsignedByte"/>
+				<xsd:element name="damroll" type="xsd:unsignedByte"/>
+				<xsd:element name="ac" type="xsd:unsignedShort"/>
+				<xsd:element name="wimpy" type="xsd:unsignedShort" minOccurs="0"/>
+				<xsd:element name="susceptible" type="xsd:long" minOccurs="0"/>
+				<xsd:element name="resistant" type="xsd:long" minOccurs="0"/>
+				<xsd:element name="immune" type="xsd:long" minOccurs="0"/>
+				<xsd:element name="mentalstate" type="xsd:unsignedByte" minOccurs="0"/>
+				<xsd:element name="biography" type="xsd:string" minOccurs="0"/>
+				<xsd:element name="drugs">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="drug" minOccurs="9" maxOccurs="9">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="addiction" type="xsd:unsignedByte" minOccurs="0"/>
+										<xsd:element name="level" type="xsd:unsignedByte" minOccurs="0"/>
+									</xsd:sequence>
+									<xsd:attribute name="no" type="drugno" use="required"/>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="attributes">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="str" type="attr"/>
+							<xsd:element name="int" type="attr"/>
+							<xsd:element name="wis" type="attr"/>
+							<xsd:element name="dex" type="attr"/>
+							<xsd:element name="con" type="attr"/>
+							<xsd:element name="cha" type="attr"/>
+							<xsd:element name="lck" type="attr"/>
+							<xsd:element name="frc" type="attr"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="skills">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="skill" type="namelearned" minOccurs="0" maxOccurs="unbounded"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="powers"> <!-- spells -->
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="power" type="namelearned" minOccurs="0" maxOccurs="unbounded"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="weapons">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="weapon" type="namelearned" minOccurs="0" maxOccurs="unbounded"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="languages">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="language" type="namelearned" minOccurs="0" maxOccurs="unbounded"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="affects" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:choice minOccurs="0" maxOccurs="unbounded">
+								<xsd:element name="affectdata" type="affectdata" />
+								<xsd:element name="affect" type="affect"/>
+							</xsd:choice>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="killtrack">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="killed">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="sn" type="xsd:unsignedByte"/>
+										<xsd:element name="vnum" type="xsd:positiveInteger"/>
+										<xsd:element name="count" type="xsd:unsignedInteger"/>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="friends" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="friend" maxOccurs="unbounded">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="name" type="xsd:normalizedString"/>
+										<xsd:element name="race" type="xsd:normalizedString"/>
+										<xsd:element name="sex" type="xsd:unsignedByte"/>
+										<!-- ... -->
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="fevents" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="number" type="xsd:unsignedByte" minOccurs="0"/>
+							<xsd:element name="fevent" minOccurs="0" maxOccurs="unbounded">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="trigger" type="xsd:unsignedByte"/>
+										<xsd:element name="sattr" type="xsd:normalizedString"/>
+										<xsd:element name="attrs">
+											<xsd:complexType>
+												<xsd:sequence>
+													<xsd:element name="attr" type="xsd:long" minOccurs="5" maxOccurs="5"/>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- misc -->
+	<xsd:complexType name="short">
+		<xsd:sequence>
+			<xsd:element name="inflect0" type="xsd:normalizedString"/>
+			<xsd:element name="inflect1" type="xsd:normalizedString"/>
+			<xsd:element name="inflect2" type="xsd:normalizedString"/>
+			<xsd:element name="inflect3" type="xsd:normalizedString"/>
+			<xsd:element name="inflect4" type="xsd:normalizedString"/>
+			<xsd:element name="inflect5" type="xsd:normalizedString"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="namelearned">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:normalizedString"/>
+			<xsd:element name="learned" type="xsd:unsignedByte"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="stat">
+		<xsd:sequence>
+			<xsd:element name="curr" type="xsd:short" minOccurs="0"/>
+			<xsd:element name="max" type="xsd:unsignedShort" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="attr">
+		<xsd:sequence>
+			<xsd:element name="perm" type="xsd:short" minOccurs="0"/>
+			<xsd:element name="mod" type="xsd:short" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:simpleType name="abilityno">
+		<xsd:simpleContent>
+			<xsd:restriction base="xsd:unsignedByte">
+				<xsd:maxInclusive value="7"/>
+			</xsd:restriction>
+		</xsd:simpleContent>
+	</xsd:simpleType>
+
+	<xsd:complexType name="ability">
+		<xsd:sequence>
+			<xsd:element name="level" type="xsd:unsignedByte"/>
+			<xsd:element name="exp" type="xsd:long"/>
+		</xsd:sequence>
+		<xsd:attribute name="no" type="abilityno" use="required"/>
+	</xsd:complexType>
+
+	<xsd:simpleType name="drugno">
+		<xsd:simpleContent>
+			<xsd:restriction base="xsd:unsignedByte">
+				<xsd:maxInclusive value="9"/>
+			</xsd:restriction>
+		</xsd:simpleContent>
+	</xsd:simpleType>
+
+	<xsd:complexType name="iaffect" abstract="true">
+		<xsd:sequence>
+			<xsd:element name="duration" type="xsd:unsignedShort" minOccurs="0"/>
+			<xsd:element name="location" type="xsd:unsignedByte" minOccurs="0"/>
+			<xsd:element name="modifier" type="xsd:short" minOccurs="0"/>
+			<xsd:element name="bitvector" type="xsd:long" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="affectdata">
+		<xsd:complexContent>
+			<xsd:extension base="iaffect">
+				<xsd:sequence>
+					<xsd:element name="skill" type="xsd:normalizedString"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="affect">
+		<xsd:complexContent>
+			<xsd:extension base="iaffect">
+				<xsd:sequence>
+					<xsd:element name="type" type="xsd:unsignedByte" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+</xsd:schema>
+
